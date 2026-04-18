@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools - Apex Tenant Advisors</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-features.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h2>Apex Tenant Advisors</h2>
+                    <span class="tagline">AI-Powered Tenant Solutions</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#chat">AI Advisor</a></li>
+                    <li><a href="#analyzer">Lease Analyzer</a></li>
+                    <li><a href="#insights">Market Intel</a></li>
+                    <li><a href="#calculator">Space Calculator</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="ai-hero">
+        <div class="container">
+            <h1>AI-Powered Tenant Advisory Tools</h1>
+            <p>Leverage artificial intelligence to make smarter real estate decisions</p>
+        </div>
+    </section>
+
+    <!-- AI Chat Assistant -->
+    <section id="chat" class="ai-section">
+        <div class="container">
+            <div class="tool-card">
+                <h2>🤖 AI Lease Advisor</h2>
+                <p>Get instant answers about lease terms, negotiations, and market conditions</p>
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="message bot-message">
+                            <strong>AI Advisor:</strong> Hello! I'm your AI lease advisor. I can help with lease negotiations, market analysis, site selection, and any commercial real estate questions. What would you like to know?
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Ask about lease terms, negotiations, or market conditions..." />
+                        <button id="chat-send" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lease Analyzer -->
+    <section id="analyzer" class="ai-section bg-light">
+        <div class="container">
+            <div class="tool-card">
+                <h2>📄 AI Lease Document Analyzer</h2>
+                <p>Upload your lease for AI-powered analysis of terms, red flags, and negotiation opportunities</p>
+                <div class="analyzer-container">
+                    <div class="upload-area" id="upload-area">
+                        <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p>Drag & drop your lease PDF here or click to browse</p>
+                        <input type="file" id="lease-file" accept=".pdf" hidden />
+                    </div>
+                    <div id="analysis-result" class="analysis-result" style="display:none;">
+                        <h3>Lease Analysis Results</h3>
+                        <div id="analysis-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Insights -->
+    <section id="insights" class="ai-section">
+        <div class="container">
+            <div class="tool-card">
+                <h2>📊 AI Market Intelligence</h2>
+                <p>Get real-time market insights and negotiation leverage for your location</p>
+                <div class="insights-form">
+                    <div class="form-grid">
+                        <input type="text" id="location" placeholder="City or Metro Area" />
+                        <select id="property-type">
+                            <option value="">Property Type</option>
+                            <option value="Office">Office</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Flex">Flex Space</option>
+                        </select>
+                        <input type="text" id="size-range" placeholder="Size (sq ft)" />
+                        <button id="get-insights" class="btn btn-primary">Get Market Insights</button>
+                    </div>
+                    <div id="insights-result" class="insights-result" style="display:none;">
+                        <h3>Market Intelligence Report</h3>
+                        <div id="insights-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Space Calculator -->
+    <section id="calculator" class="ai-section bg-light">
+        <div class="container">
+            <div class="tool-card">
+                <h2>🏢 AI Space Requirements Calculator</h2>
+                <p>Calculate optimal space based on your team size and work style</p>
+                <div class="calculator-form">
+                    <div class="form-grid">
+                        <input type="number" id="employees" placeholder="Number of Employees" min="1" />
+                        <select id="work-style">
+                            <option value="">Work Style</option>
+                            <option value="traditional">Traditional (100% in-office)</option>
+                            <option value="hybrid">Hybrid (3 days/week)</option>
+                            <option value="flexible">Flexible (hoteling)</option>
+                            <option value="remote-first">Remote-First (occasional)</option>
+                        </select>
+                        <input type="number" id="growth-rate" placeholder="Annual Growth %" min="0" max="100" />
+                        <input type="text" id="amenities" placeholder="Amenities (kitchen, gym, etc.)" />
+                        <button id="calculate-space" class="btn btn-primary">Calculate Space Needs</button>
+                    </div>
+                    <div id="calculator-result" class="calculator-result" style="display:none;">
+                        <h3>Space Recommendation</h3>
+                        <div id="calculator-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ai-cta">
+        <div class="container">
+            <h2>Ready to leverage AI for your real estate decisions?</h2>
+            <p>Combine AI insights with expert human advocacy for unbeatable results</p>
+            <a href="index.html#contact" class="btn btn-primary btn-large">Schedule Expert Consultation</a>
+        </div>
+    </section>
+
+    <script src="js/ai-features.js"></script>
+</body>
+</html>

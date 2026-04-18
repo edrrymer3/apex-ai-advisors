@@ -1,0 +1,25 @@
+{
+  "name": "tenant-rep-site",
+  "version": "1.0.0",
+  "description": "A professional website for a tenant representation firm specializing in commercial real estate occupier solutions.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve-static": "python3 -m http.server 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "openai": "^6.34.0",
+    "pdf-parse": "^2.4.5"
+  }
+}
