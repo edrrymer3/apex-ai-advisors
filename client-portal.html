@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e0e0e0; min-height: 100vh; }
+
+        /* Nav */
+        .apex-nav { background: rgba(13,17,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.4rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        /* Client Header */
+        .client-header {
+            background: linear-gradient(135deg, #161b27 0%, #0d1117 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .client-info { display: flex; align-items: center; gap: 1.2rem; }
+        .client-avatar { width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(135deg, #3B82F6, #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+        .client-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; }
+        .client-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-top: 0.15rem; }
+        .client-switch { display: flex; gap: 0.5rem; }
+        .client-btn { padding: 0.4rem 0.9rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 0.82rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+        .client-btn:hover, .client-btn.active { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.4); color: #fff; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        /* Stats */
+        .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+        .stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; }
+        .stat .num { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: #fff; }
+        .stat .lbl { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat .sub { font-size: 0.78rem; color: #10b981; margin-top: 0.2rem; }
+
+        /* Pipeline */
+        .pipeline-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+        .pipeline-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; }
+        .pipeline-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; overflow-x: auto; }
+        @media (max-width: 900px) { .pipeline-cols { grid-template-columns: repeat(3, 220px); } }
+
+        .pipeline-col { min-width: 0; }
+        .col-header { padding: 0.6rem 0.9rem; border-radius: 8px 8px 0 0; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+        .col-body { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-top: none; border-radius: 0 0 10px 10px; padding: 0.75rem; min-height: 120px; }
+
+        .stage-search .col-header { background: rgba(59,130,246,0.15); color: #3B82F6; border-top: 2px solid #3B82F6; }
+        .stage-tour .col-header { background: rgba(139,92,246,0.15); color: #8b5cf6; border-top: 2px solid #8b5cf6; }
+        .stage-rfp .col-header { background: rgba(245,158,11,0.15); color: #f59e0b; border-top: 2px solid #f59e0b; }
+        .stage-loi .col-header { background: rgba(239,68,68,0.15); color: #ef4444; border-top: 2px solid #ef4444; }
+        .stage-lease .col-header { background: rgba(16,185,129,0.15); color: #10b981; border-top: 2px solid #10b981; }
+
+        .deal-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 0.9rem; margin-bottom: 0.6rem; cursor: pointer; transition: all 0.15s; }
+        .deal-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+        .deal-card .deal-name { font-weight: 600; font-size: 0.85rem; color: #fff; margin-bottom: 0.3rem; }
+        .deal-card .deal-detail { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-bottom: 0.4rem; }
+        .deal-card .deal-meta { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+        .pill { padding: 0.12rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; }
+        .pill-blue { background: rgba(59,130,246,0.15); color: #3B82F6; }
+        .pill-green { background: rgba(16,185,129,0.15); color: #10b981; }
+        .pill-yellow { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .deal-card .deal-sf { font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+
+        /* Properties shortlist */
+        .property-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .prop-row { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 1rem 1.2rem; display: flex; align-items: center; gap: 1rem; }
+        .prop-rank { width: 28px; height: 28px; border-radius: 50%; background: rgba(59,130,246,0.15); color: #3B82F6; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .prop-info { flex: 1; }
+        .prop-name { font-weight: 600; font-size: 0.9rem; color: #fff; }
+        .prop-detail { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 0.15rem; }
+        .prop-score { text-align: right; }
+        .score-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #10b981; }
+        .score-lbl { font-size: 0.68rem; color: rgba(255,255,255,0.35); }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 1.5rem; }
+        .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.08); }
+        .tl-item { position: relative; margin-bottom: 1.2rem; }
+        .tl-dot { position: absolute; left: -1.5rem; top: 3px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+        .tl-dot.done { border-color: #10b981; background: #10b981; }
+        .tl-dot.active { border-color: #3B82F6; background: #3B82F6; box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+        .tl-dot.upcoming { border-color: rgba(255,255,255,0.2); background: transparent; }
+        .tl-title { font-weight: 600; font-size: 0.88rem; color: #fff; }
+        .tl-detail { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+        .tl-date { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-top: 0.1rem; }
+
+        /* Two-col layout */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1.5rem; }
+        .card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 1.2rem; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.55rem 1.1rem; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+
+        /* Savings bar */
+        .savings-bar { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem; }
+        .savings-bar .savings-title { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+        .savings-bar .savings-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; color: #10b981; }
+        .savings-bar .savings-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.2rem; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.07); border-radius: 3px; margin-top: 0.8rem; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #10b981, #3B82F6); }
+
+        /* Message thread */
+        .msg-thread { display: flex; flex-direction: column; gap: 0.75rem; max-height: 280px; overflow-y: auto; margin-bottom: 1rem; }
+        .msg { display: flex; gap: 0.75rem; }
+        .msg-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; }
+        .msg-avatar.broker { background: linear-gradient(135deg, #3B82F6, #8b5cf6); }
+        .msg-avatar.client { background: rgba(255,255,255,0.1); }
+        .msg-body { flex: 1; }
+        .msg-name { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 0.2rem; }
+        .msg-text { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+        .msg-time { font-size: 0.68rem; color: rgba(255,255,255,0.25); margin-top: 0.2rem; }
+        .msg-input-row { display: flex; gap: 0.5rem; }
+        .msg-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.6rem 0.9rem; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.88rem; }
+        .msg-input:focus { outline: none; border-color: #3B82F6; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html" class="active">Client Portal</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <!-- Client Header -->
+    <div class="client-header">
+        <div class="client-info">
+            <div class="client-avatar">TC</div>
+            <div>
+                <div class="client-name">TechCorp International</div>
+                <div class="client-sub">Active Search · Minneapolis, MN · Managed by Apex AI Advisors</div>
+            </div>
+        </div>
+        <div class="client-switch">
+            <button class="client-btn active" onclick="switchClient('techcorp', this)">TechCorp Intl</button>
+            <button class="client-btn" onclick="switchClient('acme', this)">Acme Technologies</button>
+            <button class="client-btn" onclick="switchClient('northland', this)">Northland Foods</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats-row" id="statsRow">
+            <div class="stat">
+                <div class="num">5</div>
+                <div class="lbl">Locations</div>
+                <div class="sub">62,000 SF total</div>
+            </div>
+            <div class="stat">
+                <div class="num">12</div>
+                <div class="lbl">Properties Toured</div>
+                <div class="sub">↑ 3 this week</div>
+            </div>
+            <div class="stat">
+                <div class="num">8</div>
+                <div class="lbl">Proposals Received</div>
+                <div class="sub">3 shortlisted</div>
+            </div>
+            <div class="stat">
+                <div class="num">$1.4M</div>
+                <div class="lbl">Annual Rent</div>
+                <div class="sub">$22.60/SF avg</div>
+            </div>
+            <div class="stat">
+                <div class="num">$187K</div>
+                <div class="lbl">Est. Savings</div>
+                <div class="sub" style="color:#10b981">↓ vs. current</div>
+            </div>
+        </div>
+
+        <!-- Deal Pipeline -->
+        <div class="pipeline-header">
+            <h2>🔄 Active Search Pipeline</h2>
+            <button class="btn btn-outline" onclick="document.getElementById('addDealModal') && alert('Add deal feature — connect to ApexOS for full pipeline management.')">+ Add Property</button>
+        </div>
+        <div class="pipeline-cols" id="pipelineCols">
+            <div class="pipeline-col stage-search">
+                <div class="col-header">Searching <span id="cnt-search">3</span></div>
+                <div class="col-body" id="col-search"></div>
+            </div>
+            <div class="pipeline-col stage-tour">
+                <div class="col-header">Touring <span id="cnt-tour">4</span></div>
+                <div class="col-body" id="col-tour"></div>
+            </div>
+            <div class="pipeline-col stage-rfp">
+                <div class="col-header">RFP Out <span id="cnt-rfp">3</span></div>
+                <div class="col-body" id="col-rfp"></div>
+            </div>
+            <div class="pipeline-col stage-loi">
+                <div class="col-header">LOI <span id="cnt-loi">1</span></div>
+                <div class="col-body" id="col-loi"></div>
+            </div>
+            <div class="pipeline-col stage-lease">
+                <div class="col-header">Lease <span id="cnt-lease">1</span></div>
+                <div class="col-body" id="col-lease"></div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <!-- Shortlisted Properties -->
+            <div class="card">
+                <h2>🏆 Top 3 Shortlisted Properties</h2>
+                <div class="property-list" id="shortlist"></div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="card">
+                <h2>📅 Search Timeline</h2>
+                <div class="timeline" id="timeline"></div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <!-- Savings Tracker -->
+            <div class="card">
+                <h2>💰 Savings Tracker</h2>
+                <div class="savings-bar">
+                    <div class="savings-title">Estimated Annual Savings vs. Status Quo</div>
+                    <div class="savings-val">$187,400</div>
+                    <div class="savings-sub">Based on best LOI vs. current portfolio rate</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.82rem;">
+                    <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:0.8rem;">
+                        <div style="color:rgba(255,255,255,0.4); font-size:0.72rem; margin-bottom:0.2rem;">CURRENT AVG RATE</div>
+                        <div style="font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700;">$22.60/SF</div>
+                    </div>
+                    <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.15); border-radius:8px; padding:0.8rem;">
+                        <div style="color:rgba(255,255,255,0.4); font-size:0.72rem; margin-bottom:0.2rem;">BEST LOI RATE</div>
+                        <div style="font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color:#10b981;">$18.50/SF</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:0.8rem;">
+                        <div style="color:rgba(255,255,255,0.4); font-size:0.72rem; margin-bottom:0.2rem;">TI ALLOWANCE WON</div>
+                        <div style="font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color:#3B82F6;">$55/SF</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:0.8rem;">
+                        <div style="color:rgba(255,255,255,0.4); font-size:0.72rem; margin-bottom:0.2rem;">FREE RENT WON</div>
+                        <div style="font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color:#8b5cf6;">4 months</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Thread -->
+            <div class="card">
+                <h2>💬 Updates from Your Advisor</h2>
+                <div class="msg-thread" id="msgThread"></div>
+                <div class="msg-input-row">
+                    <input class="msg-input" id="msgInput" type="text" placeholder="Ask your advisor anything..." onkeydown="if(event.key==='Enter') sendMsg()">
+                    <button class="btn btn-primary" onclick="sendMsg()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clients = {
+            techcorp: {
+                name: 'TechCorp International', initials: 'TC',
+                stats: ['5 Locations', '62,000 SF', '12 Toured', '$1.4M/yr', '$187K Savings'],
+                pipeline: {
+                    search: [
+                        { name: '100 Washington Ave S', detail: '10,000–15,000 SF · Class A', sf: '12,000 SF target', tag: 'Downtown' },
+                        { name: 'Northland Center, Eden Prairie', detail: '8,000 SF · Suburban', sf: 'Suburban alternative', tag: 'Suburban' },
+                        { name: '7700 France Ave, Edina', detail: 'Flex/Office · 10k SF', sf: 'Move-in ready', tag: 'Move-in' },
+                    ],
+                    tour: [
+                        { name: '50 S 6th St, Suite 900', detail: '$18.50/SF · 12,000 SF', sf: 'Class A · Toured Apr 8', tag: 'Top Pick' },
+                        { name: '80 S 8th St', detail: '$21/SF · Negotiable · 14k SF', sf: 'Toured Apr 3', tag: 'Negotiable' },
+                        { name: 'Opus Park, Minnetonka', detail: '$16/SF · 11,000 SF', sf: 'Toured Mar 28', tag: 'Suburban' },
+                        { name: '121 S 8th St, Tower', detail: '$23/SF · 10k SF', sf: 'Toured Mar 22', tag: 'Downtown' },
+                    ],
+                    rfp: [
+                        { name: '50 S 6th — RFP Sent', detail: 'Proposal due Apr 20', sf: 'Shortlisted', tag: 'Active' },
+                        { name: '80 S 8th — RFP Sent', detail: 'Proposal received Apr 12', sf: 'Under review', tag: 'Received' },
+                        { name: 'Opus Park — RFP Sent', detail: 'Proposal due Apr 18', sf: 'Pending', tag: 'Pending' },
+                    ],
+                    loi: [
+                        { name: '50 S 6th St, Suite 900', detail: 'LOI submitted Apr 14', sf: '$18.50/SF · TI $55/SF · 4mo free', tag: 'Negotiating' },
+                    ],
+                    lease: [
+                        { name: 'Plymouth Campus (Current)', detail: 'Expires Jun 2026', sf: 'Renewal decision needed', tag: '⚠️ Expiring' },
+                    ]
+                },
+                shortlist: [
+                    { name: '50 S 6th St, Suite 900', detail: '$18.50/SF · 12,000 SF · TI $55/SF · 4 mo free', score: 94 },
+                    { name: '80 S 8th St, Suite 1800', detail: '$21/SF (negotiable) · 14,000 SF · TI $48/SF', score: 81 },
+                    { name: 'Opus Park, Minnetonka', detail: '$16/SF · 11,000 SF · Suburban · TI $35/SF', score: 74 },
+                ],
+                messages: [
+                    { from: 'broker', name: 'Apex AI Advisors', text: 'Great news — landlord at 50 S 6th is motivated. They came back at $18.50/SF (we asked $17.80). Recommending we counter at $18.20 + request an extra month free rent. Total savings vs. current: $187K/yr.', time: 'Today, 2:15 PM' },
+                    { from: 'client', name: 'You', text: 'That sounds great. What\'s our fallback if they don\'t budge on rate?', time: 'Today, 2:40 PM' },
+                    { from: 'broker', name: 'Apex AI Advisors', text: '80 S 8th is our strong backup — they marked their listing "negotiable" and have been on market 210 days. We have serious leverage there. Could likely get to $19.50/SF with $50/SF TI.', time: 'Today, 3:05 PM' },
+                ],
+                timeline: [
+                    { status: 'done', title: 'Search Initiated', detail: 'Requirements defined, market briefing completed', date: 'Mar 1, 2026' },
+                    { status: 'done', title: 'Property Identification', detail: '22 properties identified, 12 shortlisted for tours', date: 'Mar 15, 2026' },
+                    { status: 'done', title: 'Property Tours', detail: '12 properties toured across 3 weeks', date: 'Mar 22 – Apr 8, 2026' },
+                    { status: 'done', title: 'RFPs Issued', detail: 'Sent to 3 finalist properties', date: 'Apr 10, 2026' },
+                    { status: 'active', title: 'LOI Negotiation', detail: '50 S 6th St — counter in progress', date: 'Apr 14, 2026 · Now' },
+                    { status: 'upcoming', title: 'Lease Execution', detail: 'Target: May 2026', date: 'Est. May 15, 2026' },
+                    { status: 'upcoming', title: 'TI Buildout', detail: 'Estimated 8–10 weeks', date: 'Jun – Aug 2026' },
+                    { status: 'upcoming', title: 'Occupancy', detail: 'Target: Q3 2026', date: 'Est. Sep 1, 2026' },
+                ]
+            },
+            acme: {
+                name: 'Acme Technologies', initials: 'AT',
+                stats: ['1 Location', '8,200 SF', '6 Toured', '$180K/yr', '$42K Savings'],
+            },
+            northland: {
+                name: 'Northland Foods', initials: 'NF',
+                stats: ['2 Locations', '58,000 SF', '4 Toured', '$440K/yr', '$62K Savings'],
+            }
+        };
+
+        function renderPipeline(data) {
+            ['search','tour','rfp','loi','lease'].forEach(stage => {
+                const col = document.getElementById('col-' + stage);
+                const cnt = document.getElementById('cnt-' + stage);
+                const items = data[stage] || [];
+                cnt.textContent = items.length;
+                col.innerHTML = items.map(d => `
+                    <div class="deal-card">
+                        <div class="deal-name">${d.name}</div>
+                        <div class="deal-detail">${d.detail}</div>
+                        <div class="deal-meta">
+                            <span class="pill pill-blue">${d.tag}</span>
+                            <span class="deal-sf">${d.sf}</span>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function renderShortlist(data) {
+            const el = document.getElementById('shortlist');
+            el.innerHTML = data.map((p, i) => `
+                <div class="prop-row">
+                    <div class="prop-rank">${i + 1}</div>
+                    <div class="prop-info">
+                        <div class="prop-name">${p.name}</div>
+                        <div class="prop-detail">${p.detail}</div>
+                    </div>
+                    <div class="prop-score">
+                        <div class="score-val">${p.score}</div>
+                        <div class="score-lbl">AI Score</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimeline(data) {
+            const el = document.getElementById('timeline');
+            el.innerHTML = data.map(t => `
+                <div class="tl-item">
+                    <div class="tl-dot ${t.status}"></div>
+                    <div class="tl-title">${t.title}</div>
+                    <div class="tl-detail">${t.detail}</div>
+                    <div class="tl-date">${t.date}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderMessages(msgs) {
+            const el = document.getElementById('msgThread');
+            el.innerHTML = msgs.map(m => `
+                <div class="msg">
+                    <div class="msg-avatar ${m.from}">${m.from === 'broker' ? '🏢' : '👤'}</div>
+                    <div class="msg-body">
+                        <div class="msg-name">${m.name}</div>
+                        <div class="msg-text">${m.text}</div>
+                        <div class="msg-time">${m.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function sendMsg() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const thread = document.getElementById('msgThread');
+            thread.innerHTML += `
+                <div class="msg">
+                    <div class="msg-avatar client">👤</div>
+                    <div class="msg-body">
+                        <div class="msg-name">You</div>
+                        <div class="msg-text">${text}</div>
+                        <div class="msg-time">Just now</div>
+                    </div>
+                </div>`;
+            input.value = '';
+            thread.scrollTop = thread.scrollHeight;
+            setTimeout(() => {
+                thread.innerHTML += `
+                    <div class="msg">
+                        <div class="msg-avatar broker">🏢</div>
+                        <div class="msg-body">
+                            <div class="msg-name">Apex AI Advisors</div>
+                            <div class="msg-text">Got it — I'll look into that and get back to you shortly with a full update.</div>
+                            <div class="msg-time">Just now</div>
+                        </div>
+                    </div>`;
+                thread.scrollTop = thread.scrollHeight;
+            }, 1200);
+        }
+
+        function switchClient(id, btn) {
+            document.querySelectorAll('.client-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const c = clients[id];
+            if (!c) return;
+            document.querySelector('.client-name').textContent = c.name;
+            document.querySelector('.client-avatar').textContent = c.initials;
+            if (c.pipeline) renderPipeline(c.pipeline);
+            if (c.shortlist) renderShortlist(c.shortlist);
+            if (c.timeline) renderTimeline(c.timeline);
+            if (c.messages) renderMessages(c.messages);
+        }
+
+        // Init with TechCorp
+        const tc = clients.techcorp;
+        renderPipeline(tc.pipeline);
+        renderShortlist(tc.shortlist);
+        renderTimeline(tc.timeline);
+        renderMessages(tc.messages);
+    </script>
+</body>
+</html>
