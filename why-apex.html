@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apex AI Advisors | Tenant Representation Done Differently</title>
+    <meta name="description" content="See why Twin Cities tenants choose Apex AI Advisors over CBRE, JLL, and Cushman — better technology, lower fees, and a broker who actually works for you.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(13,17,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.1rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        /* Hero */
+        .hero { padding: 5rem 2rem; text-align: center; background: linear-gradient(135deg, #0d1117 0%, #161b27 100%); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .hero-badge { display: inline-block; background: rgba(59,130,246,0.15); color: #3B82F6; border: 1px solid rgba(59,130,246,0.3); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.15; max-width: 800px; margin: 0 auto 1.2rem; }
+        .hero h1 span { color: #3B82F6; }
+        .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.55); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7; }
+        .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-main { padding: 0.9rem 2rem; border-radius: 10px; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; }
+        .btn-blue { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
+        .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59,130,246,0.35); }
+        .btn-ghost { background: rgba(255,255,255,0.07); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Section */
+        .section { padding: 5rem 0; }
+        .section-alt { background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #3B82F6; margin-bottom: 0.75rem; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 0.75rem; line-height: 1.2; }
+        .section-sub { color: rgba(255,255,255,0.5); font-size: 1rem; max-width: 600px; line-height: 1.7; }
+
+        /* Comparison Table */
+        .compare-table { width: 100%; border-collapse: collapse; margin-top: 2.5rem; }
+        .compare-table th { padding: 1rem 1.2rem; text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; border-bottom: 2px solid rgba(255,255,255,0.08); }
+        .compare-table th:first-child { text-align: left; }
+        .compare-table th.apex-col { color: #3B82F6; border-bottom-color: #3B82F6; }
+        .compare-table th.other-col { color: rgba(255,255,255,0.35); }
+        .compare-table td { padding: 1rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; text-align: center; }
+        .compare-table td:first-child { text-align: left; color: rgba(255,255,255,0.7); font-weight: 500; }
+        .compare-table tr:last-child td { border-bottom: none; }
+        .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .apex-col-bg { background: rgba(59,130,246,0.05); }
+        .check { color: #10b981; font-size: 1.1rem; font-weight: 700; }
+        .cross { color: #ef4444; font-size: 1rem; }
+        .partial { color: #f59e0b; font-size: 0.85rem; }
+
+        /* How It Works */
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+        @media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
+        .step { text-align: center; }
+        .step-num { width: 52px; height: 52px; border-radius: 50%; background: rgba(59,130,246,0.15); border: 2px solid rgba(59,130,246,0.3); color: #3B82F6; font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+        .step h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .step p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+        .step-arrow { display: none; }
+        @media (min-width: 700px) { .step-arrow { display: block; font-size: 1.5rem; color: rgba(255,255,255,0.2); align-self: center; margin-top: -2rem; } }
+
+        /* Differentiators */
+        .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.5rem; }
+        @media (max-width: 600px) { .diff-grid { grid-template-columns: 1fr; } }
+        .diff-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1.5rem; }
+        .diff-card .di { font-size: 1.8rem; margin-bottom: 0.75rem; }
+        .diff-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .diff-card p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+        .diff-card.featured { background: rgba(59,130,246,0.06); border-color: rgba(59,130,246,0.2); }
+
+        /* Fee Comparison */
+        .fee-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+        @media (max-width: 600px) { .fee-box { grid-template-columns: 1fr; } }
+        .fee-card { border-radius: 14px; padding: 2rem; text-align: center; }
+        .fee-card.theirs { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15); }
+        .fee-card.ours { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); }
+        .fee-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 0.5rem; }
+        .fee-card.theirs .fee-label { color: #ef4444; }
+        .fee-card.ours .fee-label { color: #10b981; }
+        .fee-amount { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .fee-card.theirs .fee-amount { color: #ef4444; }
+        .fee-card.ours .fee-amount { color: #10b981; }
+        .fee-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 1rem; }
+        .fee-detail { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+        .fee-savings { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 10px; padding: 1.2rem; text-align: center; margin-top: 1.5rem; }
+        .fee-savings .fs-label { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+        .fee-savings .fs-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: #10b981; margin-top: 0.2rem; }
+
+        /* FAQ */
+        .faq-list { margin-top: 2rem; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 1.2rem 0; cursor: pointer; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-q { display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #fff; font-size: 0.95rem; }
+        .faq-toggle { color: rgba(255,255,255,0.4); font-size: 1.2rem; transition: transform 0.2s; }
+        .faq-a { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-top: 0.75rem; display: none; }
+        .faq-item.open .faq-a { display: block; }
+        .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+        /* CTA */
+        .cta-section { padding: 5rem 2rem; text-align: center; background: linear-gradient(135deg, #0f1928 0%, #0d1117 100%); border-top: 1px solid rgba(255,255,255,0.06); }
+        .cta-section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .cta-section p { color: rgba(255,255,255,0.55); font-size: 1rem; max-width: 500px; margin: 0 auto 2rem; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="market-report.html">Reports</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html">Playbook</a>
+            <a href="why-apex.html" class="active">Why Apex</a>
+            <a href="index.html#demo" class="cta">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-badge">🏆 Twin Cities Tenant Representation</div>
+        <h1>We Work for <span>You</span>.<br>Not the Landlord.</h1>
+        <p>Most brokers have divided loyalties. We don't. As pure tenant advisors, we never represent landlords — so every negotiation tactic, every market insight, every tool we have is aimed at one thing: getting you the best deal.</p>
+        <div class="hero-ctas">
+            <a href="index.html#demo" class="btn-main btn-blue">Request Free Analysis →</a>
+            <a href="market-report.html" class="btn-main btn-ghost">📊 View Market Data</a>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="section">
+        <div class="container">
+            <div class="section-label">The Process</div>
+            <h2 class="section-title">Simple. Fast. No Surprises.</h2>
+            <p class="section-sub">We handle every step of your search so you can focus on running your business.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3>Define Your Needs</h3>
+                    <p>We start with a 30-minute call to understand your space requirements, timeline, budget, and what matters most to your team.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3>Market Search & Tours</h3>
+                    <p>Our AI scans the full market — including off-market subleases and motivated landlords. We coordinate tours and handle all broker communication.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3>Negotiate & Close</h3>
+                    <p>We issue RFPs, compare proposals, and negotiate aggressively on your behalf. You review a clear recommendation and sign the best deal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vs Comparison -->
+    <div class="section section-alt">
+        <div class="container">
+            <div class="section-label">The Comparison</div>
+            <h2 class="section-title">Apex AI vs. The Big Firms</h2>
+            <p class="section-sub">Here's what you actually get — and don't get — from the major players.</p>
+            <div style="overflow-x:auto;">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th style="width:35%"></th>
+                            <th class="apex-col">Apex AI Advisors</th>
+                            <th class="other-col">CBRE / JLL</th>
+                            <th class="other-col">Regional Broker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tenant-only representation</td>
+                            <td class="apex-col-bg"><span class="check">✓ Always</span></td>
+                            <td><span class="cross">✗ Also reps landlords</span></td>
+                            <td><span class="partial">Sometimes</span></td>
+                        </tr>
+                        <tr>
+                            <td>Commission rate</td>
+                            <td class="apex-col-bg"><span class="check">4% — fully transparent</span></td>
+                            <td><span class="cross">5–7% (landlord pays)</span></td>
+                            <td><span class="partial">Varies, often unclear</span></td>
+                        </tr>
+                        <tr>
+                            <td>AI-powered market analysis</td>
+                            <td class="apex-col-bg"><span class="check">✓ Included</span></td>
+                            <td><span class="cross">✗ Manual research</span></td>
+                            <td><span class="cross">✗ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Proposal comparison tool</td>
+                            <td class="apex-col-bg"><span class="check">✓ Instant net effective calc</span></td>
+                            <td><span class="partial">Basic spreadsheet</span></td>
+                            <td><span class="cross">✗ None</span></td>
+                        </tr>
+                        <tr>
+                            <td>Client portal with deal tracking</td>
+                            <td class="apex-col-bg"><span class="check">✓ Real-time updates</span></td>
+                            <td><span class="partial">Email updates only</span></td>
+                            <td><span class="cross">✗ None</span></td>
+                        </tr>
+                        <tr>
+                            <td>Negotiation playbook / strategy</td>
+                            <td class="apex-col-bg"><span class="check">✓ AI-generated per deal</span></td>
+                            <td><span class="partial">Broker experience only</span></td>
+                            <td><span class="cross">✗ None</span></td>
+                        </tr>
+                        <tr>
+                            <td>Off-market sublease access</td>
+                            <td class="apex-col-bg"><span class="check">✓ Proactively tracked</span></td>
+                            <td><span class="partial">Limited — internal only</span></td>
+                            <td><span class="cross">✗ Rarely</span></td>
+                        </tr>
+                        <tr>
+                            <td>Response time</td>
+                            <td class="apex-col-bg"><span class="check">Same business day</span></td>
+                            <td><span class="cross">1–3 days typical</span></td>
+                            <td><span class="partial">Varies</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dedicated advisor (not a team)</td>
+                            <td class="apex-col-bg"><span class="check">✓ One person, your deal</span></td>
+                            <td><span class="cross">✗ Handed off to juniors</span></td>
+                            <td><span class="check">Usually yes</span></td>
+                        </tr>
+                        <tr>
+                            <td>Portfolio clients (multi-location)</td>
+                            <td class="apex-col-bg"><span class="check">✓ Full portfolio management</span></td>
+                            <td><span class="check">✓ But expensive</span></td>
+                            <td><span class="cross">✗ Limited capacity</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fee Section -->
+    <div class="section">
+        <div class="container">
+            <div class="section-label">The Numbers</div>
+            <h2 class="section-title">Our Fee Is Lower. You Get More.</h2>
+            <p class="section-sub">Commercial real estate commissions are paid by the landlord — not you. But the rate affects how hard your broker negotiates.</p>
+            <div class="fee-box">
+                <div class="fee-card theirs">
+                    <div class="fee-label">CBRE / JLL Standard</div>
+                    <div class="fee-amount">6%</div>
+                    <div class="fee-sub">of total lease value</div>
+                    <div class="fee-detail">On a 10,000 SF / $21/SF / 5-year deal, that's <strong>$63,000</strong> in commission — often shared with the listing broker who represents the landlord against you.</div>
+                </div>
+                <div class="fee-card ours">
+                    <div class="fee-label">Apex AI Advisors</div>
+                    <div class="fee-amount">4%</div>
+                    <div class="fee-sub">of total lease value — fully disclosed</div>
+                    <div class="fee-detail">Same deal: <strong>$42,000</strong> in commission. You get better technology, faster service, and a broker with no landlord conflicts — for less money to the landlord.</div>
+                </div>
+            </div>
+            <div class="fee-savings">
+                <div class="fs-label">The landlord pays $21,000 less in commission — giving you more room to negotiate rate, TI, and free rent</div>
+                <div class="fs-val">Same deal. Better terms. Less friction.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Differentiators -->
+    <div class="section section-alt">
+        <div class="container">
+            <div class="section-label">What Sets Us Apart</div>
+            <h2 class="section-title">Built for the Way Tenants Actually Work</h2>
+            <p class="section-sub">We built every tool around a single question: what does a tenant actually need to make a confident real estate decision?</p>
+            <div class="diff-grid">
+                <div class="diff-card featured">
+                    <div class="di">🤖</div>
+                    <h3>AI That Actually Works</h3>
+                    <p>Our tools calculate net effective rent, generate professional RFPs, produce custom negotiation playbooks, and deliver one-click market reports — in seconds, not days.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="di">📊</div>
+                    <h3>Real Market Data, Not Guesses</h3>
+                    <p>We track Minneapolis CBD and suburban markets in real time. When we say "18.5% vacancy" and "4–6 months free rent is standard," we can back it up — and use it to negotiate.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="di">🎯</div>
+                    <h3>Proactive Prospecting</h3>
+                    <p>We track lease expirations across the Twin Cities market — so if you're a tenant with expiring space, your company is already on our radar before you call us.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="di">🔒</div>
+                    <h3>Total Transparency</h3>
+                    <p>You see every proposal, every counter, every market comp — in real time through your Client Portal. No black boxes. No surprises at signing.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="di">⚡</div>
+                    <h3>Fast Turnaround</h3>
+                    <p>We respond same business day. RFPs go out within 48 hours. You get proposal comparisons within 24 hours of receiving them. Speed creates leverage.</p>
+                </div>
+                <div class="diff-card">
+                    <div class="di">🏆</div>
+                    <h3>One Broker. Your Deal.</h3>
+                    <p>At the big firms, your deal gets handed to a junior analyst after the pitch. At Apex AI, you work directly with your advisor from search to signing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section">
+        <div class="container" style="max-width:750px;">
+            <div class="section-label">Common Questions</div>
+            <h2 class="section-title">Straight Answers</h2>
+            <div class="faq-list">
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">Does it cost me anything to work with you? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">No. Like all tenant rep brokers, we're paid by the landlord out of the commission structure built into every lease. You pay nothing directly — and our incentive is to get you the best deal, since happy tenants refer other tenants.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">What markets do you cover? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">We're based in the Twin Cities and primarily serve the Minneapolis-St. Paul metro — downtown, suburban, and industrial submarkets. We can also assist with multi-market searches through our network.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">We already have a broker. Can you help us evaluate their work? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">Absolutely. Use our free Proposal Comparison tool to run the numbers on any deal you've been presented — you'll see the net effective rent, total cost, and whether the concessions are in line with the market. No commitment required.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">How is AI involved in the process? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">Our AI tools handle the analytical work that used to take days: market surveys, proposal comparisons, negotiation playbooks, RFP generation, and market reports. Your advisor focuses on relationships and negotiations. The result is faster decisions with better data.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">What if we just want to renew our current lease? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">Renewals are where tenants leave the most money on the table. Without a competitive search, your landlord has zero pressure to offer market concessions. We run a full market survey and use competing options as leverage — even if you want to stay. Most clients save 15–25% on renewals versus going direct.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-q">How long does a typical search take? <span class="faq-toggle">+</span></div>
+                    <div class="faq-a">For a straightforward office search under 15,000 SF in the Twin Cities: 6–10 weeks from kickoff to signed lease. Larger or more complex searches run 10–16 weeks. Industrial with specific infrastructure requirements may take longer. We'll give you a realistic timeline at our first meeting.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>Ready to See What the Market Can Do for You?</h2>
+        <p>No commitment. No pitch deck. Just a straight conversation about your space needs and what the current market means for your deal.</p>
+        <div class="hero-ctas">
+            <a href="index.html#demo" class="btn-main btn-blue">Request Free Analysis →</a>
+            <a href="market-report.html" class="btn-main btn-ghost">View Market Reports</a>
+        </div>
+    </div>
+
+    <script>
+        // FAQ toggle is handled inline via onclick
+    </script>
+</body>
+</html>
