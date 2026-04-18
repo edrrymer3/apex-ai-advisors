@@ -254,3 +254,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // Add some console branding
 console.log('%c🤖 Apex AI Advisors', 'font-size: 24px; font-weight: bold; color: #3B82F6;');
 console.log('%cNext-Generation Tenant Representation', 'font-size: 14px; color: #6B7280;');
+
+// Dark Mode Toggle
+const darkModeToggle = document.getElementById('darkModeToggle');
+const modeIcon = document.getElementById('modeIcon');
+const root = document.documentElement;
+
+// Check for saved dark mode preference
+const currentMode = localStorage.getItem('darkMode');
+if (currentMode === 'enabled') {
+    root.classList.add('dark-mode');
+    modeIcon.textContent = '☀️';
+}
+
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+        root.classList.toggle('dark-mode');
+        
+        if (root.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            modeIcon.textContent = '☀️';
+        } else {
+            localStorage.setItem('darkMode', 'disabled');
+            modeIcon.textContent = '🌙';
+        }
+    });
+}

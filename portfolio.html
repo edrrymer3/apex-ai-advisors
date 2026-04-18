@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Tracker | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/modern-style.css">
+    <link rel="stylesheet" href="css/tools.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-advanced">
+        <div class="nav-blur"></div>
+        <div class="container nav-container">
+            <div class="nav-brand">
+                <div class="logo-modern">
+                    <span class="logo-icon">🤖</span>
+                    <span class="logo-text">Apex<span class="ai-accent">AI</span></span>
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="tools.html" class="nav-link">AI Tools</a>
+                <a href="portfolio.html" class="nav-link active">Portfolio</a>
+                <a href="index.html#demo" class="nav-cta pulse-glow">Get Demo</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Portfolio Dashboard -->
+    <section class="portfolio-hero">
+        <div class="container">
+            <h1>Real Estate Portfolio Tracker</h1>
+            <p>Manage all your properties in one intelligent dashboard</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Overview -->
+    <section class="portfolio-overview">
+        <div class="container">
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <span class="overview-icon">🏢</span>
+                    <div class="overview-content">
+                        <span class="overview-label">Total Properties</span>
+                        <span class="overview-value">12</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-icon">📏</span>
+                    <div class="overview-content">
+                        <span class="overview-label">Total Sq Ft</span>
+                        <span class="overview-value">485,000</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-icon">💰</span>
+                    <div class="overview-content">
+                        <span class="overview-label">Annual Cost</span>
+                        <span class="overview-value">$18.5M</span>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <span class="overview-icon">📈</span>
+                    <div class="overview-content">
+                        <span class="overview-label">Potential Savings</span>
+                        <span class="overview-value savings">$2.3M</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties List -->
+    <section class="properties-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Properties</h2>
+                <button class="add-property-btn">+ Add Property</button>
+            </div>
+            
+            <div class="properties-grid">
+                <!-- Property Card 1 -->
+                <div class="property-card">
+                    <div class="property-header">
+                        <h3>Chicago Headquarters</h3>
+                        <span class="property-status active">Active</span>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Size</span>
+                            <span class="detail-value">75,000 sq ft</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Monthly Cost</span>
+                            <span class="detail-value">$243,750</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Lease Expires</span>
+                            <span class="detail-value">Dec 2027</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Market Rate</span>
+                            <span class="detail-value">$38/sq ft</span>
+                        </div>
+                    </div>
+                    <div class="property-alerts">
+                        <div class="alert-item warning">
+                            <span class="alert-icon">⚠️</span>
+                            <span>18 months until renewal - start negotiating</span>
+                        </div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Analyze</button>
+                        <button class="action-btn">Renewal Options</button>
+                    </div>
+                </div>
+
+                <!-- Property Card 2 -->
+                <div class="property-card">
+                    <div class="property-header">
+                        <h3>San Francisco Office</h3>
+                        <span class="property-status active">Active</span>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Size</span>
+                            <span class="detail-value">45,000 sq ft</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Monthly Cost</span>
+                            <span class="detail-value">$187,500</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Lease Expires</span>
+                            <span class="detail-value">Jun 2028</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Market Rate</span>
+                            <span class="detail-value">$52/sq ft</span>
+                        </div>
+                    </div>
+                    <div class="property-alerts">
+                        <div class="alert-item success">
+                            <span class="alert-icon">✅</span>
+                            <span>Below market rate by 15%</span>
+                        </div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Analyze</button>
+                        <button class="action-btn">Sublease Options</button>
+                    </div>
+                </div>
+
+                <!-- Property Card 3 -->
+                <div class="property-card">
+                    <div class="property-header">
+                        <h3>New York Satellite</h3>
+                        <span class="property-status expiring">Expiring Soon</span>
+                    </div>
+                    <div class="property-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Size</span>
+                            <span class="detail-value">25,000 sq ft</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Monthly Cost</span>
+                            <span class="detail-value">$125,000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Lease Expires</span>
+                            <span class="detail-value expire">Aug 2026</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Market Rate</span>
+                            <span class="detail-value">$58/sq ft</span>
+                        </div>
+                    </div>
+                    <div class="property-alerts">
+                        <div class="alert-item danger">
+                            <span class="alert-icon">🚨</span>
+                            <span>Expires in 4 months - immediate action needed</span>
+                        </div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn urgent">Renew Now</button>
+                        <button class="action-btn">Find Alternative</button>
+                        <button class="action-btn">Exit Strategy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Analytics -->
+    <section class="portfolio-analytics">
+        <div class="container">
+            <h2>Portfolio Analytics</h2>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3>Cost Trend Analysis</h3>
+                    <canvas id="portfolioCostChart"></canvas>
+                </div>
+                <div class="analytics-card">
+                    <h3>Geographic Distribution</h3>
+                    <canvas id="portfolioMapChart"></canvas>
+                </div>
+                <div class="analytics-card">
+                    <h3>Lease Expiration Timeline</h3>
+                    <canvas id="portfolioTimelineChart"></canvas>
+                </div>
+                <div class="analytics-card">
+                    <h3>Optimization Opportunities</h3>
+                    <div class="opportunities-list">
+                        <div class="opportunity-item">
+                            <span class="opp-badge high">High Priority</span>
+                            <h4>NYC Office Renewal</h4>
+                            <p>Market down 12% - negotiate 20%+ reduction</p>
+                            <span class="opp-savings">Potential: $300k/year</span>
+                        </div>
+                        <div class="opportunity-item">
+                            <span class="opp-badge medium">Medium</span>
+                            <h4>Chicago Space Optimization</h4>
+                            <p>25% underutilized - consider sublease</p>
+                            <span class="opp-savings">Potential: $180k/year</span>
+                        </div>
+                        <div class="opportunity-item">
+                            <span class="opp-badge low">Review</span>
+                            <h4>Parking Consolidation</h4>
+                            <p>Reduce parking across portfolio</p>
+                            <span class="opp-savings">Potential: $45k/year</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <button class="quick-action-card">
+                    <span class="action-icon">📊</span>
+                    <span class="action-title">Generate Report</span>
+                </button>
+                <button class="quick-action-card">
+                    <span class="action-icon">🔄</span>
+                    <span class="action-title">Sync Properties</span>
+                </button>
+                <button class="quick-action-card">
+                    <span class="action-icon">📧</span>
+                    <span class="action-title">Alert Settings</span>
+                </button>
+                <button class="quick-action-card">
+                    <span class="action-icon">💾</span>
+                    <span class="action-title">Export Data</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+        <span id="modeIcon">🌙</span>
+    </button>
+
+    <script src="js/portfolio.js"></script>
+</body>
+</html>

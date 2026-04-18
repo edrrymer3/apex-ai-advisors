@@ -1,0 +1,108 @@
+/* Dark Mode Styles */
+:root.dark-mode {
+    --primary: #F9FAFB;
+    --secondary: #60A5FA;
+    --accent: #3B82F6;
+    --ai-glow: #00D9FF;
+    --text-primary: #F3F4F6;
+    --text-secondary: #9CA3AF;
+    --bg-white: #0F172A;
+    --bg-light: #1E293B;
+    --bg-glass: rgba(15, 23, 42, 0.8);
+    --border-light: #334155;
+}
+
+.dark-mode {
+    background: var(--bg-white);
+    color: var(--text-primary);
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1E3A8A 0%, #312E81 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    z-index: 9999;
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+}
+
+/* Dark mode specific adjustments */
+.dark-mode .nav-advanced {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.dark-mode .nav-blur {
+    background: linear-gradient(90deg, rgba(15,23,42,0.9) 0%, rgba(30,41,59,0.95) 100%);
+}
+
+.dark-mode .tool-interface,
+.dark-mode .ai-tool-card,
+.dark-mode .result-card,
+.dark-mode .dashboard-card,
+.dark-mode .quick-tool-card {
+    background: var(--bg-light);
+    border-color: var(--border-light);
+}
+
+.dark-mode .summary-card,
+.dark-mode .property-list,
+.dark-mode .metric-item,
+.dark-mode .cost-summary,
+.dark-mode input,
+.dark-mode select {
+    background: var(--bg-white);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+.dark-mode .property-item {
+    background: var(--bg-light);
+}
+
+.dark-mode .hero-advanced {
+    background: linear-gradient(135deg, #1E3A8A 0%, #312E81 100%);
+}
+
+.dark-mode .section-header-modern h2,
+.dark-mode .demo-content h2,
+.dark-mode .tool-header h2 {
+    color: var(--text-primary);
+}
+
+.dark-mode .browser-mockup {
+    background: var(--bg-light);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .footer-modern {
+    background: #0A0E1F;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Mobile dark mode toggle position */
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
