@@ -850,6 +850,20 @@ body {
     opacity: 0.6;
 }
 
+/* Mobile Menu */
+.nav-menu.active {
+    display: flex !important;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {

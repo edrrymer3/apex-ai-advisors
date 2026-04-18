@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Suite | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/modern-style.css">
+    <link rel="stylesheet" href="css/tools.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-advanced">
+        <div class="nav-blur"></div>
+        <div class="container nav-container">
+            <div class="nav-brand">
+                <div class="logo-modern">
+                    <span class="logo-icon">🤖</span>
+                    <span class="logo-text">Apex<span class="ai-accent">AI</span></span>
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#market-survey" class="nav-link">Market Survey</a>
+                <a href="#floor-plan" class="nav-link">Floor Plan</a>
+                <a href="#financial" class="nav-link">Financial</a>
+                <a href="index.html#demo" class="nav-cta pulse-glow">Get Demo</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tools Hero -->
+    <section class="tools-hero">
+        <div class="container">
+            <h1>AI-Powered Real Estate Tools</h1>
+            <p>Professional-grade analysis tools that work on any device</p>
+        </div>
+    </section>
+
+    <!-- Market Survey Tool -->
+    <section id="market-survey" class="tool-section">
+        <div class="container">
+            <div class="tool-header">
+                <span class="tool-badge">AI POWERED</span>
+                <h2>📊 Instant Market Survey Generator</h2>
+                <p>Generate comprehensive market surveys in seconds</p>
+            </div>
+            
+            <div class="tool-interface">
+                <div class="survey-inputs">
+                    <h3>Survey Parameters</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Location/ZIP</label>
+                            <input type="text" id="survey-location" placeholder="e.g., Chicago 60601" value="Chicago Loop">
+                        </div>
+                        <div class="input-group">
+                            <label>Property Type</label>
+                            <select id="survey-type">
+                                <option>Office</option>
+                                <option>Retail</option>
+                                <option>Industrial</option>
+                                <option>Flex Space</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Size Range (sq ft)</label>
+                            <input type="text" id="survey-size" placeholder="10,000-50,000" value="20,000-30,000">
+                        </div>
+                        <div class="input-group">
+                            <label>Radius (miles)</label>
+                            <select id="survey-radius">
+                                <option>1</option>
+                                <option selected>3</option>
+                                <option>5</option>
+                                <option>10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="generate-btn" onclick="generateSurvey()">
+                        Generate Market Survey →
+                    </button>
+                </div>
+                
+                <div class="survey-output">
+                    <h3>Market Survey Results</h3>
+                    <div id="survey-results" class="results-container">
+                        <div class="survey-summary">
+                            <div class="summary-card">
+                                <span class="summary-label">Available Properties</span>
+                                <span class="summary-value">47</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Avg Rate/sq ft</span>
+                                <span class="summary-value">$38.50</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Vacancy Rate</span>
+                                <span class="summary-value">12.3%</span>
+                            </div>
+                            <div class="summary-card">
+                                <span class="summary-label">Market Trend</span>
+                                <span class="summary-value trend-up">↑ Tenant Favorable</span>
+                            </div>
+                        </div>
+                        
+                        <div class="property-list">
+                            <h4>Top Comparable Properties</h4>
+                            <div class="property-item">
+                                <div class="property-info">
+                                    <strong>123 State Street</strong>
+                                    <span>25,000 sq ft | Class A</span>
+                                </div>
+                                <div class="property-price">$42/sq ft</div>
+                            </div>
+                            <div class="property-item">
+                                <div class="property-info">
+                                    <strong>Willis Tower</strong>
+                                    <span>28,500 sq ft | Class A+</span>
+                                </div>
+                                <div class="property-price">$45/sq ft</div>
+                            </div>
+                            <div class="property-item">
+                                <div class="property-info">
+                                    <strong>Chicago Board of Trade</strong>
+                                    <span>22,000 sq ft | Class A</span>
+                                </div>
+                                <div class="property-price">$39/sq ft</div>
+                            </div>
+                        </div>
+                        
+                        <button class="export-btn">📥 Export Full Report (PDF)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floor Plan Tool -->
+    <section id="floor-plan" class="tool-section alt-bg">
+        <div class="container">
+            <div class="tool-header">
+                <span class="tool-badge">INTERACTIVE</span>
+                <h2>🏢 Smart Floor Plan Analyzer</h2>
+                <p>Calculate optimal space utilization with AI</p>
+            </div>
+            
+            <div class="tool-interface">
+                <div class="floorplan-inputs">
+                    <h3>Space Configuration</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Total Employees</label>
+                            <input type="number" id="fp-employees" value="50" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Work Model</label>
+                            <select id="fp-model">
+                                <option>Hybrid (3 days)</option>
+                                <option>Full Office</option>
+                                <option>Flexible</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Growth Rate</label>
+                            <input type="number" id="fp-growth" value="20" min="0" max="100">
+                            <span class="input-suffix">% yearly</span>
+                        </div>
+                        <div class="input-group">
+                            <label>Collaboration Style</label>
+                            <select id="fp-collab">
+                                <option>High (Open)</option>
+                                <option>Medium (Mixed)</option>
+                                <option>Low (Private)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="space-requirements">
+                        <h4>Required Spaces</h4>
+                        <div class="checkbox-grid">
+                            <label><input type="checkbox" checked> Conference Rooms</label>
+                            <label><input type="checkbox" checked> Kitchen/Break Room</label>
+                            <label><input type="checkbox" checked> Reception</label>
+                            <label><input type="checkbox"> Wellness Room</label>
+                            <label><input type="checkbox"> Server Room</label>
+                            <label><input type="checkbox"> Phone Booths</label>
+                        </div>
+                    </div>
+                    
+                    <button class="generate-btn" onclick="generateFloorPlan()">
+                        Calculate Space Needs →
+                    </button>
+                </div>
+                
+                <div class="floorplan-output">
+                    <h3>Optimized Floor Plan</h3>
+                    <div class="floorplan-visual">
+                        <div class="floor-grid">
+                            <div class="floor-area workstations" style="flex: 5;">
+                                <span class="area-label">Workstations</span>
+                                <span class="area-size">5,000 sq ft</span>
+                            </div>
+                            <div class="floor-area meeting" style="flex: 2;">
+                                <span class="area-label">Meeting</span>
+                                <span class="area-size">2,000 sq ft</span>
+                            </div>
+                            <div class="floor-area common" style="flex: 2;">
+                                <span class="area-label">Common</span>
+                                <span class="area-size">2,000 sq ft</span>
+                            </div>
+                            <div class="floor-area support" style="flex: 1;">
+                                <span class="area-label">Support</span>
+                                <span class="area-size">1,000 sq ft</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-breakdown">
+                        <h4>Space Allocation</h4>
+                        <canvas id="spaceChart" width="300" height="300"></canvas>
+                    </div>
+                    
+                    <div class="space-metrics">
+                        <div class="metric-item">
+                            <label>Total Space Needed</label>
+                            <strong>10,000 sq ft</strong>
+                        </div>
+                        <div class="metric-item">
+                            <label>Per Person</label>
+                            <strong>200 sq ft</strong>
+                        </div>
+                        <div class="metric-item">
+                            <label>Utilization Rate</label>
+                            <strong>85%</strong>
+                        </div>
+                        <div class="metric-item">
+                            <label>Est. Monthly Cost</label>
+                            <strong>$31,667</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Analysis Tool -->
+    <section id="financial" class="tool-section">
+        <div class="container">
+            <div class="tool-header">
+                <span class="tool-badge">ADVANCED</span>
+                <h2>💰 Lease Financial Analyzer</h2>
+                <p>Complete TCO analysis with hidden costs exposed</p>
+            </div>
+            
+            <div class="tool-interface">
+                <div class="financial-inputs">
+                    <h3>Lease Terms</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Base Rent ($/sq ft/year)</label>
+                            <input type="number" id="fin-base" value="38" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Square Footage</label>
+                            <input type="number" id="fin-sqft" value="25000" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Lease Term (years)</label>
+                            <input type="number" id="fin-term" value="5" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Annual Escalation (%)</label>
+                            <input type="number" id="fin-escalation" value="3" min="0" step="0.5">
+                        </div>
+                    </div>
+                    
+                    <h4>Additional Costs</h4>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Operating Expenses</label>
+                            <input type="number" id="fin-opex" value="8" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Utilities</label>
+                            <input type="number" id="fin-utilities" value="3" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Parking ($/space/mo)</label>
+                            <input type="number" id="fin-parking" value="150" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>Parking Spaces</label>
+                            <input type="number" id="fin-spaces" value="30" min="0">
+                        </div>
+                    </div>
+                    
+                    <h4>Concessions & Incentives</h4>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Free Rent (months)</label>
+                            <input type="number" id="fin-free" value="3" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label>TI Allowance ($/sq ft)</label>
+                            <input type="number" id="fin-ti" value="50" min="0">
+                        </div>
+                    </div>
+                    
+                    <button class="generate-btn" onclick="analyzeFinancials()">
+                        Analyze Total Cost →
+                    </button>
+                </div>
+                
+                <div class="financial-output">
+                    <h3>Financial Analysis</h3>
+                    
+                    <div class="cost-summary">
+                        <div class="summary-row total">
+                            <span>5-Year Total Cost</span>
+                            <strong>$7,234,500</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Effective Rate/sq ft</span>
+                            <strong>$57.88</strong>
+                        </div>
+                        <div class="summary-row savings">
+                            <span>Total Concessions Value</span>
+                            <strong>-$1,487,500</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Net Effective Rate</span>
+                            <strong>$46.00</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-chart">
+                        <h4>Cost Breakdown by Year</h4>
+                        <canvas id="costChart" height="200"></canvas>
+                    </div>
+                    
+                    <div class="cost-components">
+                        <h4>Monthly Cost Components</h4>
+                        <div class="component-list">
+                            <div class="component-item">
+                                <span>Base Rent</span>
+                                <div class="component-bar" style="width: 60%"></div>
+                                <strong>$79,167</strong>
+                            </div>
+                            <div class="component-item">
+                                <span>Operating Expenses</span>
+                                <div class="component-bar" style="width: 25%"></div>
+                                <strong>$16,667</strong>
+                            </div>
+                            <div class="component-item">
+                                <span>Utilities</span>
+                                <div class="component-bar" style="width: 10%"></div>
+                                <strong>$6,250</strong>
+                            </div>
+                            <div class="component-item">
+                                <span>Parking</span>
+                                <div class="component-bar" style="width: 5%"></div>
+                                <strong>$4,500</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="export-btn">📊 Export Analysis</button>
+                        <button class="compare-btn">⚖️ Compare Scenarios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Tools Grid -->
+    <section class="quick-tools">
+        <div class="container">
+            <h2>More AI-Powered Tools</h2>
+            <div class="quick-tools-grid">
+                <div class="quick-tool-card">
+                    <span class="tool-emoji">📍</span>
+                    <h3>Location Scorer</h3>
+                    <p>AI rates locations based on 50+ factors</p>
+                    <button class="quick-tool-btn">Try Now</button>
+                </div>
+                <div class="quick-tool-card">
+                    <span class="tool-emoji">🎯</span>
+                    <h3>Negotiation Simulator</h3>
+                    <p>Practice negotiations with AI landlord</p>
+                    <button class="quick-tool-btn">Try Now</button>
+                </div>
+                <div class="quick-tool-card">
+                    <span class="tool-emoji">📈</span>
+                    <h3>Market Predictor</h3>
+                    <p>6-month forecast with 94% accuracy</p>
+                    <button class="quick-tool-btn">Try Now</button>
+                </div>
+                <div class="quick-tool-card">
+                    <span class="tool-emoji">🔍</span>
+                    <h3>Lease Auditor</h3>
+                    <p>Find overcharges and billing errors</p>
+                    <button class="quick-tool-btn">Try Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/tools.js"></script>
+</body>
+</html>
