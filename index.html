@@ -3,308 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Tenant Advisors | Commercial Real Estate Tenant Representation</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Apex AI Advisors | Next-Gen Tenant Representation Powered by AI</title>
+    <meta name="description" content="Revolutionary AI-powered tenant representation. Save 30% on occupancy costs with smart lease analysis, predictive market intelligence, and automated negotiations.">
+    
+    <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/modern-style.css">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <h2>Apex Tenant Advisors</h2>
-                    <span class="tagline">Occupier-First Solutions</span>
+    <!-- Advanced Navigation -->
+    <nav class="nav-advanced">
+        <div class="nav-blur"></div>
+        <div class="container nav-container">
+            <div class="nav-brand">
+                <div class="logo-modern">
+                    <span class="logo-icon">🤖</span>
+                    <span class="logo-text">Apex<span class="ai-accent">AI</span></span>
                 </div>
-                <ul class="nav-menu">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#approach">Our Approach</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
-                    <li><a href="ai-features.html" class="btn-ai">🤖 AI Tools</a></li>
-                    <li><a href="#contact" class="btn-nav">Get Started</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="#ai-tools" class="nav-link">AI Tools</a>
+                <a href="#solutions" class="nav-link">Solutions</a>
+                <a href="#technology" class="nav-link">Technology</a>
+                <a href="#results" class="nav-link">Results</a>
+                <a href="#demo" class="nav-cta pulse-glow">Get Demo</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <span></span><span></span><span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Your Space. Your Terms.</h1>
-                <p class="hero-subtitle">Expert tenant representation powered by AI technology. We combine human expertise with artificial intelligence to secure optimal terms, reduced costs, and strategic advantages in every real estate transaction.</p>
-                <div class="hero-cta">
-                    <a href="#contact" class="btn btn-primary">Schedule Consultation</a>
-                    <a href="ai-features.html" class="btn btn-outline">🤖 Try AI Tools</a>
+    <!-- Hero Section with Animation -->
+    <section class="hero-advanced">
+        <div class="hero-bg-animation">
+            <div class="grid-overlay"></div>
+            <div class="floating-shapes"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-badge">🚀 Powered by Advanced AI</div>
+            <h1 class="hero-title">
+                The Future of<br>
+                <span class="gradient-text">Tenant Representation</span><br>
+                is Here
+            </h1>
+            <p class="hero-subtitle">
+                Save 30% on occupancy costs with AI-powered lease analysis, 
+                predictive market intelligence, and automated negotiations.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary-large" onclick="openDemo()">
+                    Start Free Analysis
+                    <span class="btn-arrow">→</span>
+                </button>
+                <button class="btn-secondary-large" onclick="watchVideo()">
+                    <span class="play-icon">▶</span>
+                    Watch 2-min Demo
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value" data-target="500">0</div>
+                    <div class="stat-label">M+ Sq Ft Analyzed</div>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">$250M+</span>
-                        <span class="stat-label">Lease Savings Negotiated</span>
+                <div class="stat-item">
+                    <div class="stat-value" data-target="1.2">0</div>
+                    <div class="stat-label">B+ Saved for Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" data-target="99">0</div>
+                    <div class="stat-label">% Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Tools Showcase -->
+    <section id="ai-tools" class="ai-tools-section">
+        <div class="container">
+            <div class="section-header-modern">
+                <span class="section-badge">AI TECHNOLOGY</span>
+                <h2>Powerful AI Tools at Your Fingertips</h2>
+                <p>Industry-first AI capabilities that give you an unfair advantage</p>
+            </div>
+            
+            <div class="ai-tools-grid">
+                <!-- Smart Lease Analyzer -->
+                <div class="ai-tool-card" data-tool="analyzer">
+                    <div class="tool-glow"></div>
+                    <div class="tool-icon">📄</div>
+                    <h3>Smart Lease Analyzer</h3>
+                    <p>Upload any lease and get instant AI analysis of terms, risks, and negotiation opportunities</p>
+                    <ul class="tool-features">
+                        <li>✓ Red flag detection</li>
+                        <li>✓ Cost breakdown analysis</li>
+                        <li>✓ Negotiation recommendations</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now →</button>
+                </div>
+
+                <!-- Market Predictor -->
+                <div class="ai-tool-card" data-tool="predictor">
+                    <div class="tool-glow"></div>
+                    <div class="tool-icon">📊</div>
+                    <h3>Market Predictor</h3>
+                    <p>AI forecasts market trends 6-12 months ahead with 94% accuracy</p>
+                    <ul class="tool-features">
+                        <li>✓ Price trend predictions</li>
+                        <li>✓ Vacancy forecasts</li>
+                        <li>✓ Optimal timing alerts</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now →</button>
+                </div>
+
+                <!-- Space Optimizer -->
+                <div class="ai-tool-card" data-tool="optimizer">
+                    <div class="tool-glow"></div>
+                    <div class="tool-icon">🏢</div>
+                    <h3>Space Optimizer</h3>
+                    <p>Calculate perfect space requirements based on AI analysis of work patterns</p>
+                    <ul class="tool-features">
+                        <li>✓ Hybrid work modeling</li>
+                        <li>✓ Growth projections</li>
+                        <li>✓ Cost optimization</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now →</button>
+                </div>
+
+                <!-- Negotiation Assistant -->
+                <div class="ai-tool-card" data-tool="negotiator">
+                    <div class="tool-glow"></div>
+                    <div class="tool-icon">🎯</div>
+                    <h3>Negotiation Assistant</h3>
+                    <p>Real-time tactics and counteroffers based on live market data</p>
+                    <ul class="tool-features">
+                        <li>✓ Dynamic strategy engine</li>
+                        <li>✓ Concession calculator</li>
+                        <li>✓ Win probability scoring</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="demo-section">
+        <div class="container">
+            <div class="demo-wrapper">
+                <div class="demo-content">
+                    <h2>See the AI in Action</h2>
+                    <p>Upload a sample lease to see our AI analyze it in real-time</p>
+                    <div class="demo-upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag lease PDF here or browse</p>
+                        <button class="btn-upload">Select File</button>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">Transactions Completed</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">15M</span>
-                        <span class="stat-label">Square Feet Negotiated</span>
+                </div>
+                <div class="demo-preview">
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="analysis-preview">
+                            <div class="analysis-item">
+                                <span class="analysis-label">Base Rent:</span>
+                                <span class="analysis-value">$45/sq ft</span>
+                                <span class="analysis-flag warning">Above Market</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">Escalations:</span>
+                                <span class="analysis-value">3.5% annually</span>
+                                <span class="analysis-flag">Negotiable</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">Hidden Costs:</span>
+                                <span class="analysis-value">$8.2/sq ft</span>
+                                <span class="analysis-flag danger">Red Flag</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
+    <!-- Market Intelligence Dashboard -->
+    <section id="technology" class="dashboard-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Comprehensive Tenant Services</h2>
-                <p>End-to-end representation focused exclusively on occupier success</p>
+            <div class="section-header-modern">
+                <span class="section-badge">LIVE DATA</span>
+                <h2>Real-Time Market Intelligence</h2>
+                <p>Make decisions with live data, not outdated reports</p>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">📍</div>
-                    <h3>Site Selection & Acquisition</h3>
-                    <p>Strategic location analysis, market surveys, and comparative evaluations to identify optimal properties that align with your business objectives.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📋</div>
-                    <h3>Lease Negotiation</h3>
-                    <p>Aggressive negotiation tactics backed by market intelligence to secure favorable terms, concessions, and maximum flexibility for your organization.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔄</div>
-                    <h3>Lease Renewal & Restructuring</h3>
-                    <p>Proactive lease management to optimize existing agreements, reduce occupancy costs, and align terms with evolving business needs.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Portfolio Optimization</h3>
-                    <p>Comprehensive analysis of multi-location portfolios to identify consolidation opportunities, eliminate redundancies, and maximize operational efficiency.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏢</div>
-                    <h3>Subleasing & Disposition</h3>
-                    <p>Strategic exit planning and surplus space disposition to minimize ongoing obligations and recover maximum value from unused assets.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💡</div>
-                    <h3>Workplace Strategy</h3>
-                    <p>Data-driven workplace consulting to optimize space utilization, support hybrid work models, and enhance employee productivity.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Approach Section -->
-    <section id="approach" class="approach">
-        <div class="container">
-            <div class="section-header">
-                <h2>The Tenant Advantage</h2>
-                <p>Why exclusive tenant representation matters</p>
-            </div>
-            <div class="approach-grid">
-                <div class="approach-card">
-                    <h3>No Conflicts of Interest</h3>
-                    <p>We never represent landlords. Our loyalty is 100% to tenants, ensuring unbiased advocacy and maximum leverage in every negotiation.</p>
-                </div>
-                <div class="approach-card">
-                    <h3>Market Intelligence</h3>
-                    <p>Proprietary databases and deep market relationships provide real-time insights on availability, pricing trends, and landlord motivations.</p>
-                </div>
-                <div class="approach-card">
-                    <h3>Competitive Leverage</h3>
-                    <p>We create competition among landlords, using multiple proposals and strategic timing to drive better terms and concessions.</p>
-                </div>
-                <div class="approach-card">
-                    <h3>Risk Mitigation</h3>
-                    <p>Comprehensive lease audits and negotiation strategies that protect against hidden costs, unfavorable clauses, and future liabilities.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Proven Process</h2>
-                <p>A systematic approach to securing optimal outcomes</p>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">1</div>
-                    <div class="timeline-content">
-                        <h3>Strategic Planning</h3>
-                        <p>Define objectives, analyze needs, establish timeline and budget parameters</p>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Market Heat Map</h3>
+                    <div class="heatmap-container">
+                        <canvas id="heatmapChart"></canvas>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker">2</div>
-                    <div class="timeline-content">
-                        <h3>Market Analysis</h3>
-                        <p>Comprehensive market survey, property tours, and competitive benchmarking</p>
+                <div class="dashboard-card">
+                    <h3>Pricing Trends</h3>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker">3</div>
-                    <div class="timeline-content">
-                        <h3>Negotiation Strategy</h3>
-                        <p>Develop leverage, submit proposals, negotiate terms and concessions</p>
+                <div class="dashboard-card">
+                    <h3>Vacancy Forecast</h3>
+                    <div class="chart-container">
+                        <canvas id="vacancyChart"></canvas>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker">4</div>
-                    <div class="timeline-content">
-                        <h3>Transaction Execution</h3>
-                        <p>Finalize agreements, coordinate due diligence, manage closing process</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker">5</div>
-                    <div class="timeline-content">
-                        <h3>Ongoing Support</h3>
-                        <p>Post-transaction assistance, lease administration, portfolio management</p>
+                <div class="dashboard-card">
+                    <h3>Deal Velocity</h3>
+                    <div class="metrics-list">
+                        <div class="metric">
+                            <span class="metric-label">Avg Time to Close</span>
+                            <span class="metric-value">12 days</span>
+                            <span class="metric-change positive">-8 days</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Avg Savings</span>
+                            <span class="metric-value">28%</span>
+                            <span class="metric-change positive">+5%</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Expertise Section -->
-    <section id="expertise" class="expertise">
+    <!-- Results Section -->
+    <section id="results" class="results-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Industry Expertise</h2>
-                <p>Specialized knowledge across diverse sectors</p>
+            <div class="section-header-modern">
+                <span class="section-badge">PROVEN RESULTS</span>
+                <h2>Delivering Exceptional Outcomes</h2>
+                <p>Real results from real clients</p>
             </div>
-            <div class="expertise-grid">
-                <div class="expertise-item">
-                    <h4>Technology & Software</h4>
+            
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-logo">Tech Startup</div>
+                    <div class="result-metric">42% Saved</div>
+                    <p>"AI analysis found hidden costs that would have cost us $2M over 5 years"</p>
+                    <div class="result-details">
+                        <span>50,000 sq ft</span>
+                        <span>San Francisco</span>
+                    </div>
                 </div>
-                <div class="expertise-item">
-                    <h4>Financial Services</h4>
+                <div class="result-card">
+                    <div class="result-logo">Finance Co.</div>
+                    <div class="result-metric">6 Locations</div>
+                    <p>"Portfolio optimization saved us $4.5M annually across all sites"</p>
+                    <div class="result-details">
+                        <span>200,000 sq ft</span>
+                        <span>Multi-city</span>
+                    </div>
                 </div>
-                <div class="expertise-item">
-                    <h4>Healthcare & Life Sciences</h4>
-                </div>
-                <div class="expertise-item">
-                    <h4>Professional Services</h4>
-                </div>
-                <div class="expertise-item">
-                    <h4>Manufacturing & Distribution</h4>
-                </div>
-                <div class="expertise-item">
-                    <h4>Nonprofit & Education</h4>
+                <div class="result-card">
+                    <div class="result-logo">Healthcare</div>
+                    <div class="result-metric">18 Days</div>
+                    <p>"From search to signing - fastest deal we've ever done"</p>
+                    <div class="result-details">
+                        <span>75,000 sq ft</span>
+                        <span>Chicago</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
+    <!-- Advanced CTA Section -->
+    <section id="demo" class="cta-advanced">
         <div class="container">
             <div class="cta-content">
-                <h2>Ready to Optimize Your Real Estate Strategy?</h2>
-                <p>Let's discuss how we can reduce your occupancy costs and improve your lease terms.</p>
-                <a href="#contact" class="btn btn-primary btn-large">Start Your Free Consultation</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2>Get Started</h2>
-                <p>Schedule a confidential consultation with our tenant advisory team</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-row">
-                            <input type="text" placeholder="Full Name" required>
-                            <input type="email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-row">
-                            <input type="text" placeholder="Company">
-                            <input type="tel" placeholder="Phone Number">
-                        </div>
-                        <div class="form-row">
-                            <select required>
-                                <option value="">Select Service Needed</option>
-                                <option>New Lease Negotiation</option>
-                                <option>Lease Renewal</option>
-                                <option>Portfolio Optimization</option>
-                                <option>Sublease/Disposition</option>
-                                <option>Workplace Strategy</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-                        <textarea placeholder="Tell us about your real estate needs..." rows="4"></textarea>
-                        <button type="submit" class="btn btn-primary btn-full">Submit Inquiry</button>
-                    </form>
+                <h2>Ready to Save 30% on Your Next Lease?</h2>
+                <p>Get your free AI-powered lease analysis in under 60 seconds</p>
+                <div class="cta-form">
+                    <input type="email" placeholder="work@email.com" class="cta-input">
+                    <button class="cta-submit">Get Free Analysis →</button>
                 </div>
-                <div class="contact-info">
-                    <h3>Why Choose Apex?</h3>
-                    <ul class="benefits-list">
-                        <li>✓ 100% tenant-focused representation</li>
-                        <li>✓ No fees until savings are delivered</li>
-                        <li>✓ Average 22% reduction in occupancy costs</li>
-                        <li>✓ National market coverage</li>
-                        <li>✓ Conflict-free advocacy</li>
-                    </ul>
-                    <div class="contact-direct">
-                        <p><strong>Prefer to talk now?</strong></p>
-                        <p class="phone-number">1-888-TENANT-1</p>
-                        <p class="email">inquiries@apextenantadvisors.com</p>
-                    </div>
-                </div>
+                <p class="cta-note">No credit card required • Results in 60 seconds</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer-modern">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-grid">
                 <div class="footer-brand">
-                    <h3>Apex Tenant Advisors</h3>
-                    <p>Exclusive tenant representation for commercial occupiers</p>
+                    <div class="logo-modern">
+                        <span class="logo-icon">🤖</span>
+                        <span class="logo-text">Apex<span class="ai-accent">AI</span></span>
+                    </div>
+                    <p>Next-generation tenant representation powered by artificial intelligence</p>
                 </div>
                 <div class="footer-links">
-                    <h4>Quick Links</h4>
+                    <h4>Solutions</h4>
                     <ul>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#approach">Our Approach</a></li>
-                        <li><a href="#expertise">Industries</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Lease Analysis</a></li>
+                        <li><a href="#">Market Intelligence</a></li>
+                        <li><a href="#">Portfolio Optimization</a></li>
+                        <li><a href="#">Negotiation Support</a></li>
                     </ul>
                 </div>
-                <div class="footer-resources">
-                    <h4>Resources</h4>
+                <div class="footer-links">
+                    <h4>Technology</h4>
                     <ul>
-                        <li><a href="#">Market Reports</a></li>
-                        <li><a href="#">Lease Calculator</a></li>
-                        <li><a href="#">Tenant Guide</a></li>
-                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">AI Engine</a></li>
+                        <li><a href="#">Data Sources</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">API Access</a></li>
                     </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get Started</h4>
+                    <p>1-888-APEX-AI1</p>
+                    <p>hello@apexai.com</p>
+                    <div class="social-links">
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Twitter</a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Apex Tenant Advisors. All rights reserved. | Privacy Policy | Terms of Service</p>
+                <p>© 2026 Apex AI Advisors. Revolutionizing tenant representation.</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/modern-app.js"></script>
 </body>
 </html>
