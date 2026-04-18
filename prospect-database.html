@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospect Intelligence Database - Apex AI Advisors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .sync-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sync-badge.live {
+            background: rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Control Panel */
+        .control-panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .control-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+        
+        .control-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.08);
+        }
+        
+        select.control-input {
+            cursor: pointer;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        /* Data Table */
+        .table-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+        
+        th:hover {
+            color: #667eea;
+        }
+        
+        th.sortable::after {
+            content: '↕';
+            margin-left: 0.5rem;
+            opacity: 0.3;
+        }
+        
+        th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+            color: #667eea;
+        }
+        
+        th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+            color: #667eea;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+        
+        tbody tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        td {
+            padding: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .company-cell {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+        
+        .priority-medium {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .priority-low {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+        
+        .expiry-urgent {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        
+        .expiry-soon {
+            color: #fbbf24;
+        }
+        
+        .expiry-future {
+            color: #10b981;
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 3px solid #667eea;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* No data state */
+        .no-data {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #9ca3af;
+        }
+        
+        .no-data-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>🎯 Prospect Intelligence Database</h1>
+            <div class="sync-status">
+                <div class="sync-badge live">
+                    <span class="pulse"></span>
+                    Live Sync Active
+                </div>
+                <div class="sync-badge">
+                    <span id="record-count">0</span> Records
+                </div>
+                <div class="sync-badge">
+                    Last Update: <span id="last-update">Now</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="upload-zone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+            <div class="upload-icon">📄</div>
+            <h3 style="margin-bottom: 0.5rem;">Drop PDFs Here to Auto-Extract</h3>
+            <p style="color: #9ca3af; margin-bottom: 1rem;">Offering Memorandums, Rent Rolls, Market Reports</p>
+            <input type="file" id="file-input" multiple accept=".pdf,.csv,.xlsx" style="display: none;" onchange="handleFileSelect(event)">
+            <button class="btn" onclick="document.getElementById('file-input').click()">Browse Files</button>
+        </div>
+        
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-prospects">0</div>
+                    <div class="stat-label">Total Prospects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-sqft">0</div>
+                    <div class="stat-label">Total Sq Ft</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="expiring-soon">0</div>
+                    <div class="stat-label">Expiring < 6 Months</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-savings">$0</div>
+                    <div class="stat-label">Potential Savings</div>
+                </div>
+            </div>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label class="control-label">Search Company</label>
+                    <input type="text" class="control-input" id="search-company" placeholder="Company name..." oninput="filterTable()">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Location</label>
+                    <select class="control-input" id="filter-location" onchange="filterTable()">
+                        <option value="">All Locations</option>
+                        <option value="Minneapolis">Minneapolis</option>
+                        <option value="St. Paul">St. Paul</option>
+                        <option value="Bloomington">Bloomington</option>
+                        <option value="Edina">Edina</option>
+                        <option value="Eden Prairie">Eden Prairie</option>
+                        <option value="Minnetonka">Minnetonka</option>
+                        <option value="Plymouth">Plymouth</option>
+                        <option value="Brooklyn Park">Brooklyn Park</option>
+                        <option value="Other">Other Markets</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Property Type</label>
+                    <select class="control-input" id="filter-type" onchange="filterTable()">
+                        <option value="">All Types</option>
+                        <option value="Office">Office</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Flex">Flex</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Size Range</label>
+                    <select class="control-input" id="filter-size" onchange="filterTable()">
+                        <option value="">All Sizes</option>
+                        <option value="0-10000">< 10,000 SF</option>
+                        <option value="10000-25000">10,000 - 25,000 SF</option>
+                        <option value="25000-50000">25,000 - 50,000 SF</option>
+                        <option value="50000-100000">50,000 - 100,000 SF</option>
+                        <option value="100000+">100,000+ SF</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Expiring In</label>
+                    <select class="control-input" id="filter-expiry" onchange="filterTable()">
+                        <option value="">All Dates</option>
+                        <option value="90">< 90 Days</option>
+                        <option value="180">< 6 Months</option>
+                        <option value="365">< 1 Year</option>
+                        <option value="730">< 2 Years</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Priority</label>
+                    <select class="control-input" id="filter-priority" onchange="filterTable()">
+                        <option value="">All Priorities</option>
+                        <option value="HIGH">High Priority</option>
+                        <option value="MEDIUM">Medium Priority</option>
+                        <option value="LOW">Low Priority</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">Data Source</label>
+                    <select class="control-input" id="filter-source" onchange="filterTable()">
+                        <option value="">All Sources</option>
+                        <option value="OM">Offering Memorandum</option>
+                        <option value="REIT">REIT Disclosure</option>
+                        <option value="Press">Press Release</option>
+                        <option value="Manual">Manual Entry</option>
+                    </select>
+                </div>
+                
+                <div class="control-group" style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-success" onclick="exportData()">Export to CSV</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Table -->
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table id="prospect-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('company')">Company</th>
+                            <th class="sortable" onclick="sortTable('location')">Location</th>
+                            <th class="sortable" onclick="sortTable('sqft')">Sq Ft</th>
+                            <th class="sortable" onclick="sortTable('type')">Type</th>
+                            <th class="sortable" onclick="sortTable('rent')">Current $/SF</th>
+                            <th class="sortable" onclick="sortTable('expiry')">Lease Expires</th>
+                            <th class="sortable" onclick="sortTable('days')">Days Until</th>
+                            <th class="sortable" onclick="sortTable('priority')">Priority</th>
+                            <th class="sortable" onclick="sortTable('savings')">Est. Savings</th>
+                            <th>Source</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="no-data" class="no-data" style="display: none;">
+                <div class="no-data-icon">📊</div>
+                <h3>No Data Yet</h3>
+                <p>Drop PDFs above or wait for automatic data sync</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Sample data structure - in production this would come from backend
+        let prospectData = [
+            {
+                company: 'Tech Solutions Inc',
+                location: 'Bloomington',
+                address: '8300 Norman Center Dr',
+                sqft: 25000,
+                type: 'Office',
+                currentRent: 28.50,
+                marketRent: 24.00,
+                expiry: '2027-03-31',
+                source: 'OM',
+                priority: 'HIGH',
+                notes: 'Normandale Lake Office Park'
+            },
+            {
+                company: 'Manufacturing Corp',
+                location: 'Brooklyn Park',
+                address: '9000 109th Ave N',
+                sqft: 150000,
+                type: 'Industrial',
+                currentRent: 7.50,
+                marketRent: 6.75,
+                expiry: '2026-09-30',
+                source: 'REIT',
+                priority: 'HIGH',
+                notes: 'Looking to expand'
+            },
+            {
+                company: 'Financial Services LLC',
+                location: 'Minneapolis',
+                address: '90 S 7th St',
+                sqft: 45000,
+                type: 'Office',
+                currentRent: 32.00,
+                marketRent: 28.50,
+                expiry: '2027-06-30',
+                source: 'Press',
+                priority: 'MEDIUM',
+                notes: 'Wells Fargo Center'
+            },
+            {
+                company: 'Healthcare Systems',
+                location: 'Eden Prairie',
+                address: '11000 Optum Cir',
+                sqft: 60000,
+                type: 'Office',
+                currentRent: 26.00,
+                marketRent: 24.00,
+                expiry: '2027-01-31',
+                source: 'OM',
+                priority: 'HIGH',
+                notes: 'Evaluating real estate options'
+            },
+            {
+                company: 'Logistics Partners',
+                location: 'Plymouth',
+                address: '15600 36th Ave N',
+                sqft: 85000,
+                type: 'Industrial',
+                currentRent: 8.00,
+                marketRent: 7.25,
+                expiry: '2026-12-31',
+                source: 'REIT',
+                priority: 'MEDIUM',
+                notes: 'Distribution center'
+            }
+        ];
+        
+        let currentSort = { column: null, direction: 'asc' };
+        
+        function initializeTable() {
+            populateTable(prospectData);
+            updateStats();
+        }
+        
+        function populateTable(data) {
+            const tbody = document.getElementById('table-body');
+            const noData = document.getElementById('no-data');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '';
+                noData.style.display = 'block';
+                return;
+            }
+            
+            noData.style.display = 'none';
+            tbody.innerHTML = '';
+            
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                const expiry = new Date(row.expiry);
+                const now = new Date();
+                const days = Math.floor((expiry - now) / (1000 * 60 * 60 * 24));
+                const savings = row.sqft * (row.currentRent - row.marketRent) * 12;
+                
+                let expiryClass = 'expiry-future';
+                if (days < 90) expiryClass = 'expiry-urgent';
+                else if (days < 180) expiryClass = 'expiry-soon';
+                
+                let priorityClass = 'priority-low';
+                if (row.priority === 'HIGH') priorityClass = 'priority-high';
+                else if (row.priority === 'MEDIUM') priorityClass = 'priority-medium';
+                
+                tr.innerHTML = `
+                    <td class="company-cell">${row.company}</td>
+                    <td>${row.location}<br><small style="color: #9ca3af;">${row.address}</small></td>
+                    <td>${row.sqft.toLocaleString()}</td>
+                    <td>${row.type}</td>
+                    <td>$${row.currentRent.toFixed(2)}</td>
+                    <td class="${expiryClass}">${expiry.toLocaleDateString()}</td>
+                    <td class="${expiryClass}">${days}</td>
+                    <td><span class="priority-badge ${priorityClass}">${row.priority}</span></td>
+                    <td style="color: #10b981;">$${(savings / 1000).toFixed(0)}k</td>
+                    <td>${row.source}</td>
+                    <td class="actions-cell">
+                        <button class="action-btn" onclick="viewDetails('${row.company}')">View</button>
+                        <button class="action-btn" onclick="addToHubSpot('${row.company}')">HubSpot</button>
+                        <button class="action-btn" onclick="generateOutreach('${row.company}')">Email</button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function updateStats() {
+            const totalProspects = prospectData.length;
+            const totalSqft = prospectData.reduce((sum, p) => sum + p.sqft, 0);
+            
+            const now = new Date();
+            const expiringSoon = prospectData.filter(p => {
+                const days = Math.floor((new Date(p.expiry) - now) / (1000 * 60 * 60 * 24));
+                return days > 0 && days < 180;
+            }).length;
+            
+            const totalSavings = prospectData.reduce((sum, p) => {
+                return sum + (p.sqft * (p.currentRent - p.marketRent) * 12);
+            }, 0);
+            
+            document.getElementById('total-prospects').textContent = totalProspects;
+            document.getElementById('total-sqft').textContent = (totalSqft / 1000).toFixed(0) + 'k';
+            document.getElementById('expiring-soon').textContent = expiringSoon;
+            document.getElementById('total-savings').textContent = '$' + (totalSavings / 1000000).toFixed(1) + 'M';
+            document.getElementById('record-count').textContent = totalProspects;
+        }
+        
+        function filterTable() {
+            const searchCompany = document.getElementById('search-company').value.toLowerCase();
+            const filterLocation = document.getElementById('filter-location').value;
+            const filterType = document.getElementById('filter-type').value;
+            const filterSize = document.getElementById('filter-size').value;
+            const filterExpiry = document.getElementById('filter-expiry').value;
+            const filterPriority = document.getElementById('filter-priority').value;
+            const filterSource = document.getElementById('filter-source').value;
+            
+            const filtered = prospectData.filter(row => {
+                // Company search
+                if (searchCompany && !row.company.toLowerCase().includes(searchCompany)) return false;
+                
+                // Location filter
+                if (filterLocation && row.location !== filterLocation) {
+                    if (filterLocation === 'Other' && ['Minneapolis', 'St. Paul', 'Bloomington', 'Edina', 'Eden Prairie', 'Minnetonka', 'Plymouth', 'Brooklyn Park'].includes(row.location)) {
+                        return false;
+                    } else if (filterLocation !== 'Other') {
+                        return false;
+                    }
+                }
+                
+                // Type filter
+                if (filterType && row.type !== filterType) return false;
+                
+                // Size filter
+                if (filterSize) {
+                    const size = row.sqft;
+                    if (filterSize === '0-10000' && size >= 10000) return false;
+                    if (filterSize === '10000-25000' && (size < 10000 || size >= 25000)) return false;
+                    if (filterSize === '25000-50000' && (size < 25000 || size >= 50000)) return false;
+                    if (filterSize === '50000-100000' && (size < 50000 || size >= 100000)) return false;
+                    if (filterSize === '100000+' && size < 100000) return false;
+                }
+                
+                // Expiry filter
+                if (filterExpiry) {
+                    const days = Math.floor((new Date(row.expiry) - new Date()) / (1000 * 60 * 60 * 24));
+                    if (days > parseInt(filterExpiry)) return false;
+                }
+                
+                // Priority filter
+                if (filterPriority && row.priority !== filterPriority) return false;
+                
+                // Source filter
+                if (filterSource && row.source !== filterSource) return false;
+                
+                return true;
+            });
+            
+            populateTable(filtered);
+        }
+        
+        function sortTable(column) {
+            const thead = document.querySelector('thead');
+            const headers = thead.querySelectorAll('th');
+            
+            // Update sort direction
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+            
+            // Update header classes
+            headers.forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const currentHeader = Array.from(headers).find(th => th.textContent.toLowerCase().includes(column));
+            if (currentHeader) {
+                currentHeader.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            }
+            
+            // Sort data
+            const sorted = [...prospectData].sort((a, b) => {
+                let aVal, bVal;
+                
+                switch(column) {
+                    case 'company': aVal = a.company; bVal = b.company; break;
+                    case 'location': aVal = a.location; bVal = b.location; break;
+                    case 'sqft': aVal = a.sqft; bVal = b.sqft; break;
+                    case 'type': aVal = a.type; bVal = b.type; break;
+                    case 'rent': aVal = a.currentRent; bVal = b.currentRent; break;
+                    case 'expiry': aVal = new Date(a.expiry); bVal = new Date(b.expiry); break;
+                    case 'days':
+                        aVal = Math.floor((new Date(a.expiry) - new Date()) / (1000 * 60 * 60 * 24));
+                        bVal = Math.floor((new Date(b.expiry) - new Date()) / (1000 * 60 * 60 * 24));
+                        break;
+                    case 'priority':
+                        const priorityOrder = { 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
+                        aVal = priorityOrder[a.priority];
+                        bVal = priorityOrder[b.priority];
+                        break;
+                    case 'savings':
+                        aVal = a.sqft * (a.currentRent - a.marketRent);
+                        bVal = b.sqft * (b.currentRent - b.marketRent);
+                        break;
+                    default: return 0;
+                }
+                
+                if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            populateTable(sorted);
+        }
+        
+        // File handling
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('upload-zone').classList.remove('active');
+            
+            const files = e.dataTransfer.files;
+            processFiles(files);
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('upload-zone').classList.add('active');
+        }
+        
+        function handleDragLeave(e) {
+            e.preventDefault();
+            document.getElementById('upload-zone').classList.remove('active');
+        }
+        
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            processFiles(files);
+        }
+        
+        function processFiles(files) {
+            // In production, would send to backend for processing
+            alert(`Processing ${files.length} file(s)... This would extract company names, locations, SF, rent, and lease expirations automatically.`);
+            
+            // Simulate adding extracted data
+            setTimeout(() => {
+                const newData = {
+                    company: 'Extracted Company ' + Math.floor(Math.random() * 1000),
+                    location: ['Minneapolis', 'Bloomington', 'Eden Prairie'][Math.floor(Math.random() * 3)],
+                    address: '123 Extracted St',
+                    sqft: Math.floor(Math.random() * 100000) + 10000,
+                    type: Math.random() > 0.5 ? 'Office' : 'Industrial',
+                    currentRent: 20 + Math.random() * 15,
+                    marketRent: 18 + Math.random() * 12,
+                    expiry: new Date(Date.now() + Math.random() * 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    source: 'OM',
+                    priority: ['HIGH', 'MEDIUM', 'LOW'][Math.floor(Math.random() * 3)],
+                    notes: 'Extracted from PDF'
+                };
+                
+                prospectData.push(newData);
+                initializeTable();
+                
+                alert('Data extracted successfully! New prospect added to database.');
+            }, 2000);
+        }
+        
+        // Action functions
+        function viewDetails(company) {
+            const prospect = prospectData.find(p => p.company === company);
+            if (prospect) {
+                alert(`Company: ${prospect.company}\nLocation: ${prospect.address}\nSize: ${prospect.sqft.toLocaleString()} SF\nCurrent Rent: $${prospect.currentRent}/SF\nExpires: ${prospect.expiry}\nNotes: ${prospect.notes}`);
+            }
+        }
+        
+        function addToHubSpot(company) {
+            alert(`Adding ${company} to HubSpot CRM... This would create a contact, company, and deal automatically.`);
+        }
+        
+        function generateOutreach(company) {
+            const prospect = prospectData.find(p => p.company === company);
+            if (prospect) {
+                const days = Math.floor((new Date(prospect.expiry) - new Date()) / (1000 * 60 * 60 * 24));
+                const savings = prospect.sqft * (prospect.currentRent - prospect.marketRent) * 12;
+                
+                const emailTemplate = `Subject: ${prospect.company} - Significant Lease Savings Opportunity
+
+Dear Decision Maker at ${prospect.company},
+
+I noticed your lease at ${prospect.address} is expiring in ${days} days.
+
+The market has shifted significantly since you signed. Current market rates in ${prospect.location} are approximately $${prospect.marketRent.toFixed(2)}/SF, compared to your current rate of $${prospect.currentRent.toFixed(2)}/SF.
+
+This represents a potential annual savings of $${(savings / 1000).toFixed(0)}k for your ${prospect.sqft.toLocaleString()} SF space.
+
+Would you have 15 minutes this week to discuss how we can capture these savings for ${prospect.company}?
+
+Best regards,
+[Your Name]
+Apex AI Advisors`;
+                
+                alert(emailTemplate);
+            }
+        }
+        
+        function exportData() {
+            // Convert to CSV
+            const headers = ['Company', 'Location', 'Address', 'Sq Ft', 'Type', 'Current Rent', 'Market Rent', 'Expiry', 'Days Until', 'Priority', 'Source', 'Notes'];
+            const csvContent = [
+                headers.join(','),
+                ...prospectData.map(row => {
+                    const days = Math.floor((new Date(row.expiry) - new Date()) / (1000 * 60 * 60 * 24));
+                    return [
+                        `"${row.company}"`,
+                        row.location,
+                        `"${row.address}"`,
+                        row.sqft,
+                        row.type,
+                        row.currentRent,
+                        row.marketRent,
+                        row.expiry,
+                        days,
+                        row.priority,
+                        row.source,
+                        `"${row.notes}"`
+                    ].join(',');
+                })
+            ].join('\n');
+            
+            // Download file
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prospect-database-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+        
+        // Auto-refresh simulation
+        function simulateDataSync() {
+            // Add new data periodically to simulate live sync
+            setInterval(() => {
+                const chance = Math.random();
+                if (chance < 0.1) { // 10% chance of new data
+                    const newProspect = {
+                        company: ['Software Corp', 'Medical Group', 'Law Firm LLP', 'Engineering Inc'][Math.floor(Math.random() * 4)] + ' ' + Math.floor(Math.random() * 100),
+                        location: ['Minneapolis', 'St. Paul', 'Bloomington', 'Edina', 'Plymouth'][Math.floor(Math.random() * 5)],
+                        address: Math.floor(Math.random() * 9000 + 1000) + ' Main St',
+                        sqft: Math.floor(Math.random() * 50000 + 5000),
+                        type: Math.random() > 0.6 ? 'Office' : 'Industrial',
+                        currentRent: 20 + Math.random() * 15,
+                        marketRent: 18 + Math.random() * 12,
+                        expiry: new Date(Date.now() + Math.random() * 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        source: ['OM', 'REIT', 'Press'][Math.floor(Math.random() * 3)],
+                        priority: Math.random() > 0.7 ? 'HIGH' : Math.random() > 0.4 ? 'MEDIUM' : 'LOW',
+                        notes: 'Auto-discovered from market intelligence'
+                    };
+                    
+                    prospectData.unshift(newProspect);
+                    initializeTable();
+                    
+                    // Flash notification
+                    document.getElementById('last-update').textContent = 'Just now';
+                    setTimeout(() => {
+                        document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+                    }, 3000);
+                }
+            }, 30000); // Check every 30 seconds
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTable();
+            simulateDataSync();
+            
+            // Update time
+            setInterval(() => {
+                document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+            }, 60000);
+        });
+    </script>
+</body>
+</html>
