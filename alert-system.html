@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert System | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .apex-nav {
+            background: rgba(15,15,30,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.4rem 1rem; border-radius: 20px; }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1a1f3a 0%, #0f1528 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(99,102,241,0.2);
+        }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .page-hero h1 span { color: #818cf8; }
+        .page-hero p { color: rgba(255,255,255,0.6); font-size: 1rem; }
+        .badge { display: inline-block; background: rgba(99,102,241,0.2); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        @media (max-width: 768px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+        .stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+        .stat-card .num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; }
+        .stat-card .label { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card.red .num { color: #ef4444; }
+        .stat-card.yellow .num { color: #f59e0b; }
+        .stat-card.green .num { color: #10b981; }
+        .stat-card.blue .num { color: #3B82F6; }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+        .card-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: #fff; }
+        .card-header h2 span { margin-right: 0.4rem; }
+
+        /* Alert List */
+        .alert-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+        .alert-item:hover { border-color: rgba(255,255,255,0.15); }
+        .alert-item.urgent { border-left: 3px solid #ef4444; }
+        .alert-item.warning { border-left: 3px solid #f59e0b; }
+        .alert-item.info { border-left: 3px solid #3B82F6; }
+        .alert-item.success { border-left: 3px solid #10b981; }
+
+        .alert-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .alert-body { flex: 1; }
+        .alert-title { font-weight: 600; color: #fff; font-size: 0.92rem; margin-bottom: 0.2rem; }
+        .alert-detail { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-bottom: 0.4rem; }
+        .alert-meta { display: flex; gap: 0.5rem; align-items: center; }
+        .tag { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
+        .tag-red { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .tag-yellow { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .tag-blue { background: rgba(59,130,246,0.15); color: #3B82F6; }
+        .tag-green { background: rgba(16,185,129,0.15); color: #10b981; }
+        .tag-purple { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+        .alert-time { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+
+        .alert-action { flex-shrink: 0; }
+        .btn-sm { padding: 0.35rem 0.8rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: #e0e0e0; font-size: 0.8rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .btn-sm:hover { background: rgba(255,255,255,0.12); }
+        .btn-sm.primary { background: rgba(59,130,246,0.2); border-color: rgba(59,130,246,0.4); color: #3B82F6; }
+        .btn-sm.primary:hover { background: rgba(59,130,246,0.35); }
+
+        /* Add Alert Form */
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.55); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.65rem 0.9rem;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #818cf8; }
+        .form-group select option { background: #1a1a2e; }
+
+        .btn-full { width: 100%; padding: 0.8rem; border-radius: 8px; border: none; background: linear-gradient(135deg, #818cf8, #6366f1); color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .btn-full:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,0.35); }
+
+        .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .filter-chip { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); background: transparent; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .filter-chip:hover, .filter-chip.active { border-color: rgba(99,102,241,0.5); color: #818cf8; background: rgba(99,102,241,0.1); }
+
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .market-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.9rem; }
+        .market-item .mkt-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem; }
+        .market-item .mkt-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; }
+        .market-item .mkt-change { font-size: 0.78rem; margin-top: 0.15rem; }
+        .up { color: #ef4444; }
+        .down { color: #10b981; }
+
+        .empty-alerts { text-align: center; padding: 3rem; color: rgba(255,255,255,0.3); }
+        .empty-alerts .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+        .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 1.5s infinite; margin-right: 0.4rem; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html" class="active">Alerts</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">🔔 Live Monitoring</div>
+        <h1>Intelligence <span>Alert</span> System</h1>
+        <p>Track lease expirations, market shifts, price drops, and prospect triggers — all in one place</p>
+    </div>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card red">
+                <div class="num" id="urgentCount">3</div>
+                <div class="label">Urgent Alerts</div>
+            </div>
+            <div class="stat-card yellow">
+                <div class="num" id="warningCount">7</div>
+                <div class="label">Action Needed</div>
+            </div>
+            <div class="stat-card green">
+                <div class="num" id="opportunityCount">5</div>
+                <div class="label">Opportunities</div>
+            </div>
+            <div class="stat-card blue">
+                <div class="num" id="watchCount">12</div>
+                <div class="label">On Watch List</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Left: Alert Feed -->
+            <div>
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <button class="filter-chip active" onclick="filterAlerts('all', this)">All</button>
+                    <button class="filter-chip" onclick="filterAlerts('lease', this)">⏰ Lease Expiry</button>
+                    <button class="filter-chip" onclick="filterAlerts('market', this)">📊 Market</button>
+                    <button class="filter-chip" onclick="filterAlerts('price', this)">💰 Price Drop</button>
+                    <button class="filter-chip" onclick="filterAlerts('prospect', this)">🎯 Prospect</button>
+                    <button class="filter-chip" onclick="filterAlerts('new', this)">🆕 New Listing</button>
+                </div>
+
+                <div id="alertFeed">
+                    <!-- Alerts injected by JS -->
+                </div>
+            </div>
+
+            <!-- Right: Sidebar -->
+            <div>
+                <!-- Add Alert -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><span>➕</span> Add Alert</h2>
+                    </div>
+                    <div class="form-group">
+                        <label>Alert Type</label>
+                        <select id="newAlertType">
+                            <option value="lease">⏰ Lease Expiration</option>
+                            <option value="price">💰 Price Drop Trigger</option>
+                            <option value="prospect">🎯 Prospect Trigger</option>
+                            <option value="new">🆕 New Listing Watch</option>
+                            <option value="market">📊 Market Condition</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Name / Company</label>
+                        <input type="text" id="newAlertName" placeholder="e.g. Acme Corp — Suite 400">
+                    </div>
+                    <div class="form-group">
+                        <label>Trigger Date or Condition</label>
+                        <input type="text" id="newAlertTrigger" placeholder="e.g. Jun 2026 or Rate drops below $20/SF">
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <input type="text" id="newAlertNote" placeholder="e.g. CEO is a personal contact">
+                    </div>
+                    <button class="btn-full" onclick="addAlert()">+ Add to Watch List</button>
+                </div>
+
+                <!-- Market Snapshot -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2><span>📊</span> MN Market Snapshot</h2>
+                        <span style="font-size:0.75rem; color:rgba(255,255,255,0.4)"><span class="pulse"></span>Live</span>
+                    </div>
+                    <div class="market-grid">
+                        <div class="market-item">
+                            <div class="mkt-label">MPLS Downtown Vacancy</div>
+                            <div class="mkt-val">18.5%</div>
+                            <div class="mkt-change up">▲ +0.8% MoM</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="mkt-label">Suburban Office Vacancy</div>
+                            <div class="mkt-val">14.5%</div>
+                            <div class="mkt-change down">▼ -0.3% MoM</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="mkt-label">Industrial Vacancy</div>
+                            <div class="mkt-val">4.2%</div>
+                            <div class="mkt-change down">▼ -0.5% MoM</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="mkt-label">Avg Office Rate (DT)</div>
+                            <div class="mkt-val">$19.40</div>
+                            <div class="mkt-change down">▼ -$0.60 QoQ</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="mkt-label">Avg Industrial Rate</div>
+                            <div class="mkt-val">$7.80</div>
+                            <div class="mkt-change up">▲ +$0.40 QoQ</div>
+                        </div>
+                        <div class="market-item">
+                            <div class="mkt-label">Avg TI Allowance</div>
+                            <div class="mkt-val">$48/SF</div>
+                            <div class="mkt-change up">▲ Rising</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Seed alerts
+        let alerts = [
+            { id: 1, type: 'lease', priority: 'urgent', icon: '🚨', title: 'UnitedHealth Group — Plymouth Campus', detail: 'Lease expires in 60 days. 85,000 SF. Opportunity to capture if they downsize.', tag: 'lease', tagLabel: 'Expiring Soon', time: 'Today', note: 'Flagged by MN tracker' },
+            { id: 2, type: 'lease', priority: 'urgent', icon: '⚠️', title: 'Hennepin County — Downtown Minneapolis', detail: 'Government lease expiration Q3 2026. 42,000 SF Class A. High probability tenant.', tag: 'lease', tagLabel: 'Q3 2026', time: 'Today' },
+            { id: 3, type: 'prospect', priority: 'urgent', icon: '🎯', title: 'Target Corp Sublease Released', detail: 'Target listed 22,000 SF sublease at Nicollet Mall at 35% below market. Negotiable rate flagged.', tag: 'price', tagLabel: 'Negotiable', time: '2h ago' },
+            { id: 4, type: 'price', priority: 'warning', icon: '💰', title: 'Price Drop — 222 S 9th St Suite 1800', detail: 'Asking rate dropped from $24.50 to $21.00/SF. Listed 180+ days. Landlord motivated.', tag: 'price', tagLabel: '▼ $3.50/SF Drop', time: '4h ago' },
+            { id: 5, type: 'market', priority: 'warning', icon: '📊', title: 'Downtown Vacancy Hits 18.5%', detail: 'MPLS CBD vacancy continues rising. Tenants have strong leverage for concessions. Best negotiating climate in 10 years.', tag: 'market', tagLabel: 'Market Shift', time: 'Yesterday' },
+            { id: 6, type: 'new', priority: 'info', icon: '🆕', title: 'New Sublease — 50 S 6th St, Suite 900', detail: '12,000 SF | Class A | $18.50/SF | Move-in ready. Spec suite. Immediate occupancy available.', tag: 'new', tagLabel: 'New Listing', time: 'Yesterday' },
+            { id: 7, type: 'prospect', priority: 'info', icon: '🏢', title: '3M HQ — Maplewood Consolidation Rumors', detail: 'LinkedIn activity suggests headcount reduction. 3M occupies 1.2M SF. Watch for sublease opportunities.', tag: 'prospect', tagLabel: 'Watch', time: '2 days ago' },
+            { id: 8, type: 'new', priority: 'success', icon: '✅', title: 'Crexi — 5 New Industrial Listings (NW Suburbs)', detail: 'Plymouth + Rogers corridor. Warehouse 15k–80k SF. Rates $6.50–$8.20/SF NNN. Multiple move-in ready.', tag: 'new', tagLabel: 'Industrial', time: '2 days ago' },
+            { id: 9, type: 'lease', priority: 'warning', icon: '📅', title: 'Best Buy HQ Lease Renewal Window Opens', detail: 'Richfield HQ lease renewal window opens Q2 2026. Estimated 350,000 SF. Large strategic opportunity.', tag: 'lease', tagLabel: '12 Months', time: '3 days ago' },
+            { id: 10, type: 'price', priority: 'warning', icon: '💸', title: 'Cushman & Wakefield Listed — Negotiable Rate', detail: 'C&W listing at 80 S 8th flagged as "negotiable." 18,000 SF. 210 days on market. Strong leverage.', tag: 'price', tagLabel: 'Negotiable', time: '3 days ago' },
+        ];
+
+        const priorityClass = { urgent: 'urgent', warning: 'warning', info: 'info', success: 'success' };
+        const tagClass = { lease: 'tag-yellow', price: 'tag-red', market: 'tag-blue', new: 'tag-green', prospect: 'tag-purple' };
+
+        let activeFilter = 'all';
+
+        function renderAlerts() {
+            const feed = document.getElementById('alertFeed');
+            const filtered = activeFilter === 'all' ? alerts : alerts.filter(a => a.type === activeFilter);
+
+            if (filtered.length === 0) {
+                feed.innerHTML = `<div class="empty-alerts"><div class="icon">🔕</div><div>No alerts in this category</div></div>`;
+                return;
+            }
+
+            feed.innerHTML = filtered.map(a => `
+                <div class="alert-item ${priorityClass[a.priority] || 'info'}" id="alert-${a.id}">
+                    <div class="alert-icon">${a.icon}</div>
+                    <div class="alert-body">
+                        <div class="alert-title">${a.title}</div>
+                        <div class="alert-detail">${a.detail}</div>
+                        <div class="alert-meta">
+                            <span class="tag ${tagClass[a.tag] || 'tag-blue'}">${a.tagLabel}</span>
+                            <span class="alert-time">${a.time}</span>
+                        </div>
+                    </div>
+                    <div class="alert-action">
+                        <button class="btn-sm primary" onclick="actOnAlert(${a.id})">Act →</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update counts
+            document.getElementById('urgentCount').textContent = alerts.filter(a => a.priority === 'urgent').length;
+            document.getElementById('warningCount').textContent = alerts.filter(a => a.priority === 'warning').length;
+            document.getElementById('opportunityCount').textContent = alerts.filter(a => a.priority === 'success' || a.tag === 'new').length;
+            document.getElementById('watchCount').textContent = alerts.length;
+        }
+
+        function filterAlerts(type, el) {
+            activeFilter = type;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            renderAlerts();
+        }
+
+        function addAlert() {
+            const type = document.getElementById('newAlertType').value;
+            const name = document.getElementById('newAlertName').value.trim();
+            const trigger = document.getElementById('newAlertTrigger').value.trim();
+            const note = document.getElementById('newAlertNote').value.trim();
+
+            if (!name) { alert('Please enter a name or company.'); return; }
+
+            const typeIcons = { lease: '📅', price: '💰', prospect: '🎯', new: '🆕', market: '📊' };
+            const typeLabels = { lease: 'Lease Expiry', price: 'Price Watch', prospect: 'Prospect', new: 'New Listing', market: 'Market' };
+
+            alerts.unshift({
+                id: Date.now(),
+                type,
+                priority: 'info',
+                icon: typeIcons[type] || '🔔',
+                title: name,
+                detail: `${trigger ? 'Trigger: ' + trigger : 'Monitoring active.'}${note ? ' — ' + note : ''}`,
+                tag: type,
+                tagLabel: typeLabels[type],
+                time: 'Just now'
+            });
+
+            // Clear form
+            document.getElementById('newAlertName').value = '';
+            document.getElementById('newAlertTrigger').value = '';
+            document.getElementById('newAlertNote').value = '';
+
+            renderAlerts();
+        }
+
+        function actOnAlert(id) {
+            const alert = alerts.find(a => a.id === id);
+            if (!alert) return;
+            const actions = {
+                lease: '→ Opening RFP Generator for this prospect...',
+                price: '→ Adding to prospect database...',
+                prospect: '→ Flagging for outreach...',
+                new: '→ Opening listing details...',
+                market: '→ Generating market report...'
+            };
+            const msg = actions[alert.type] || '→ Alert noted.';
+
+            // Visual feedback
+            const el = document.getElementById(`alert-${id}`);
+            if (el) {
+                el.style.opacity = '0.5';
+                el.querySelector('.btn-sm').textContent = '✓ Done';
+            }
+
+            // For lease type, redirect to RFP generator
+            if (alert.type === 'lease') {
+                setTimeout(() => window.location.href = 'rfp-generator.html', 800);
+            }
+        }
+
+        // Init
+        renderAlerts();
+    </script>
+</body>
+</html>

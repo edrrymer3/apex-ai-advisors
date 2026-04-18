@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFP Generator | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .apex-nav {
+            background: rgba(15,15,30,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.4rem 1rem; border-radius: 20px; }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f1f3d 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(59,130,246,0.2);
+        }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .page-hero h1 span { color: #3B82F6; }
+        .page-hero p { color: rgba(255,255,255,0.6); font-size: 1rem; }
+        .badge { display: inline-block; background: rgba(59,130,246,0.2); color: #3B82F6; border: 1px solid rgba(59,130,246,0.4); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) { .builder-grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1.8rem;
+        }
+        .card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+        .card h2 .icon { font-size: 1.3rem; }
+
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.6); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        .form-group select option { background: #1a1a2e; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .checkbox-item { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+        .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #3B82F6; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .btn-primary { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; width: 100%; justify-content: center; font-size: 1rem; padding: 1rem; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(59,130,246,0.35); }
+        .btn-secondary { background: rgba(255,255,255,0.07); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.12); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+
+        .output-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            display: none;
+        }
+        .output-card.visible { display: block; }
+        .output-header {
+            background: linear-gradient(135deg, #1e3a5f, #0f2d54);
+            padding: 1.2rem 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .output-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; }
+        .output-actions { display: flex; gap: 0.75rem; }
+        .output-body { padding: 2rem; }
+        .rfp-content {
+            font-family: 'Times New Roman', serif;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #ddd;
+            white-space: pre-wrap;
+        }
+        .rfp-content .rfp-header-section { text-align: center; margin-bottom: 2rem; border-bottom: 2px solid rgba(59,130,246,0.3); padding-bottom: 1.5rem; }
+        .rfp-content h3 { font-size: 1.1rem; color: #3B82F6; margin: 1.5rem 0 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+        .rfp-content p { margin-bottom: 0.5rem; }
+
+        .progress-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #8b5cf6); border-radius: 2px; transition: width 0.4s ease; }
+
+        .template-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .chip { padding: 0.35rem 0.8rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.05); transition: all 0.2s; }
+        .chip:hover, .chip.active { background: rgba(59,130,246,0.2); border-color: rgba(59,130,246,0.5); color: #fff; }
+
+        .step-indicator { display: flex; gap: 0; margin-bottom: 2rem; }
+        .step { flex: 1; text-align: center; padding: 0.8rem; font-size: 0.8rem; color: rgba(255,255,255,0.4); border-bottom: 2px solid rgba(255,255,255,0.1); transition: all 0.2s; }
+        .step.active { color: #3B82F6; border-bottom-color: #3B82F6; font-weight: 600; }
+        .step.done { color: #10b981; border-bottom-color: #10b981; }
+
+        .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.3rem; }
+        .tag-blue { background: rgba(59,130,246,0.2); color: #3B82F6; }
+        .tag-green { background: rgba(16,185,129,0.2); color: #10b981; }
+        .tag-purple { background: rgba(139,92,246,0.2); color: #8b5cf6; }
+
+        .tip-box { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+        .tip-box strong { color: #3B82F6; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html" class="active">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">🤖 AI Powered</div>
+        <h1>Auto <span>RFP</span> Generator</h1>
+        <p>Generate professional Requests for Proposals in seconds — tailored to any tenant requirement</p>
+    </div>
+
+    <div class="container">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step1">1 · Client Info</div>
+            <div class="step" id="step2">2 · Space Needs</div>
+            <div class="step" id="step3">3 · Terms</div>
+            <div class="step" id="step4">4 · Generated RFP</div>
+        </div>
+
+        <!-- Template Quick-Start -->
+        <div class="tip-box">
+            <strong>💡 Quick Start:</strong> Pick a template to pre-fill common fields, or start from scratch below.
+        </div>
+        <div class="template-chips">
+            <div class="chip active" onclick="loadTemplate('office')">🏢 Office</div>
+            <div class="chip" onclick="loadTemplate('industrial')">🏭 Industrial/Warehouse</div>
+            <div class="chip" onclick="loadTemplate('flex')">🔄 Flex Space</div>
+            <div class="chip" onclick="loadTemplate('sublease')">📋 Sublease Search</div>
+            <div class="chip" onclick="loadTemplate('renewal')">🔄 Lease Renewal</div>
+        </div>
+
+        <div class="builder-grid">
+            <!-- Left: Form -->
+            <div>
+                <div class="card" style="margin-bottom:1.5rem">
+                    <h2><span class="icon">🏢</span> Client & Company</h2>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" placeholder="e.g. Acme Technologies">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <select id="industry">
+                                <option>Technology</option>
+                                <option>Financial Services</option>
+                                <option>Healthcare</option>
+                                <option>Legal</option>
+                                <option>Manufacturing</option>
+                                <option>Logistics / Distribution</option>
+                                <option>Professional Services</option>
+                                <option>Retail / Consumer</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Employees</label>
+                            <input type="number" id="employees" placeholder="e.g. 150">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Market / City</label>
+                        <input type="text" id="market" placeholder="e.g. Minneapolis, MN">
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Submarkets (optional)</label>
+                        <input type="text" id="submarkets" placeholder="e.g. Downtown, Uptown, Eden Prairie">
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:1.5rem">
+                    <h2><span class="icon">📐</span> Space Requirements</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Min SF</label>
+                            <input type="number" id="minSF" placeholder="e.g. 8000">
+                        </div>
+                        <div class="form-group">
+                            <label>Max SF</label>
+                            <input type="number" id="maxSF" placeholder="e.g. 12000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Space Type</label>
+                            <select id="spaceType">
+                                <option>Office</option>
+                                <option>Industrial / Warehouse</option>
+                                <option>Flex</option>
+                                <option>Retail</option>
+                                <option>Medical Office</option>
+                                <option>R&D / Lab</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Occupancy Target</label>
+                            <input type="text" id="occupancy" placeholder="e.g. Q3 2026 or ASAP">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Requirements</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item"><input type="checkbox" id="req_parking"> Dedicated Parking</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_generator"> Backup Generator</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_loading"> Loading Dock</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_server"> Server Room</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_cafe"> Café / Amenities</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_security"> 24/7 Security</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_fiber"> Fiber Connectivity</label>
+                            <label class="checkbox-item"><input type="checkbox" id="req_hvac"> After-Hours HVAC</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📑</span> Lease Terms</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Lease Term</label>
+                            <select id="leaseTerm">
+                                <option>3 Years</option>
+                                <option>5 Years</option>
+                                <option>7 Years</option>
+                                <option>10 Years</option>
+                                <option>Flexible / Negotiable</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Budget ($/SF/yr)</label>
+                            <input type="number" id="budget" placeholder="e.g. 22">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Concessions Requested</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item"><input type="checkbox" id="con_ti" checked> Tenant Improvement Allowance</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_free" checked> Free Rent Period</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_parking"> Free Parking</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_moving"> Moving Allowance</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_renewal"> Renewal Options</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_expansion"> Expansion Rights</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_termination"> Termination Option</label>
+                            <label class="checkbox-item"><input type="checkbox" id="con_rofo"> ROFO / ROFR</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes / Special Requests</label>
+                        <textarea id="notes" placeholder="Any specific requirements, deal-breakers, or context for landlords..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="generateRFP()">
+                        ⚡ Generate RFP Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Output -->
+            <div>
+                <div class="card" style="margin-bottom:1.5rem; text-align:center; padding: 3rem 2rem;" id="emptyState">
+                    <div style="font-size:3rem; margin-bottom:1rem;">📄</div>
+                    <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:0.5rem; color:#fff;">Your RFP will appear here</h3>
+                    <p style="color:rgba(255,255,255,0.5); font-size:0.9rem;">Fill out the form and click Generate to create a professional RFP ready to send to landlords and listing brokers.</p>
+                </div>
+
+                <div class="output-card" id="outputCard">
+                    <div class="output-header">
+                        <h3>📄 Generated RFP</h3>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" style="padding:0.4rem 0.9rem; font-size:0.82rem;" onclick="copyRFP()">📋 Copy</button>
+                            <button class="btn btn-secondary" style="padding:0.4rem 0.9rem; font-size:0.82rem;" onclick="printRFP()">🖨️ Print / PDF</button>
+                            <button class="btn btn-secondary" style="padding:0.4rem 0.9rem; font-size:0.82rem;" onclick="emailRFP()">✉️ Email</button>
+                        </div>
+                    </div>
+                    <div class="output-body">
+                        <div id="rfpOutput" class="rfp-content"></div>
+                    </div>
+                </div>
+
+                <!-- Tips Card -->
+                <div class="card" style="margin-top:1.5rem;" id="tipsCard">
+                    <h2><span class="icon">💡</span> Pro Tips</h2>
+                    <div style="display:flex; flex-direction:column; gap:0.8rem; font-size:0.88rem; color:rgba(255,255,255,0.7);">
+                        <div>🎯 <strong style="color:#fff;">Include a deadline</strong> — asking for proposals by a specific date creates urgency and better response rates.</div>
+                        <div>💰 <strong style="color:#fff;">Don't show your max budget</strong> — let the market respond first, then use budget as a filter.</div>
+                        <div>📊 <strong style="color:#fff;">Request comparison format</strong> — ask landlords to respond in a standardized format so you can compare apples to apples.</div>
+                        <div>🏢 <strong style="color:#fff;">Send to 6–10 properties</strong> — creates competition among landlords and strengthens your negotiating position.</div>
+                        <div>⏱️ <strong style="color:#fff;">Time it right</strong> — Q1 and Q3 tend to get better landlord engagement than year-end.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const templates = {
+            office: { spaceType: 'Office', minSF: 8000, maxSF: 12000, budget: 22, leaseTerm: '5 Years', market: 'Minneapolis, MN' },
+            industrial: { spaceType: 'Industrial / Warehouse', minSF: 20000, maxSF: 50000, budget: 8, leaseTerm: '5 Years', market: 'Minneapolis, MN' },
+            flex: { spaceType: 'Flex', minSF: 5000, maxSF: 15000, budget: 14, leaseTerm: '3 Years', market: 'Minneapolis, MN' },
+            sublease: { spaceType: 'Office', minSF: 3000, maxSF: 8000, budget: 16, leaseTerm: 'Flexible / Negotiable', market: 'Minneapolis, MN', occupancy: 'ASAP' },
+            renewal: { spaceType: 'Office', budget: 18, leaseTerm: '5 Years', market: 'Minneapolis, MN' }
+        };
+
+        function loadTemplate(type) {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            const t = templates[type];
+            if (!t) return;
+            if (t.spaceType) document.getElementById('spaceType').value = t.spaceType;
+            if (t.minSF) document.getElementById('minSF').value = t.minSF;
+            if (t.maxSF) document.getElementById('maxSF').value = t.maxSF;
+            if (t.budget) document.getElementById('budget').value = t.budget;
+            if (t.leaseTerm) document.getElementById('leaseTerm').value = t.leaseTerm;
+            if (t.market) document.getElementById('market').value = t.market;
+            if (t.occupancy) document.getElementById('occupancy').value = t.occupancy;
+        }
+
+        function getChecked(ids) {
+            return ids.filter(id => document.getElementById(id)?.checked)
+                      .map(id => document.getElementById(id).parentElement.textContent.trim());
+        }
+
+        function generateRFP() {
+            const company = document.getElementById('companyName').value || 'Our Client';
+            const industry = document.getElementById('industry').value;
+            const employees = document.getElementById('employees').value;
+            const market = document.getElementById('market').value || 'Minneapolis, MN';
+            const submarkets = document.getElementById('submarkets').value;
+            const minSF = document.getElementById('minSF').value;
+            const maxSF = document.getElementById('maxSF').value;
+            const spaceType = document.getElementById('spaceType').value;
+            const occupancy = document.getElementById('occupancy').value || 'Q3 2026';
+            const leaseTerm = document.getElementById('leaseTerm').value;
+            const budget = document.getElementById('budget').value;
+            const notes = document.getElementById('notes').value;
+
+            const specialReqs = getChecked(['req_parking','req_generator','req_loading','req_server','req_cafe','req_security','req_fiber','req_hvac']);
+            const concessions = getChecked(['con_ti','con_free','con_parking','con_moving','con_renewal','con_expansion','con_termination','con_rofo']);
+
+            const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+            const deadline = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+            const sfRange = (minSF && maxSF) ? `${parseInt(minSF).toLocaleString()} – ${parseInt(maxSF).toLocaleString()} RSF` : (maxSF ? `Up to ${parseInt(maxSF).toLocaleString()} RSF` : 'To Be Determined');
+
+            const rfpText = `REQUEST FOR PROPOSAL
+${spaceType.toUpperCase()} SPACE — ${market.toUpperCase()}
+
+Prepared by: Apex AI Advisors
+Tenant Representation Exclusive
+Date: ${today}
+Proposal Deadline: ${deadline}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. OVERVIEW & INTRODUCTION
+
+Apex AI Advisors is exclusively representing ${company}, a ${industry} company${employees ? ` with approximately ${employees} employees` : ''}, in its search for ${spaceType.toLowerCase()} space in the ${market} market.
+
+We are soliciting proposals from qualified landlords and listing brokers on behalf of our client. This RFP outlines the tenant's requirements in detail. We ask that you respond by ${deadline} to be considered in this search.
+
+Apex AI Advisors is managing this search on an exclusive basis. All communication, proposals, and negotiations should be directed through our office.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2. SPACE REQUIREMENTS
+
+  Space Type:         ${spaceType}
+  Size Range:         ${sfRange}
+  Target Market:      ${market}${submarkets ? `\n  Preferred Areas:    ${submarkets}` : ''}
+  Target Occupancy:   ${occupancy}
+  Lease Term:         ${leaseTerm}
+${budget ? `  Max Budget:         Competitive — market rate expected` : ''}
+
+The tenant requires a functionally efficient, ${spaceType.toLowerCase()} environment that supports productivity and growth. ${employees ? `The space must accommodate approximately ${employees} employees comfortably.` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3. SPECIAL REQUIREMENTS
+${specialReqs.length > 0 ? specialReqs.map(r => `  ✓  ${r}`).join('\n') : '  Standard commercial requirements apply.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4. CONCESSIONS & DEAL STRUCTURE
+
+Our client will require the following concessions as part of any accepted proposal:
+
+${concessions.length > 0 ? concessions.map(c => `  ✓  ${c}`).join('\n') : '  Standard market concessions expected.'}
+
+Landlords are encouraged to be competitive. This search involves multiple buildings and aggressive proposals will be prioritized in our recommendation to the client.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5. REQUIRED PROPOSAL CONTENT
+
+Please submit proposals in the following format:
+
+  1. Building name, address, and floor/suite identification
+  2. Available square footage and floor plan (PDF preferred)
+  3. Quoted rental rate (Base + NNN/Full Service — specify)
+  4. Proposed lease commencement date and term
+  5. Tenant Improvement Allowance offered
+  6. Free rent period offered
+  7. Parking availability and cost
+  8. Any other concessions or incentives
+  9. Building amenities, LEED certification, transit access
+  10. Landlord financial statement or credit confirmation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6. SELECTION CRITERIA
+
+Proposals will be evaluated on the following criteria (weighted):
+
+  40%  — Total occupancy cost (net effective rent)
+  25%  — Location and submarket fit
+  20%  — Space quality, condition, and amenities
+  15%  — Landlord flexibility and deal terms
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7. TIMELINE
+
+  RFP Issued:              ${today}
+  Proposal Deadline:       ${deadline}
+  Site Tours:              Following proposal review
+  Letter of Intent:        Within 30 days of tours
+  Lease Execution Target:  60–90 days from LOI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8. BROKER COOPERATION
+
+Apex AI Advisors will cooperate with listing brokers on a co-broke basis per standard market commission. All commissions are the responsibility of the landlord.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${notes ? `9. ADDITIONAL NOTES\n\n${notes}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` : ''}CONTACT INFORMATION
+
+Apex AI Advisors
+Tenant Representation Services
+[Your Name] | [Your Phone] | [Your Email]
+
+Please direct all proposals and inquiries to the contact above.
+
+Thank you for your consideration. We look forward to reviewing your proposal.
+
+— Apex AI Advisors`;
+
+            document.getElementById('rfpOutput').textContent = rfpText;
+            document.getElementById('outputCard').classList.add('visible');
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('tipsCard').style.display = 'none';
+
+            // Update steps
+            document.getElementById('step4').classList.add('active');
+            document.getElementById('step1').classList.add('done');
+            document.getElementById('step2').classList.add('done');
+            document.getElementById('step3').classList.add('done');
+
+            document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyRFP() {
+            const text = document.getElementById('rfpOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy', 2000);
+            });
+        }
+
+        function printRFP() {
+            const content = document.getElementById('rfpOutput').textContent;
+            const win = window.open('', '_blank');
+            win.document.write(`<html><head><title>RFP - Apex AI Advisors</title>
+            <style>body{font-family:'Times New Roman',serif;padding:2.5cm;font-size:11pt;line-height:1.7;color:#111;}pre{white-space:pre-wrap;font-family:inherit;}</style>
+            </head><body><pre>${content}</pre></body></html>`);
+            win.document.close();
+            win.print();
+        }
+
+        function emailRFP() {
+            const company = document.getElementById('companyName').value || 'Client';
+            const text = document.getElementById('rfpOutput').textContent;
+            const subject = encodeURIComponent(`RFP — ${company} Space Search — Apex AI Advisors`);
+            const body = encodeURIComponent(text);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+    </script>
+</body>
+</html>
