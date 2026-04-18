@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Report Generator | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(15,15,30,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.1rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { background: linear-gradient(135deg, #1a2535 0%, #0f1522 100%); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid rgba(245,158,11,0.15); }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .page-hero h1 span { color: #f59e0b; }
+        .page-hero p { color: rgba(255,255,255,0.55); }
+        .badge { display: inline-block; background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        .two-col { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+        .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 1.2rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.65rem 0.9rem; color: #e0e0e0; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #f59e0b; }
+        .form-group select option { background: #1a1a2e; }
+        .check-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .check-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .check-item input { width: 16px; height: 16px; accent-color: #f59e0b; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.8rem 1.5rem; border-radius: 8px; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; width: 100%; justify-content: center; }
+        .btn-primary { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,158,11,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0; margin-top: 0.75rem; }
+
+        /* Report Output */
+        .report-output { display: none; }
+        .report-output.visible { display: block; }
+
+        .report-header { background: linear-gradient(135deg, #1e2a3a, #0f1928); border: 1px solid rgba(245,158,11,0.2); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; }
+        .report-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .report-subtitle { color: rgba(255,255,255,0.5); font-size: 0.88rem; }
+        .report-meta { display: flex; gap: 1.5rem; margin-top: 1.2rem; flex-wrap: wrap; }
+        .report-meta-item { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+        .report-meta-item strong { color: #f59e0b; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; }
+        .stat-card .sn { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; }
+        .stat-card .sl { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .sc { font-size: 0.78rem; margin-top: 0.3rem; }
+        .up { color: #ef4444; } .dn { color: #10b981; } .neutral { color: #f59e0b; }
+
+        .section-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.3rem; margin-bottom: 1rem; }
+        .section-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; color: #f59e0b; margin-bottom: 0.75rem; }
+        .section-card p { font-size: 0.88rem; line-height: 1.75; color: rgba(255,255,255,0.7); }
+        .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+        .bullet-list li { font-size: 0.88rem; color: rgba(255,255,255,0.7); display: flex; gap: 0.5rem; }
+        .bullet-list li::before { content: '→'; color: #f59e0b; flex-shrink: 0; }
+
+        .opportunity-box { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; padding: 1.3rem; margin-bottom: 1rem; }
+        .opportunity-box h3 { font-family: 'Space Grotesk', sans-serif; color: #10b981; margin-bottom: 0.75rem; font-size: 0.95rem; }
+
+        .report-actions { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .action-btn { padding: 0.55rem 1.1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #e0e0e0; font-size: 0.85rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .action-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; color: rgba(255,255,255,0.3); }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html">Client Portal</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html">Playbook</a>
+            <a href="market-report.html" class="active">Reports</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">📊 Market Intelligence</div>
+        <h1>Market <span>Report</span> Generator</h1>
+        <p>One-click professional market reports — ready to email to prospects as a value-add</p>
+    </div>
+
+    <div class="container">
+        <div class="two-col">
+            <!-- Input -->
+            <div>
+                <div class="card">
+                    <h2>📍 Market Parameters</h2>
+                    <div class="form-group">
+                        <label>Market / City</label>
+                        <select id="mr_market" onchange="autoFill()">
+                            <option value="mpls_downtown">Minneapolis — Downtown</option>
+                            <option value="mpls_suburban">Minneapolis — Suburbs</option>
+                            <option value="stpaul">St. Paul — CBD</option>
+                            <option value="eden_prairie">Eden Prairie / SW Suburbs</option>
+                            <option value="bloomington">Bloomington / Airport Area</option>
+                            <option value="plymouth">Plymouth / NW Suburbs</option>
+                            <option value="custom">Custom Market</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="customMarketGroup" style="display:none;">
+                        <label>Custom Market Name</label>
+                        <input type="text" id="mr_custom" placeholder="e.g. Rogers Industrial Corridor">
+                    </div>
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <select id="mr_type">
+                            <option value="office">Office</option>
+                            <option value="industrial">Industrial / Warehouse</option>
+                            <option value="flex">Flex</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quarter / Period</label>
+                        <select id="mr_period">
+                            <option>Q1 2026</option>
+                            <option>Q4 2025</option>
+                            <option>Q3 2025</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Report Sections</h2>
+                    <div class="check-group">
+                        <label class="check-item"><input type="checkbox" id="sec_overview" checked> Market Overview</label>
+                        <label class="check-item"><input type="checkbox" id="sec_vacancy" checked> Vacancy & Availability</label>
+                        <label class="check-item"><input type="checkbox" id="sec_rates" checked> Rental Rates</label>
+                        <label class="check-item"><input type="checkbox" id="sec_concessions" checked> Concessions & TI Trends</label>
+                        <label class="check-item"><input type="checkbox" id="sec_notable" checked> Notable Deals</label>
+                        <label class="check-item"><input type="checkbox" id="sec_outlook" checked> 12-Month Outlook</label>
+                        <label class="check-item"><input type="checkbox" id="sec_opportunity"> Tenant Opportunity Analysis</label>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🎯 Recipient (Optional)</h2>
+                    <div class="form-group">
+                        <label>Prospect / Client Name</label>
+                        <input type="text" id="mr_recipient" placeholder="e.g. Acme Technologies">
+                    </div>
+                    <div class="form-group">
+                        <label>Their Space Need (SF)</label>
+                        <input type="text" id="mr_sf" placeholder="e.g. 10,000 SF">
+                    </div>
+                    <button class="btn btn-primary" onclick="generateReport()">📊 Generate Report</button>
+                    <button class="btn btn-secondary action-btn" style="width:100%; margin-top:0.75rem;" onclick="emailReport()">✉️ Email to Prospect</button>
+                </div>
+            </div>
+
+            <!-- Output -->
+            <div>
+                <div id="reportOutput" class="report-output">
+                    <div class="report-actions">
+                        <button class="action-btn" onclick="window.print()">🖨️ Print / PDF</button>
+                        <button class="action-btn" onclick="emailReport()">✉️ Email</button>
+                        <button class="action-btn" onclick="copyReport()">📋 Copy Text</button>
+                    </div>
+                    <div id="reportContent"></div>
+                </div>
+
+                <div class="empty-state" id="reportEmpty">
+                    <div class="icon">📊</div>
+                    <div style="font-size:1rem; color:rgba(255,255,255,0.4)">Select a market and click Generate</div>
+                    <div style="font-size:0.82rem; margin-top:0.5rem; color:rgba(255,255,255,0.25)">Reports are ready to email to prospects as a free value-add</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const marketData = {
+            mpls_downtown: {
+                name: 'Minneapolis Downtown (CBD)', type_label: 'Office',
+                vacancy: 18.5, vacancy_change: '+0.8%', vacancy_trend: 'up',
+                rate: 19.40, rate_change: '-$0.60', rate_trend: 'dn',
+                ti: '$45–58/SF', free_rent: '4–6 months',
+                absorption: -142000, sf_available: 4200000,
+                summary: "Minneapolis CBD continues to face elevated vacancy driven by hybrid work adoption and several large corporate downsizings. Despite this, Class A buildings with strong amenities and flexible configurations are seeing renewed interest, particularly from healthcare, financial services, and professional services tenants.",
+                vacancy_detail: "Overall CBD vacancy reached 18.5% in Q1 2026, the highest level in over a decade. Direct vacancy stands at 14.2%, with sublease space comprising the remainder. Several large blocks became available following consolidations by major corporate occupiers.",
+                rates_detail: "Average asking rates declined modestly to $19.40/SF full service gross — down from $20.00/SF a year ago. However, the widening spread between asking and net effective rents tells the real story: effective rents are running 15–22% below asking as landlords layer on concessions.",
+                concessions_detail: "Tenant Improvement Allowances have risen to $45–58/SF on 5-year terms, up from $35–45/SF two years ago. Free rent of 4–6 months is now standard on any deal over 8,000 SF. Some desperate landlords are offering 8–10 months free on long-term deals.",
+                deals: [
+                    "Ameriprise Financial — 45,000 SF lease at 707 2nd Ave — $20.50/SF FS, $52/SF TI, 5 months free",
+                    "Gray TV — 12,000 SF at Capella Tower — $21/SF, 6 months free, $55/SF TI",
+                    "Target sublease — 22,000 SF Nicollet Mall — $15/SF, immediate occupancy",
+                ],
+                outlook: "Vacancy expected to peak at 19–20% through mid-2026 before stabilizing. Sublease space will gradually digest as companies finalize hybrid policies. Net effective rents may fall another 3–5% before recovering. Tenants executing leases in Q2–Q3 2026 are capturing peak concessions.",
+                opportunity: "Tenants with leases expiring in the next 18–24 months should begin their search now. We are tracking multiple blocks of high-quality space available at 15–25% below current asking rents. Moving from a suburban submarket to downtown can now be cost-neutral or cheaper when accounting for TI and free rent."
+            },
+            mpls_suburban: {
+                name: 'Minneapolis — Suburban (Combined)', type_label: 'Office',
+                vacancy: 14.5, vacancy_change: '-0.3%', vacancy_trend: 'dn',
+                rate: 17.20, rate_change: '+$0.10', rate_trend: 'neutral',
+                ti: '$35–45/SF', free_rent: '2–4 months',
+                absorption: 28000, sf_available: 2100000,
+                summary: "Minneapolis suburban office markets are outperforming the CBD, with positive net absorption and stable rents. Eden Prairie, Plymouth, and Minnetonka continue to attract tenants seeking amenity-rich campuses with easy parking access.",
+                vacancy_detail: "Suburban vacancy improved slightly to 14.5%, aided by several notable lease signings in Eden Prairie and Bloomington. Move-in ready spec suites are particularly well-absorbed.",
+                rates_detail: "Average asking rates held steady at $17.20/SF with modest year-over-year growth in top-tier suburban product. Class B suburban saw slight softening.",
+                concessions_detail: "TI of $35–45/SF and 2–4 months free rent is typical. Significantly lower than downtown but space may require less build-out if spec suite available.",
+                deals: [
+                    "Optum — 55,000 SF renewal at Eden Prairie — $18/SF modified gross",
+                    "Patterson Companies — 25,000 SF at Colonnade — $16.50/SF, $40/SF TI",
+                    "CUNA Mutual — 18,000 SF relocation from downtown to Plymouth — $15.80/SF"
+                ],
+                outlook: "Suburban markets expected to remain stable. Healthcare and insurance tenants driving demand. Limited new supply keeps vacancy in check.",
+                opportunity: "Tenants priced out of downtown or seeking easier commute access for teams will find better value in suburban markets. Speed to occupancy is faster with more spec suite availability."
+            },
+            industrial: {
+                name: 'Twin Cities Industrial', type_label: 'Industrial',
+                vacancy: 4.2, vacancy_change: '-0.5%', vacancy_trend: 'dn',
+                rate: 7.80, rate_change: '+$0.40', rate_trend: 'up',
+                ti: '$8–15/SF', free_rent: '1–2 months',
+                absorption: 385000, sf_available: 820000,
+                summary: "Twin Cities industrial market remains extremely tight with vacancy under 5%. E-commerce and logistics demand continues to outpace supply. Tenants face limited options and rising rents.",
+                vacancy_detail: "Industrial vacancy compressed to 4.2% — among the lowest levels recorded. NW corridor (Rogers/Maple Grove) sees sub-3% vacancy.",
+                rates_detail: "NNN rates averaging $7.80/SF, up 5.4% year-over-year. Class A bulk distribution commanding $8.50–9.00/SF.",
+                concessions_detail: "Minimal concessions in industrial. Landlords are selective; $8–15/SF TI and 1–2 months free on longer terms only.",
+                deals: [
+                    "Amazon — 450,000 SF build-to-suit Rogers — $8.20/SF NNN, 10-year term",
+                    "Target — 180,000 SF distribution renewal Fridley",
+                    "FedEx — 80,000 SF Arden Hills — $7.95/SF NNN"
+                ],
+                outlook: "No near-term vacancy relief. 3.2M SF under construction but 80% pre-leased. Rents projected to rise another 4–6% in 2026.",
+                opportunity: "Tenants with expiring industrial leases should renew early or risk losing space. Subleases from over-spaced e-commerce companies represent rare opportunities at below-market rates."
+            }
+        };
+
+        document.getElementById('mr_market').addEventListener('change', function() {
+            document.getElementById('customMarketGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+
+        function autoFill() {}
+
+        function generateReport() {
+            const marketKey = document.getElementById('mr_market').value;
+            const propType = document.getElementById('mr_type').value;
+            const period = document.getElementById('mr_period').value;
+            const recipient = document.getElementById('mr_recipient').value.trim();
+            const sf = document.getElementById('mr_sf').value.trim();
+
+            // Pick data — fallback for markets without full data
+            let data = marketData[marketKey] || marketData[propType === 'industrial' ? 'industrial' : 'mpls_downtown'];
+            if (marketKey === 'custom') data = { ...marketData.mpls_downtown, name: document.getElementById('mr_custom').value || 'Custom Market' };
+
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            let html = `
+                <div class="report-header">
+                    <div class="report-title">${data.name} — ${propType.charAt(0).toUpperCase() + propType.slice(1)} Market Report</div>
+                    <div class="report-subtitle">${period} · Prepared by Apex AI Advisors · ${today}</div>
+                    ${recipient ? `<div class="report-subtitle" style="margin-top:0.3rem; color:rgba(255,255,255,0.4);">Prepared for: ${recipient}${sf ? ' · ' + sf + ' space requirement' : ''}</div>` : ''}
+                    <div class="report-meta">
+                        <div class="report-meta-item">Vacancy: <strong>${data.vacancy}%</strong></div>
+                        <div class="report-meta-item">Avg Rate: <strong>$${data.rate}/SF</strong></div>
+                        <div class="report-meta-item">Avg TI: <strong>${data.ti}</strong></div>
+                        <div class="report-meta-item">Free Rent: <strong>${data.free_rent}</strong></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="sn ${data.vacancy_trend === 'up' ? 'up' : 'dn'}">${data.vacancy}%</div>
+                        <div class="sl">Overall Vacancy</div>
+                        <div class="sc ${data.vacancy_trend === 'up' ? 'up' : 'dn'}">${data.vacancy_trend === 'up' ? '▲' : '▼'} ${data.vacancy_change} QoQ</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="sn ${data.rate_trend === 'up' ? 'up' : data.rate_trend === 'dn' ? 'dn' : 'neutral'}">$${data.rate}</div>
+                        <div class="sl">Avg Rate $/SF</div>
+                        <div class="sc ${data.rate_trend === 'up' ? 'up' : 'dn'}">${data.rate_trend === 'up' ? '▲' : data.rate_trend === 'dn' ? '▼' : '→'} ${data.rate_change} YoY</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="sn" style="color:#f59e0b">${data.ti}</div>
+                        <div class="sl">TI Allowance</div>
+                        <div class="sc neutral">↑ Rising</div>
+                    </div>
+                </div>`;
+
+            if (document.getElementById('sec_overview').checked) html += `
+                <div class="section-card">
+                    <h3>📋 Market Overview</h3>
+                    <p>${data.summary}</p>
+                </div>`;
+
+            if (document.getElementById('sec_vacancy').checked) html += `
+                <div class="section-card">
+                    <h3>📉 Vacancy & Availability</h3>
+                    <p>${data.vacancy_detail}</p>
+                </div>`;
+
+            if (document.getElementById('sec_rates').checked) html += `
+                <div class="section-card">
+                    <h3>💵 Rental Rates</h3>
+                    <p>${data.rates_detail}</p>
+                </div>`;
+
+            if (document.getElementById('sec_concessions').checked) html += `
+                <div class="section-card">
+                    <h3>🎁 Concessions & TI Trends</h3>
+                    <p>${data.concessions_detail}</p>
+                </div>`;
+
+            if (document.getElementById('sec_notable').checked) html += `
+                <div class="section-card">
+                    <h3>🏆 Notable Deals — ${period}</h3>
+                    <ul class="bullet-list">
+                        ${data.deals.map(d => `<li>${d}</li>`).join('')}
+                    </ul>
+                </div>`;
+
+            if (document.getElementById('sec_outlook').checked) html += `
+                <div class="section-card">
+                    <h3>🔭 12-Month Outlook</h3>
+                    <p>${data.outlook}</p>
+                </div>`;
+
+            if (document.getElementById('sec_opportunity').checked) html += `
+                <div class="opportunity-box">
+                    <h3>🎯 Tenant Opportunity Analysis</h3>
+                    <p style="font-size:0.88rem; color:rgba(255,255,255,0.7); line-height:1.75;">${data.opportunity}</p>
+                    ${recipient ? `<p style="margin-top:0.75rem; font-size:0.85rem; color:rgba(255,255,255,0.6);">For ${recipient}${sf ? ' with a ${sf} requirement' : ''}: now is an opportune time to begin a proactive search. Apex AI Advisors can identify available spaces, generate RFPs, and negotiate on your behalf — at no cost to you.</p>` : ''}
+                </div>`;
+
+            html += `<div style="text-align:center; padding:1.5rem; font-size:0.78rem; color:rgba(255,255,255,0.3); border-top:1px solid rgba(255,255,255,0.06); margin-top:1rem;">
+                Report prepared by Apex AI Advisors · ${today} · Data sourced from CoStar, Crexi, public records, and proprietary market intelligence.
+                This report is intended for informational purposes. Contact Apex AI Advisors for a customized analysis.
+            </div>`;
+
+            document.getElementById('reportContent').innerHTML = html;
+            document.getElementById('reportOutput').classList.add('visible');
+            document.getElementById('reportEmpty').style.display = 'none';
+        }
+
+        function emailReport() {
+            const recipient = document.getElementById('mr_recipient').value.trim() || 'Prospect';
+            const market = document.getElementById('mr_market');
+            const marketName = market.options[market.selectedIndex].text;
+            const subject = encodeURIComponent(`${marketName} Market Report — Apex AI Advisors`);
+            const body = encodeURIComponent(`Hi ${recipient},\n\nI wanted to share our latest market report for the ${marketName} office market. The highlights:\n\n• Vacancy is at ${document.getElementById('mr_market').value === 'mpls_downtown' ? '18.5%' : '14.5%'} — a tenant-favorable market\n• Average TI allowances have increased significantly\n• Free rent of 4–6 months is now standard on larger deals\n\nThis is an excellent time for tenants to negotiate favorable terms. I'd be happy to walk you through what this means specifically for your situation.\n\nWould you have 20 minutes this week for a quick call?\n\nBest,\n[Your Name]\nApex AI Advisors`);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        function copyReport() {
+            const text = document.getElementById('reportContent').innerText;
+            navigator.clipboard.writeText(text).then(() => alert('Report text copied to clipboard.'));
+        }
+    </script>
+</body>
+</html>

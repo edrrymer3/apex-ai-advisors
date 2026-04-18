@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negotiation Playbook | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(15,15,30,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { background: linear-gradient(135deg, #1f1525 0%, #0f0f1e 100%); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid rgba(139,92,246,0.15); }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .page-hero h1 span { color: #8b5cf6; }
+        .page-hero p { color: rgba(255,255,255,0.55); }
+        .badge { display: inline-block; background: rgba(139,92,246,0.15); color: #8b5cf6; border: 1px solid rgba(139,92,246,0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        .two-col { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; }
+        @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+        .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 1.2rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.65rem 0.9rem; color: #e0e0e0; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #8b5cf6; }
+        .form-group select option { background: #1a1a2e; }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.8rem 1.5rem; border-radius: 8px; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; width: 100%; justify-content: center; }
+        .btn-primary { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.35); }
+
+        /* Playbook Output */
+        .playbook { display: none; }
+        .playbook.visible { display: block; }
+
+        .leverage-meter { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .leverage-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .leverage-label span { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; }
+        .meter-bar { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
+        .meter-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
+        .meter-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 0.4rem; }
+
+        .tactic-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; margin-bottom: 0.75rem; border-left: 3px solid; }
+        .tactic-card.high { border-left-color: #10b981; }
+        .tactic-card.medium { border-left-color: #f59e0b; }
+        .tactic-card.risk { border-left-color: #ef4444; }
+        .tactic-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .tactic-icon { font-size: 1.2rem; }
+        .tactic-title { font-weight: 700; font-size: 0.9rem; color: #fff; }
+        .tactic-priority { margin-left: auto; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 700; }
+        .priority-high { background: rgba(16,185,129,0.15); color: #10b981; }
+        .priority-med { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .priority-risk { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .tactic-body { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+        .tactic-script { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); border-radius: 8px; padding: 0.8rem; margin-top: 0.7rem; font-size: 0.82rem; color: rgba(255,255,255,0.75); font-style: italic; line-height: 1.6; }
+        .tactic-script::before { content: '💬 Script: '; font-style: normal; font-weight: 600; color: #8b5cf6; }
+
+        .counter-box { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .counter-box h3 { font-family: 'Space Grotesk', sans-serif; color: #10b981; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .counter-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.88rem; }
+        .counter-item:last-child { border-bottom: none; }
+        .counter-item .ci-label { color: rgba(255,255,255,0.5); }
+        .counter-item .ci-val { font-weight: 700; color: #10b981; }
+
+        .walkaway-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .walkaway-box h3 { font-family: 'Space Grotesk', sans-serif; color: #ef4444; margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .walkaway-box p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+        .market-intel { background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .market-intel h3 { font-family: 'Space Grotesk', sans-serif; color: #3B82F6; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .intel-item { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+        .intel-item strong { color: #fff; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html">Client Portal</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html" class="active">Playbook</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">🧠 AI Strategy</div>
+        <h1>Negotiation <span>Playbook</span></h1>
+        <p>Enter the deal details — get a custom playbook with talking points, counters, and walk-away lines</p>
+    </div>
+
+    <div class="container">
+        <div class="two-col">
+            <!-- Input Panel -->
+            <div>
+                <div class="card">
+                    <h2>🏢 Deal Details</h2>
+                    <div class="form-group">
+                        <label>Property Name</label>
+                        <input type="text" id="pb_prop" placeholder="e.g. 50 S 6th St, Suite 900" value="50 S 6th St, Suite 900">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Landlord's Ask ($/SF)</label>
+                            <input type="number" id="pb_ask" step="0.5" placeholder="e.g. 21.00" value="21.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Target ($/SF)</label>
+                            <input type="number" id="pb_target" step="0.5" placeholder="e.g. 18.50" value="18.50">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Space Size (SF)</label>
+                            <input type="number" id="pb_sf" placeholder="e.g. 12000" value="12000">
+                        </div>
+                        <div class="form-group">
+                            <label>Lease Term (years)</label>
+                            <input type="number" id="pb_term" placeholder="e.g. 5" value="5">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>TI Offered ($/SF)</label>
+                            <input type="number" id="pb_ti_offer" placeholder="e.g. 40" value="40">
+                        </div>
+                        <div class="form-group">
+                            <label>TI You Want ($/SF)</label>
+                            <input type="number" id="pb_ti_want" placeholder="e.g. 55" value="55">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Free Rent Offered (mo)</label>
+                            <input type="number" id="pb_fr_offer" placeholder="e.g. 2" value="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Free Rent You Want (mo)</label>
+                            <input type="number" id="pb_fr_want" placeholder="e.g. 4" value="4">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Market Context</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Market Vacancy (%)</label>
+                            <input type="number" id="pb_vacancy" placeholder="e.g. 18.5" value="18.5" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Days on Market</label>
+                            <input type="number" id="pb_dom" placeholder="e.g. 210" value="210">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Landlord Motivation</label>
+                        <select id="pb_motivation">
+                            <option value="high">High — "Negotiable" listed, long vacancy</option>
+                            <option value="medium">Medium — Standard listing, some flexibility</option>
+                            <option value="low">Low — Strong market, multiple competing offers</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Alternatives</label>
+                        <select id="pb_batna">
+                            <option value="strong">Strong — 2+ qualified alternatives ready</option>
+                            <option value="medium">Medium — 1 alternative being evaluated</option>
+                            <option value="weak">Weak — This is the only viable option</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Notes (optional)</label>
+                        <textarea id="pb_notes" placeholder="e.g. Landlord hasn't paid their mortgage per public records..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="generatePlaybook()">🧠 Generate Playbook</button>
+                </div>
+            </div>
+
+            <!-- Output Panel -->
+            <div id="playbookOutput" class="playbook">
+                <div class="leverage-meter">
+                    <div class="leverage-label">
+                        <span>Your Negotiating Leverage</span>
+                        <span id="leverageLabel" style="color:#10b981">—</span>
+                    </div>
+                    <div class="meter-bar"><div class="meter-fill" id="leverageFill" style="width:0%"></div></div>
+                    <div class="meter-labels"><span>Weak</span><span>Moderate</span><span>Strong</span></div>
+                </div>
+
+                <div class="counter-box">
+                    <h3>🎯 Recommended Counter Position</h3>
+                    <div id="counterItems"></div>
+                </div>
+
+                <div class="walkaway-box">
+                    <h3>🚪 Walk-Away Line</h3>
+                    <p id="walkawayText"></p>
+                </div>
+
+                <div class="market-intel">
+                    <h3>📊 Market Intelligence to Deploy</h3>
+                    <div class="intel-grid" id="intelGrid"></div>
+                </div>
+
+                <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:1rem; font-size:1rem;">🃏 Negotiation Tactics</h3>
+                <div id="tactics"></div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="playbookEmpty" style="text-align:center; padding:4rem 2rem; color:rgba(255,255,255,0.3);">
+                <div style="font-size:3rem; margin-bottom:1rem;">🧠</div>
+                <div style="font-size:1rem; color:rgba(255,255,255,0.4);">Fill out the deal details and click Generate Playbook</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function v(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+        function s(id) { return document.getElementById(id)?.value || ''; }
+
+        function generatePlaybook() {
+            const ask = v('pb_ask'), target = v('pb_target'), sf = v('pb_sf'), term = v('pb_term');
+            const tiOffer = v('pb_ti_offer'), tiWant = v('pb_ti_want');
+            const frOffer = v('pb_fr_offer'), frWant = v('pb_fr_want');
+            const vacancy = v('pb_vacancy'), dom = v('pb_dom');
+            const motivation = s('pb_motivation'), batna = s('pb_batna');
+            const prop = s('pb_prop') || 'the property';
+
+            if (!ask || !target) { alert('Please enter the asking rate and your target rate.'); return; }
+
+            // Calculate leverage score
+            let leverage = 50;
+            if (vacancy > 15) leverage += 20;
+            else if (vacancy > 10) leverage += 10;
+            if (dom > 180) leverage += 20;
+            else if (dom > 90) leverage += 10;
+            if (motivation.startsWith('high')) leverage += 20;
+            else if (motivation.startsWith('medium')) leverage += 5;
+            if (batna.startsWith('strong')) leverage += 15;
+            else if (batna.startsWith('weak')) leverage -= 20;
+            leverage = Math.min(95, Math.max(15, leverage));
+
+            let leverageLabel, leverageColor, leverageGradient;
+            if (leverage >= 70) { leverageLabel = 'Strong 💪'; leverageColor = '#10b981'; leverageGradient = 'linear-gradient(90deg,#059669,#10b981)'; }
+            else if (leverage >= 45) { leverageLabel = 'Moderate ⚖️'; leverageColor = '#f59e0b'; leverageGradient = 'linear-gradient(90deg,#d97706,#f59e0b)'; }
+            else { leverageLabel = 'Weak ⚠️'; leverageColor = '#ef4444'; leverageGradient = 'linear-gradient(90deg,#dc2626,#ef4444)'; }
+
+            document.getElementById('leverageFill').style.width = leverage + '%';
+            document.getElementById('leverageFill').style.background = leverageGradient;
+            document.getElementById('leverageLabel').textContent = leverageLabel;
+            document.getElementById('leverageLabel').style.color = leverageColor;
+
+            // Counter position
+            const gapRate = ask - target;
+            const counterRate = target + gapRate * 0.15; // Counter slightly above target
+            const counterTI = tiWant;
+            const counterFR = frWant;
+            const walkawayRate = target + gapRate * 0.4;
+
+            document.getElementById('counterItems').innerHTML = [
+                { label: 'Open Counter Rate', val: `$${counterRate.toFixed(2)}/SF` },
+                { label: 'TI Allowance Ask', val: `$${counterTI}/SF ($${(counterTI * sf).toLocaleString()} total)` },
+                { label: 'Free Rent Ask', val: `${counterFR} months` },
+                { label: 'Implied Annual Savings vs. Ask', val: `$${((ask - counterRate) * sf).toLocaleString()}/yr` },
+            ].map(i => `<div class="counter-item"><span class="ci-label">${i.label}</span><span class="ci-val">${i.val}</span></div>`).join('');
+
+            document.getElementById('walkawayText').textContent = `If landlord cannot reach $${walkawayRate.toFixed(2)}/SF or below with TI of at least $${Math.round(tiWant * 0.8)}/SF, walk away. You have alternatives${batna.startsWith('strong') ? ' and strong market leverage' : ''}. Do not anchor to this deal emotionally.`;
+
+            // Market intel
+            document.getElementById('intelGrid').innerHTML = [
+                { label: 'Submarket Vacancy', val: vacancy + '%' },
+                { label: 'Days on Market', val: dom + ' days' },
+                { label: 'Avg Market TI', val: '$45–55/SF' },
+                { label: 'Avg Free Rent', val: '3–5 months' },
+                { label: 'Market Trend', val: vacancy > 15 ? '↑ Rising — Tenant Advantage' : '→ Stable' },
+                { label: 'Comparable Rate', val: `$${(ask * 0.88).toFixed(2)}–$${(ask * 0.93).toFixed(2)}/SF` },
+            ].map(i => `<div class="intel-item"><strong>${i.label}:</strong> ${i.val}</div>`).join('');
+
+            // Tactics
+            const tactics = [];
+
+            if (leverage >= 60) {
+                tactics.push({
+                    priority: 'high', icon: '🏆', title: 'Lead with Market Data',
+                    body: `Open by citing the ${vacancy}% vacancy rate in the submarket. This gives you factual grounding for your counter and removes emotion from the conversation.`,
+                    script: `"We've done a thorough market survey. Comparable spaces in this submarket are trading at $${(ask * 0.88).toFixed(2)}–$${(ask * 0.93).toFixed(2)}/SF with ${frWant} months free rent and $${tiWant}/SF TI. We'd like to align with the market."`
+                });
+            }
+
+            tactics.push({
+                priority: 'high', icon: '⏱️', title: 'Create Urgency — But Yours',
+                body: `Tell the landlord your client has a decision timeline. Frame it as an opportunity for them, not desperation for you. If you have alternatives, mention you\'re evaluating multiple properties.`,
+                script: dom > 120
+                    ? `"We're evaluating two other properties simultaneously and need to finalize our recommendation by [date]. Given this property has been available for ${dom} days, we're hoping we can move quickly if the economics work."`
+                    : `"Our client has a board-approved timeline and we're finalizing our recommendation next week. We'd like to prioritize this space if we can align on terms."`
+            });
+
+            if (tiOffer < tiWant) {
+                tactics.push({
+                    priority: 'high', icon: '🔨', title: 'Reframe TI as Landlord Investment',
+                    body: `Don't ask for TI as a giveaway — frame it as a long-term tenant investment. A well-built space reduces turnover risk and increases property value.`,
+                    script: `"The TI we're requesting is an investment in your asset. A $${tiWant}/SF buildout will increase the floor's market appeal and lock in a quality tenant for ${term} years. We're requesting $${tiWant}/SF — this pays for itself in reduced future vacancy."`
+                });
+            }
+
+            if (frOffer < frWant) {
+                tactics.push({
+                    priority: 'medium', icon: '📅', title: 'Trade Rate for Free Rent',
+                    body: `If landlord pushes back on rate, offer to hold at their number in exchange for additional free rent. Net effective math often favors this trade.`,
+                    script: `"We can consider staying closer to your asking rate if you can provide ${frWant} months of free rent to offset our buildout period. The math works out similarly for both parties."`
+                });
+            }
+
+            tactics.push({
+                priority: 'medium', icon: '🏃', title: 'The Competing Offer Move',
+                body: `If you have real alternatives (${batna.startsWith('strong') ? 'which you do' : 'even if modest'}), mention them without specifics. Scarcity works both ways.`,
+                script: batna.startsWith('strong')
+                    ? `"We want to be transparent — we have another proposal at $${(ask * 0.87).toFixed(2)}/SF with comparable TI. We prefer your building for [specific reason], but we need to get within range."`
+                    : `"We're still evaluating one other option. Your building is preferred, but the economics need to be competitive to justify it to our client."`
+            });
+
+            if (motivation.startsWith('high')) {
+                tactics.push({
+                    priority: 'high', icon: '📊', title: 'Days-on-Market Leverage',
+                    body: `This property has been listed ${dom}+ days. Landlords become increasingly motivated after 90 days — use this openly.`,
+                    script: `"We noticed this space has been on the market for quite a while. That tells us the market hasn't supported the current asking terms, which reinforces our position on rate and concessions."`
+                });
+            }
+
+            tactics.push({
+                priority: 'risk', icon: '⚠️', title: 'Don\'t Accept First Counteroffer',
+                body: `Whatever they come back with after your counter — don't accept immediately, even if it's acceptable. Ask for 24 hours to "review with your client." This signals discipline and often produces one more concession.`,
+                script: `"This is helpful — let me take this back to my client and come back to you by tomorrow morning."`
+            });
+
+            document.getElementById('tactics').innerHTML = tactics.map(t => `
+                <div class="tactic-card ${t.priority === 'high' ? 'high' : t.priority === 'medium' ? 'medium' : 'risk'}">
+                    <div class="tactic-header">
+                        <span class="tactic-icon">${t.icon}</span>
+                        <span class="tactic-title">${t.title}</span>
+                        <span class="tactic-priority ${t.priority === 'high' ? 'priority-high' : t.priority === 'medium' ? 'priority-med' : 'priority-risk'}">${t.priority === 'high' ? 'High Priority' : t.priority === 'medium' ? 'Medium' : 'Caution'}</span>
+                    </div>
+                    <div class="tactic-body">${t.body}</div>
+                    <div class="tactic-script">${t.script}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('playbookOutput').classList.add('visible');
+            document.getElementById('playbookEmpty').style.display = 'none';
+            document.getElementById('playbookOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

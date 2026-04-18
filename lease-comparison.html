@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Comparison | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(15,15,30,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { background: linear-gradient(135deg, #1e2a4a 0%, #0f1528 100%); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid rgba(59,130,246,0.15); }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .page-hero h1 span { color: #3B82F6; }
+        .page-hero p { color: rgba(255,255,255,0.55); font-size: 0.95rem; }
+        .badge { display: inline-block; background: rgba(59,130,246,0.15); color: #3B82F6; border: 1px solid rgba(59,130,246,0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .prop-count-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .prop-count-bar span { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+        .count-btn { padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 0.82rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .count-btn:hover, .count-btn.active { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.4); color: #3B82F6; }
+
+        .compare-grid { display: grid; gap: 1rem; margin-bottom: 2rem; }
+        .compare-grid.cols-2 { grid-template-columns: 200px 1fr 1fr; }
+        .compare-grid.cols-3 { grid-template-columns: 200px 1fr 1fr 1fr; }
+
+        .row-label { display: flex; align-items: center; font-size: 0.82rem; color: rgba(255,255,255,0.5); font-weight: 500; padding: 0.7rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .row-label.section-header { color: #3B82F6; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 1.2rem; border-bottom: none; }
+
+        .prop-col { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+        .prop-col.winner { border-color: rgba(16,185,129,0.4); box-shadow: 0 0 20px rgba(16,185,129,0.08); }
+        .prop-col-header { padding: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.06); position: relative; }
+        .prop-col-header input { width: 100%; background: transparent; border: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; outline: none; }
+        .prop-col-header input::placeholder { color: rgba(255,255,255,0.3); }
+        .winner-badge { position: absolute; top: 0.6rem; right: 0.6rem; background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.3); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 700; }
+
+        .cell { padding: 0.7rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.88rem; }
+        .cell input { width: 100%; background: transparent; border: none; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.88rem; outline: none; }
+        .cell input::placeholder { color: rgba(255,255,255,0.2); }
+        .cell select { width: 100%; background: transparent; border: none; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.88rem; outline: none; }
+        .cell select option { background: #1a1a2e; }
+        .cell.computed { color: #fff; font-weight: 600; }
+        .cell.best { color: #10b981; font-weight: 700; }
+        .cell.worst { color: #ef4444; }
+        .cell.section-pad { padding-top: 1rem; }
+
+        .labels-col { display: flex; flex-direction: column; }
+        .labels-col .lbl-header { padding: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.4); }
+
+        .score-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
+        .score-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #3B82F6, #10b981); transition: width 0.5s ease; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.4rem; border-radius: 8px; border: none; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0; }
+
+        .action-bar { display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+
+        .ai-verdict { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); border-radius: 14px; padding: 1.5rem; margin-top: 1.5rem; display: none; }
+        .ai-verdict.visible { display: block; }
+        .ai-verdict h3 { font-family: 'Space Grotesk', sans-serif; color: #3B82F6; margin-bottom: 0.75rem; font-size: 1rem; }
+        .ai-verdict p { font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
+        .verdict-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem; }
+        @media (max-width: 600px) { .verdict-grid { grid-template-columns: 1fr; } }
+        .verdict-item { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 0.9rem; }
+        .verdict-item .vl { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+        .verdict-item .vv { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html">Client Portal</a>
+            <a href="lease-comparison.html" class="active">Compare</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">⚖️ Side-by-Side</div>
+        <h1>Proposal <span>Comparison</span> Tool</h1>
+        <p>Compare up to 3 proposals — net effective rent, TI, free rent, and total cost — in one view</p>
+    </div>
+
+    <div class="container">
+        <div class="action-bar">
+            <button class="btn btn-primary" onclick="calculate()">⚡ Calculate & Compare</button>
+            <button class="btn btn-secondary" onclick="loadSample()">📋 Load Sample Data</button>
+            <button class="btn btn-secondary" onclick="printView()">🖨️ Print / Export</button>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:0.5rem;">
+                <span style="font-size:0.82rem; color:rgba(255,255,255,0.4);">Proposals:</span>
+                <button class="count-btn active" id="btn2" onclick="setCols(2, this)">2</button>
+                <button class="count-btn" id="btn3" onclick="setCols(3, this)">3</button>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="compare-grid cols-2" id="compareGrid">
+            <!-- Labels -->
+            <div class="labels-col">
+                <div class="lbl-header">Property</div>
+                <div class="row-label section-header">📐 Space</div>
+                <div class="row-label">Square Feet (RSF)</div>
+                <div class="row-label">Space Type</div>
+                <div class="row-label">Floor</div>
+                <div class="row-label">Condition</div>
+                <div class="row-label section-header">💰 Rent</div>
+                <div class="row-label">Base Rate ($/SF/yr)</div>
+                <div class="row-label">Rent Structure</div>
+                <div class="row-label">Annual Escalation</div>
+                <div class="row-label section-header">🎁 Concessions</div>
+                <div class="row-label">TI Allowance ($/SF)</div>
+                <div class="row-label">Free Rent (months)</div>
+                <div class="row-label">Moving Allowance ($)</div>
+                <div class="row-label section-header">📅 Terms</div>
+                <div class="row-label">Lease Term (years)</div>
+                <div class="row-label">Parking (spaces)</div>
+                <div class="row-label">Parking Cost ($/mo)</div>
+                <div class="row-label section-header">🤖 Calculated</div>
+                <div class="row-label">Net Effective Rent</div>
+                <div class="row-label">Total Lease Cost</div>
+                <div class="row-label">TI Value (total)</div>
+                <div class="row-label">AI Score</div>
+            </div>
+
+            <!-- Property 1 -->
+            <div class="prop-col" id="prop1">
+                <div class="prop-col-header">
+                    <input type="text" id="p1_name" placeholder="Property 1 Name" value="50 S 6th St, Suite 900">
+                </div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p1_sf" placeholder="SF" value="12000"></div>
+                <div class="cell"><select id="p1_type"><option>Office</option><option>Industrial</option><option>Flex</option></select></div>
+                <div class="cell"><input type="text" id="p1_floor" placeholder="e.g. 9th" value="9th"></div>
+                <div class="cell"><select id="p1_cond"><option>Move-in Ready</option><option>Spec Suite</option><option>As-Is</option><option>Full Buildout Needed</option></select></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p1_rate" placeholder="$/SF" step="0.5" value="18.50"></div>
+                <div class="cell"><select id="p1_struct"><option>Full Service Gross</option><option>Modified Gross</option><option>NNN</option></select></div>
+                <div class="cell"><input type="text" id="p1_esc" placeholder="e.g. 3%" value="3%"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p1_ti" placeholder="$/SF" value="55"></div>
+                <div class="cell"><input type="number" id="p1_fr" placeholder="months" value="4"></div>
+                <div class="cell"><input type="number" id="p1_mv" placeholder="$" value="0"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p1_term" placeholder="years" value="5"></div>
+                <div class="cell"><input type="number" id="p1_park" placeholder="spaces" value="20"></div>
+                <div class="cell"><input type="number" id="p1_pkc" placeholder="$/mo" value="0"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell computed" id="p1_ner">—</div>
+                <div class="cell computed" id="p1_total">—</div>
+                <div class="cell computed" id="p1_tiTotal">—</div>
+                <div class="cell computed" id="p1_score">
+                    <div id="p1_scoreVal">—</div>
+                    <div class="score-bar"><div class="score-fill" id="p1_scoreBar" style="width:0%"></div></div>
+                </div>
+            </div>
+
+            <!-- Property 2 -->
+            <div class="prop-col" id="prop2">
+                <div class="prop-col-header">
+                    <input type="text" id="p2_name" placeholder="Property 2 Name" value="80 S 8th St, Suite 1800">
+                </div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p2_sf" placeholder="SF" value="14000"></div>
+                <div class="cell"><select id="p2_type"><option>Office</option><option>Industrial</option><option>Flex</option></select></div>
+                <div class="cell"><input type="text" id="p2_floor" placeholder="e.g. 18th" value="18th"></div>
+                <div class="cell"><select id="p2_cond"><option>Move-in Ready</option><option>Spec Suite</option><option>As-Is</option><option>Full Buildout Needed</option></select></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p2_rate" placeholder="$/SF" step="0.5" value="21.00"></div>
+                <div class="cell"><select id="p2_struct"><option>Full Service Gross</option><option>Modified Gross</option><option>NNN</option></select></div>
+                <div class="cell"><input type="text" id="p2_esc" placeholder="e.g. 3%" value="3%"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p2_ti" placeholder="$/SF" value="48"></div>
+                <div class="cell"><input type="number" id="p2_fr" placeholder="months" value="3"></div>
+                <div class="cell"><input type="number" id="p2_mv" placeholder="$" value="0"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p2_term" placeholder="years" value="5"></div>
+                <div class="cell"><input type="number" id="p2_park" placeholder="spaces" value="25"></div>
+                <div class="cell"><input type="number" id="p2_pkc" placeholder="$/mo" value="150"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell computed" id="p2_ner">—</div>
+                <div class="cell computed" id="p2_total">—</div>
+                <div class="cell computed" id="p2_tiTotal">—</div>
+                <div class="cell computed" id="p2_score">
+                    <div id="p2_scoreVal">—</div>
+                    <div class="score-bar"><div class="score-fill" id="p2_scoreBar" style="width:0%"></div></div>
+                </div>
+            </div>
+
+            <!-- Property 3 (hidden by default) -->
+            <div class="prop-col" id="prop3" style="display:none">
+                <div class="prop-col-header">
+                    <input type="text" id="p3_name" placeholder="Property 3 Name">
+                </div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p3_sf" placeholder="SF"></div>
+                <div class="cell"><select id="p3_type"><option>Office</option><option>Industrial</option><option>Flex</option></select></div>
+                <div class="cell"><input type="text" id="p3_floor" placeholder="e.g. 5th"></div>
+                <div class="cell"><select id="p3_cond"><option>Move-in Ready</option><option>Spec Suite</option><option>As-Is</option><option>Full Buildout Needed</option></select></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p3_rate" placeholder="$/SF" step="0.5"></div>
+                <div class="cell"><select id="p3_struct"><option>Full Service Gross</option><option>Modified Gross</option><option>NNN</option></select></div>
+                <div class="cell"><input type="text" id="p3_esc" placeholder="e.g. 3%"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p3_ti" placeholder="$/SF"></div>
+                <div class="cell"><input type="number" id="p3_fr" placeholder="months"></div>
+                <div class="cell"><input type="number" id="p3_mv" placeholder="$"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell"><input type="number" id="p3_term" placeholder="years"></div>
+                <div class="cell"><input type="number" id="p3_park" placeholder="spaces"></div>
+                <div class="cell"><input type="number" id="p3_pkc" placeholder="$/mo"></div>
+                <div class="cell section-pad"></div>
+                <div class="cell computed" id="p3_ner">—</div>
+                <div class="cell computed" id="p3_total">—</div>
+                <div class="cell computed" id="p3_tiTotal">—</div>
+                <div class="cell computed" id="p3_score">
+                    <div id="p3_scoreVal">—</div>
+                    <div class="score-bar"><div class="score-fill" id="p3_scoreBar" style="width:0%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Verdict -->
+        <div class="ai-verdict" id="aiVerdict">
+            <h3>🤖 AI Recommendation</h3>
+            <p id="verdictText"></p>
+            <div class="verdict-grid" id="verdictGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        let activeCols = 2;
+
+        function setCols(n, btn) {
+            activeCols = n;
+            document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const grid = document.getElementById('compareGrid');
+            grid.className = `compare-grid cols-${n}`;
+            document.getElementById('prop3').style.display = n === 3 ? 'block' : 'none';
+        }
+
+        function val(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+        function fmt$(n) { return n ? '$' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}) : '—'; }
+        function fmtSF(n) { return n ? '$' + n.toFixed(2) + '/SF' : '—'; }
+
+        function calcProp(p) {
+            const sf = val(`p${p}_sf`), rate = val(`p${p}_rate`), ti = val(`p${p}_ti`),
+                  fr = val(`p${p}_fr`), term = val(`p${p}_term`), mv = val(`p${p}_mv`),
+                  pkc = val(`p${p}_pkc`), park = val(`p${p}_park`);
+            if (!sf || !rate || !term) return null;
+
+            const annualRent = sf * rate;
+            const totalRent = annualRent * term;
+            const freeRentValue = annualRent * (fr / 12);
+            const tiTotal = sf * ti;
+            const parkingAnnual = pkc * park * 12;
+            const netEffective = (totalRent - freeRentValue - tiTotal - mv + parkingAnnual * term) / (sf * term);
+            const score = Math.max(0, Math.min(100, Math.round(100 - (netEffective / rate) * 60 + (ti / rate) * 20 + (fr / 6) * 15)));
+
+            return { sf, rate, ti, fr, term, annualRent, totalRent, tiTotal, netEffective, score, name: document.getElementById(`p${p}_name`).value || `Property ${p}` };
+        }
+
+        function calculate() {
+            const props = [];
+            for (let i = 1; i <= activeCols; i++) {
+                const r = calcProp(i);
+                if (r) props.push({ ...r, idx: i });
+            }
+            if (props.length === 0) { alert('Please enter at least one property.'); return; }
+
+            const minNER = Math.min(...props.map(p => p.netEffective));
+            const maxScore = Math.max(...props.map(p => p.score));
+
+            props.forEach(p => {
+                const isBest = p.netEffective === minNER;
+                document.getElementById(`prop${p.idx}`).className = 'prop-col' + (isBest ? ' winner' : '');
+                // Add/remove winner badge
+                const header = document.querySelector(`#prop${p.idx} .prop-col-header`);
+                const existing = header.querySelector('.winner-badge');
+                if (isBest && !existing) {
+                    const badge = document.createElement('span');
+                    badge.className = 'winner-badge';
+                    badge.textContent = '✓ Best Value';
+                    header.appendChild(badge);
+                } else if (!isBest && existing) existing.remove();
+
+                const nerEl = document.getElementById(`p${p.idx}_ner`);
+                nerEl.textContent = fmtSF(p.netEffective);
+                nerEl.className = 'cell computed ' + (isBest ? 'best' : (props.length > 1 && p.netEffective === Math.max(...props.map(x => x.netEffective)) ? 'worst' : ''));
+
+                document.getElementById(`p${p.idx}_total`).textContent = fmt$(p.totalRent);
+                document.getElementById(`p${p.idx}_tiTotal`).textContent = fmt$(p.tiTotal);
+                document.getElementById(`p${p.idx}_scoreVal`).textContent = p.score + ' / 100';
+                document.getElementById(`p${p.idx}_scoreBar`).style.width = p.score + '%';
+            });
+
+            // AI Verdict
+            const winner = props.find(p => p.netEffective === minNER);
+            const others = props.filter(p => p !== winner);
+            let verdictText = `Based on net effective rent and total concession value, <strong>${winner.name}</strong> is the strongest proposal at <strong>${fmtSF(winner.netEffective)}</strong> net effective. `;
+            if (others.length > 0) {
+                const savings = others.reduce((sum, o) => sum + (o.netEffective - winner.netEffective) * winner.sf * winner.term, 0);
+                verdictText += `Choosing this over the alternatives saves approximately <strong>${fmt$(savings)}</strong> over the lease term. `;
+            }
+            verdictText += `The TI allowance of $${winner.ti}/SF ($${(winner.ti * winner.sf).toLocaleString()} total) and ${winner.fr} months free rent significantly reduce first-year occupancy costs.`;
+
+            document.getElementById('verdictText').innerHTML = verdictText;
+            document.getElementById('verdictGrid').innerHTML = props.map(p => `
+                <div class="verdict-item">
+                    <div class="vl">${p.name}</div>
+                    <div class="vv" style="color:${p === winner ? '#10b981' : '#e0e0e0'}">${fmtSF(p.netEffective)}</div>
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.2rem;">Net Effective · Score: ${p.score}/100</div>
+                </div>
+            `).join('');
+            document.getElementById('aiVerdict').classList.add('visible');
+        }
+
+        function loadSample() {
+            calculate();
+        }
+
+        function printView() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

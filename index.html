@@ -41,6 +41,9 @@
                 <a href="apexos.html" class="nav-link">ApexOS</a>
                 <a href="document-vault.html" class="nav-link">Vault</a>
                 <a href="client-portal.html" class="nav-link">Client Portal</a>
+                <a href="lease-comparison.html" class="nav-link">Compare</a>
+                <a href="negotiation-playbook.html" class="nav-link">Playbook</a>
+                <a href="market-report.html" class="nav-link">Reports</a>
                 <a href="#demo" class="nav-cta pulse-glow">Get Demo</a>
             </div>
             <div class="nav-mobile-toggle">
@@ -345,15 +348,80 @@
         <div class="container">
             <div class="cta-content">
                 <h2>Ready to Save 30% on Your Next Lease?</h2>
-                <p>Get your free AI-powered lease analysis in under 60 seconds</p>
-                <div class="cta-form">
-                    <input type="email" placeholder="work@email.com" class="cta-input">
-                    <button class="cta-submit">Get Free Analysis →</button>
+                <p>Tell us about your space needs — we'll reach out within one business day with a free market analysis.</p>
+
+                <div id="leadForm" style="max-width:560px; margin:2rem auto 0; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:2rem;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                        <div>
+                            <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">First Name</label>
+                            <input id="lead_first" type="text" placeholder="Jane" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">Last Name</label>
+                            <input id="lead_last" type="text" placeholder="Smith" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom:1rem;">
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">Company</label>
+                        <input id="lead_company" type="text" placeholder="Acme Technologies" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                    </div>
+                    <div style="margin-bottom:1rem;">
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">Work Email</label>
+                        <input id="lead_email" type="email" placeholder="jane@acme.com" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                        <div>
+                            <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">Space Needed (SF)</label>
+                            <input id="lead_sf" type="text" placeholder="e.g. 10,000 SF" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.5px;">Timeline</label>
+                            <select id="lead_timeline" style="width:100%; background:#1a1a2e; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.65rem 0.9rem; color:#fff; font-family:Inter,sans-serif; font-size:0.9rem;">
+                                <option>ASAP</option>
+                                <option>1–3 months</option>
+                                <option>3–6 months</option>
+                                <option>6–12 months</option>
+                                <option>12+ months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="submitLead()" style="width:100%; padding:0.9rem; background:linear-gradient(135deg,#3B82F6,#2563EB); border:none; border-radius:10px; color:#fff; font-size:1rem; font-weight:700; cursor:pointer; font-family:'Space Grotesk',sans-serif; transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Request Free Market Analysis →</button>
+                    <p style="text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.35); margin-top:0.8rem;">No credit card required &nbsp;·&nbsp; Response within 1 business day &nbsp;·&nbsp; 100% confidential</p>
                 </div>
-                <p class="cta-note">No credit card required • Results in 60 seconds</p>
+
+                <div id="leadSuccess" style="display:none; max-width:480px; margin:2rem auto 0; text-align:center; padding:2.5rem; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:16px;">
+                    <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+                    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem; margin-bottom:0.5rem;">You're on our radar.</h3>
+                    <p style="color:rgba(255,255,255,0.6); font-size:0.9rem;">We'll have a personalized market analysis in your inbox within one business day.</p>
+                    <div style="margin-top:1.5rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+                        <a href="tools.html" style="padding:0.6rem 1.2rem; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; text-decoration:none; font-size:0.88rem;">Explore AI Tools</a>
+                        <a href="rfp-generator.html" style="padding:0.6rem 1.2rem; background:rgba(59,130,246,0.2); border:1px solid rgba(59,130,246,0.4); border-radius:8px; color:#3B82F6; text-decoration:none; font-size:0.88rem;">Build an RFP Now</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <script>
+    function submitLead() {
+        const first = document.getElementById('lead_first').value.trim();
+        const email = document.getElementById('lead_email').value.trim();
+        if (!first || !email) { alert('Please enter your name and email.'); return; }
+        // Store locally
+        const leads = JSON.parse(localStorage.getItem('apex_leads') || '[]');
+        leads.push({
+            name: first + ' ' + document.getElementById('lead_last').value.trim(),
+            company: document.getElementById('lead_company').value.trim(),
+            email,
+            sf: document.getElementById('lead_sf').value.trim(),
+            timeline: document.getElementById('lead_timeline').value,
+            ts: new Date().toISOString()
+        });
+        localStorage.setItem('apex_leads', JSON.stringify(leads));
+        document.getElementById('leadForm').style.display = 'none';
+        document.getElementById('leadSuccess').style.display = 'block';
+    }
+    </script>
 
     <!-- Footer -->
     <footer class="footer-modern">
