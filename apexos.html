@@ -14,6 +14,24 @@
         }
         
         /* Header */
+        .apex-topnav {
+            background: rgba(15,15,30,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0.85rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+        .apex-topnav .tn-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-topnav .tn-logo span { color: #3B82F6; }
+        .apex-topnav .tn-links { display: flex; gap: 1.4rem; align-items: center; flex-wrap: wrap; }
+        .apex-topnav .tn-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+        .apex-topnav .tn-links a:hover, .apex-topnav .tn-links a.active { color: #fff; }
+        .apex-topnav .tn-links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
         .header {
             background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
             color: white;
@@ -440,6 +458,20 @@
     </style>
 </head>
 <body>
+    <nav class="apex-topnav">
+        <a class="tn-logo" href="index.html">Apex<span>AI</span></a>
+        <div class="tn-links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html" class="active">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
     <div class="header">
         <div class="logo">🏢 ApexOS</div>
         <div class="header-nav">
