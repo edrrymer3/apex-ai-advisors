@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Expiration Dashboard | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(15,15,30,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.1rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { background: linear-gradient(135deg, #1a1f2e 0%, #0f1218 100%); padding: 2rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; }
+        .page-hero h1 span { color: #ef4444; }
+        .page-hero p { color: rgba(255,255,255,0.5); font-size: 0.88rem; margin-top: 0.2rem; }
+        .hero-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 1.5rem 2rem; }
+
+        .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(3, 1fr); } }
+        .stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1rem 1.2rem; }
+        .stat .n { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; }
+        .stat .l { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat .s { font-size: 0.75rem; margin-top: 0.15rem; }
+        .red { color: #ef4444; } .yellow { color: #f59e0b; } .green { color: #10b981; } .blue { color: #3B82F6; } .purple { color: #8b5cf6; }
+
+        /* Controls */
+        .controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; }
+        .search-box { position: relative; flex: 1; min-width: 200px; }
+        .search-box input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.6rem 0.9rem 0.6rem 2.2rem; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.88rem; }
+        .search-box input:focus { outline: none; border-color: #3B82F6; }
+        .search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); opacity: 0.4; font-size: 0.9rem; }
+        .filter-select { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.6rem 0.9rem; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.85rem; }
+        .filter-select option { background: #1a1a2e; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+        .btn:hover { transform: translateY(-1px); }
+
+        /* Timeline View */
+        .timeline-bar { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .timeline-bar h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+        .timeline-months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0.5rem; }
+        .month-col { text-align: center; }
+        .month-label { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-bottom: 0.4rem; }
+        .month-bar { border-radius: 4px; min-height: 8px; transition: height 0.3s; }
+        .month-count { font-size: 0.68rem; color: rgba(255,255,255,0.4); margin-top: 0.3rem; }
+
+        /* Table */
+        .table-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        thead th { background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; cursor: pointer; }
+        thead th:hover { color: #fff; }
+        tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.15s; cursor: pointer; }
+        tbody tr:hover { background: rgba(255,255,255,0.03); }
+        tbody tr:last-child { border-bottom: none; }
+        td { padding: 0.85rem 1rem; font-size: 0.85rem; }
+
+        .urgency-badge { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+        .urg-critical { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .urg-soon { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .urg-watch { background: rgba(59,130,246,0.15); color: #3B82F6; }
+        .urg-monitor { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); }
+
+        .type-badge { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+        .type-office { background: rgba(59,130,246,0.12); color: #3B82F6; }
+        .type-industrial { background: rgba(245,158,11,0.12); color: #f59e0b; }
+        .type-flex { background: rgba(139,92,246,0.12); color: #8b5cf6; }
+
+        .action-cell { display: flex; gap: 0.4rem; }
+        .act-btn { padding: 0.25rem 0.6rem; border-radius: 5px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.6); font-size: 0.72rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; white-space: nowrap; }
+        .act-btn:hover { background: rgba(59,130,246,0.15); color: #3B82F6; border-color: rgba(59,130,246,0.3); }
+        .act-btn.primary { background: rgba(59,130,246,0.15); color: #3B82F6; border-color: rgba(59,130,246,0.3); }
+
+        .company-cell { font-weight: 600; color: #fff; }
+        .company-sub { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.1rem; }
+
+        .broker-cell { font-size: 0.8rem; }
+        .broker-name { color: #fff; font-weight: 500; }
+        .broker-firm { color: rgba(255,255,255,0.4); font-size: 0.72rem; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: #1a1a2e; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+        .modal-close { background: rgba(255,255,255,0.06); border: none; color: #e0e0e0; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .detail-item .dl { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+        .detail-item .dv { font-size: 0.9rem; color: #fff; font-weight: 600; }
+        .action-buttons { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        /* Add Prospect Form */
+        .add-form { display: none; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .add-form.open { display: block; }
+        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+        .fg { }
+        .fg label { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.4px; }
+        .fg input, .fg select { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 0.6rem 0.8rem; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.88rem; }
+        .fg input:focus, .fg select:focus { outline: none; border-color: #3B82F6; }
+        .fg select option { background: #1a1a2e; }
+
+        .empty-row td { text-align: center; padding: 3rem; color: rgba(255,255,255,0.25); }
+
+        .pulse { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #10b981; animation: pulse 1.5s infinite; margin-right: 0.4rem; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html">Client Portal</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html">Playbook</a>
+            <a href="market-report.html">Reports</a>
+            <a href="lease-expiration-dashboard.html" class="active">Expirations</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div>
+            <h1>⏰ Lease <span>Expiration</span> Dashboard</h1>
+            <p><span class="pulse"></span>Live · Twin Cities Market · Track expirations before they hit the street</p>
+        </div>
+        <div class="hero-actions">
+            <button class="btn btn-outline" onclick="toggleAddForm()">+ Add Prospect</button>
+            <button class="btn btn-outline" onclick="exportCSV()">⬇️ Export CSV</button>
+            <button class="btn btn-primary" onclick="document.getElementById('rfpModal').classList.add('open')">📋 Batch RFP</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat"><div class="n red" id="stat_critical">0</div><div class="l">Critical (0–6 mo)</div><div class="s red">Act now</div></div>
+            <div class="stat"><div class="n yellow" id="stat_soon">0</div><div class="l">Soon (6–12 mo)</div><div class="s yellow">Outreach window</div></div>
+            <div class="stat"><div class="n blue" id="stat_watch">0</div><div class="l">Watch (12–18 mo)</div><div class="s blue">Start nurturing</div></div>
+            <div class="stat"><div class="n green" id="stat_total_sf">0</div><div class="l">Total SF Tracked</div><div class="s green">Active pipeline</div></div>
+            <div class="stat"><div class="n purple" id="stat_commission">$0</div><div class="l">Est. Commission</div><div class="s purple">If 50% convert</div></div>
+        </div>
+
+        <!-- Timeline Bar -->
+        <div class="timeline-bar">
+            <h3>📅 Expiration Timeline — Next 18 Months</h3>
+            <div class="timeline-months" id="timelineMonths"></div>
+        </div>
+
+        <!-- Add Form -->
+        <div class="add-form" id="addForm">
+            <h3 style="font-family:'Space Grotesk',sans-serif; margin-bottom:1.2rem; font-size:0.95rem;">➕ Add Lease Expiration Prospect</h3>
+            <div class="form-grid">
+                <div class="fg"><label>Company Name</label><input type="text" id="af_company" placeholder="Acme Technologies"></div>
+                <div class="fg"><label>Address / Building</label><input type="text" id="af_address" placeholder="222 S 9th St, Suite 1200"></div>
+                <div class="fg"><label>Space Type</label><select id="af_type"><option>Office</option><option>Industrial</option><option>Flex</option></select></div>
+                <div class="fg"><label>SF</label><input type="number" id="af_sf" placeholder="10000"></div>
+                <div class="fg"><label>Expiration Date</label><input type="month" id="af_exp"></div>
+                <div class="fg"><label>Est. Rate ($/SF)</label><input type="number" id="af_rate" step="0.5" placeholder="21.00"></div>
+                <div class="fg"><label>Listing Broker</label><input type="text" id="af_broker" placeholder="John Smith"></div>
+                <div class="fg"><label>Broker Firm</label><input type="text" id="af_firm" placeholder="CBRE"></div>
+                <div class="fg"><label>Contact / Notes</label><input type="text" id="af_notes" placeholder="Met at ULI event..."></div>
+            </div>
+            <div style="display:flex; gap:0.75rem; margin-top:1rem;">
+                <button class="btn btn-primary" onclick="addProspect()">✅ Add to Dashboard</button>
+                <button class="btn btn-outline" onclick="toggleAddForm()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search company, address, broker..." oninput="filterTable()">
+            </div>
+            <select class="filter-select" id="filterUrgency" onchange="filterTable()">
+                <option value="">All Urgency</option>
+                <option value="critical">🔴 Critical (0–6 mo)</option>
+                <option value="soon">🟡 Soon (6–12 mo)</option>
+                <option value="watch">🔵 Watch (12–18 mo)</option>
+                <option value="monitor">⚪ Monitor (18+ mo)</option>
+            </select>
+            <select class="filter-select" id="filterType" onchange="filterTable()">
+                <option value="">All Types</option>
+                <option value="Office">Office</option>
+                <option value="Industrial">Industrial</option>
+                <option value="Flex">Flex</option>
+            </select>
+            <select class="filter-select" id="filterFirm" onchange="filterTable()">
+                <option value="">All Firms</option>
+                <option value="CBRE">CBRE</option>
+                <option value="JLL">JLL</option>
+                <option value="Cushman">Cushman</option>
+                <option value="Colliers">Colliers</option>
+                <option value="Local">Local/Independent</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortBy('company')">Company ↕</th>
+                        <th onclick="sortBy('address')">Building / Address ↕</th>
+                        <th>Type</th>
+                        <th onclick="sortBy('sf')">SF ↕</th>
+                        <th onclick="sortBy('exp')">Expires ↕</th>
+                        <th onclick="sortBy('months')">Months Out ↕</th>
+                        <th>Urgency</th>
+                        <th>Rate</th>
+                        <th>Listing Broker</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.2rem;" id="modal_company">—</h2>
+                    <div style="color:rgba(255,255,255,0.45); font-size:0.85rem; margin-top:0.2rem;" id="modal_address">—</div>
+                </div>
+                <button class="modal-close" onclick="document.getElementById('detailModal').classList.remove('open')">✕</button>
+            </div>
+            <div class="detail-grid" id="modal_details"></div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="goToRFP()">📋 Build RFP</button>
+                <button class="btn btn-outline" onclick="goToPlaybook()">🧠 Negotiation Playbook</button>
+                <button class="btn btn-outline" onclick="document.getElementById('detailModal').classList.remove('open')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch RFP Modal -->
+    <div class="modal-overlay" id="rfpModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 style="font-family:'Space Grotesk',sans-serif;">📋 Batch RFP Generator</h2>
+                <button class="modal-close" onclick="document.getElementById('rfpModal').classList.remove('open')">✕</button>
+            </div>
+            <p style="color:rgba(255,255,255,0.6); font-size:0.88rem; margin-bottom:1.2rem;">Select prospects to include in a combined outreach — RFP Builder will open pre-filled.</p>
+            <div id="batchList" style="max-height:300px; overflow-y:auto;"></div>
+            <div style="margin-top:1.2rem; display:flex; gap:0.75rem;">
+                <button class="btn btn-primary" onclick="window.location.href='rfp-generator.html'">Open RFP Builder →</button>
+                <button class="btn btn-outline" onclick="document.getElementById('rfpModal').classList.remove('open')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Seed data — real-looking MN market prospects
+        let prospects = [
+            { id:1, company:'Hennepin County', address:'300 S 6th St, Minneapolis', type:'Office', sf:42000, exp:'2026-06', rate:18.50, broker:'Sarah Johnson', firm:'JLL', notes:'Government lease. High probability.' },
+            { id:2, company:'UnitedHealth Group', address:'Plymouth Campus, 9700 Health Ctr Dr', type:'Office', sf:85000, exp:'2026-08', rate:17.20, broker:'Mike Chen', firm:'CBRE', notes:'Watching for downsizing opportunity.' },
+            { id:3, company:'Ameritas Life Partners', address:'225 S 6th St, Suite 3500', type:'Office', sf:18500, exp:'2026-07', rate:22.00, broker:'Lisa Park', firm:'Cushman', notes:'Renewal window opens Q2.' },
+            { id:4, company:'Deluxe Corporation', address:'801 W 51st St, Shoreview', type:'Office', sf:55000, exp:'2026-09', rate:15.80, broker:'Tom Williams', firm:'Colliers', notes:'HQ lease. Major opportunity.' },
+            { id:5, company:'Xcel Energy', address:'414 Nicollet Mall, MPLS', type:'Office', sf:38000, exp:'2026-11', rate:20.50, broker:'Amy Roberts', firm:'JLL', notes:'Utility company. Stable tenant.' },
+            { id:6, company:'Securian Financial', address:'400 Robert St N, St Paul', type:'Office', sf:92000, exp:'2026-12', rate:16.90, broker:'Dave Kim', firm:'CBRE', notes:'Long-term tenant evaluating options.' },
+            { id:7, company:'Supervalu / UNFI', address:'11840 Valley View Rd, Eden Prairie', type:'Industrial', sf:125000, exp:'2027-02', rate:7.40, broker:'Mark Thompson', firm:'JLL', notes:'Distribution center. NW alternative available.' },
+            { id:8, company:'Entegris', address:'3500 Lyman Blvd, Chaska', type:'Industrial', sf:68000, exp:'2027-01', rate:8.20, broker:'Nancy Lee', firm:'Cushman', notes:'High-tech manufacturing. Specialized reqs.' },
+            { id:9, company:'Piper Sandler', address:'800 Nicollet Mall, Suite 1000', type:'Office', sf:28000, exp:'2027-03', rate:23.50, broker:'Chris Hall', firm:'CBRE', notes:'Financial firm. Likely to right-size.' },
+            { id:10, company:'Patterson Dental', address:'1031 Mendota Heights Rd', type:'Office', sf:35000, exp:'2027-04', rate:16.00, broker:'Steve Brown', firm:'Local', notes:'HQ. CEO knows Eddie from industry.' },
+            { id:11, company:'Proto Labs', address:'5540 Pioneer Creek Dr, Maple Plain', type:'Flex', sf:45000, exp:'2027-05', rate:12.50, broker:'Rachel Green', firm:'Colliers', notes:'Tech manufacturer. Growing fast.' },
+            { id:12, company:'Digi International', address:'9350 Excelsior Blvd, Hopkins', type:'Office', sf:22000, exp:'2027-06', rate:17.80, broker:'John Davis', firm:'JLL', notes:'IoT company. Possibly going remote-first.' },
+            { id:13, company:'Fastenal', address:'2001 Theurer Blvd, Winona', type:'Industrial', sf:180000, exp:'2027-08', rate:6.20, broker:'Mary Wilson', firm:'Cushman', notes:'Distribution. Strong anchor tenant.' },
+            { id:14, company:'RBC Wealth Management', address:'60 S 6th St, Minneapolis', type:'Office', sf:31000, exp:'2027-09', rate:24.00, broker:'Kevin Park', firm:'JLL', notes:'Premium space. Concession opportunity.' },
+            { id:15, company:'Toro Company', address:'8111 Lyndale Ave S, Bloomington', type:'Office', sf:41000, exp:'2027-10', rate:15.20, broker:'Sandra Lee', firm:'Colliers', notes:'Airport submarket. Parking a priority.' },
+        ];
+
+        let sortField = 'months', sortDir = 1;
+        let currentProspect = null;
+
+        function monthsUntil(expStr) {
+            const exp = new Date(expStr + '-01');
+            const now = new Date();
+            return Math.round((exp - now) / (1000 * 60 * 60 * 24 * 30.4));
+        }
+
+        function urgencyClass(months) {
+            if (months <= 6) return { cls: 'urg-critical', label: '🔴 Critical', key: 'critical' };
+            if (months <= 12) return { cls: 'urg-soon', label: '🟡 Soon', key: 'soon' };
+            if (months <= 18) return { cls: 'urg-watch', label: '🔵 Watch', key: 'watch' };
+            return { cls: 'urg-monitor', label: '⚪ Monitor', key: 'monitor' };
+        }
+
+        function formatExp(str) {
+            const d = new Date(str + '-01');
+            return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        function getFiltered() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const urg = document.getElementById('filterUrgency').value;
+            const typ = document.getElementById('filterType').value;
+            const firm = document.getElementById('filterFirm').value;
+            return prospects.filter(p => {
+                const m = monthsUntil(p.exp);
+                const u = urgencyClass(m);
+                if (q && !p.company.toLowerCase().includes(q) && !p.address.toLowerCase().includes(q) && !p.broker.toLowerCase().includes(q)) return false;
+                if (urg && u.key !== urg) return false;
+                if (typ && p.type !== typ) return false;
+                if (firm && p.firm !== firm) return false;
+                return true;
+            });
+        }
+
+        function renderTable() {
+            const filtered = getFiltered().map(p => ({ ...p, months: monthsUntil(p.exp) }))
+                .sort((a, b) => (a[sortField] > b[sortField] ? sortDir : -sortDir));
+
+            const tbody = document.getElementById('tableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="10">No prospects match your filters</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(p => {
+                const u = urgencyClass(p.months);
+                return `<tr onclick="openDetail(${p.id})">
+                    <td><div class="company-cell">${p.company}</div><div class="company-sub">${p.notes}</div></td>
+                    <td style="font-size:0.82rem; color:rgba(255,255,255,0.65);">${p.address}</td>
+                    <td><span class="type-badge type-${p.type.toLowerCase()}">${p.type}</span></td>
+                    <td style="font-weight:600;">${p.sf.toLocaleString()}</td>
+                    <td>${formatExp(p.exp)}</td>
+                    <td style="font-weight:600; color:${p.months <= 6 ? '#ef4444' : p.months <= 12 ? '#f59e0b' : '#e0e0e0'}">${p.months} mo</td>
+                    <td><span class="urgency-badge ${u.cls}">${u.label}</span></td>
+                    <td>$${p.rate.toFixed(2)}/SF</td>
+                    <td><div class="broker-name">${p.broker}</div><div class="broker-firm">${p.firm}</div></td>
+                    <td onclick="event.stopPropagation()"><div class="action-cell">
+                        <button class="act-btn primary" onclick="openDetail(${p.id})">View</button>
+                        <button class="act-btn" onclick="window.location.href='rfp-generator.html'">RFP</button>
+                        <button class="act-btn" onclick="window.location.href='negotiation-playbook.html'">Playbook</button>
+                    </div></td>
+                </tr>`;
+            }).join('');
+
+            updateStats(filtered);
+            renderTimeline(prospects.map(p => ({ ...p, months: monthsUntil(p.exp) })));
+        }
+
+        function updateStats(filtered) {
+            const all = prospects.map(p => ({ ...p, months: monthsUntil(p.exp) }));
+            document.getElementById('stat_critical').textContent = all.filter(p => p.months <= 6).length;
+            document.getElementById('stat_soon').textContent = all.filter(p => p.months > 6 && p.months <= 12).length;
+            document.getElementById('stat_watch').textContent = all.filter(p => p.months > 12 && p.months <= 18).length;
+            document.getElementById('stat_total_sf').textContent = (all.reduce((s,p)=>s+p.sf,0)/1000).toFixed(0)+'K';
+            const estComm = all.reduce((s,p) => s + (p.sf * p.rate * 0.04 * 0.5), 0);
+            document.getElementById('stat_commission').textContent = '$' + (estComm/1000).toFixed(0) + 'K';
+        }
+
+        function renderTimeline(all) {
+            const months = [];
+            const now = new Date();
+            for (let i = 0; i < 18; i++) {
+                const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+                const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                const count = all.filter(p => p.exp === key).length;
+                months.push({ label: d.toLocaleDateString('en-US',{month:'short'}), key, count });
+            }
+            const maxCount = Math.max(...months.map(m => m.count), 1);
+            document.getElementById('timelineMonths').innerHTML = months.map((m,i) => {
+                const h = Math.max(8, (m.count / maxCount) * 60);
+                const color = i < 6 ? '#ef4444' : i < 12 ? '#f59e0b' : '#3B82F6';
+                return `<div class="month-col">
+                    <div class="month-label">${m.label}</div>
+                    <div class="month-bar" style="height:${h}px; background:${color}; opacity:${m.count>0?0.8:0.15};"></div>
+                    <div class="month-count">${m.count > 0 ? m.count : ''}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function filterTable() { renderTable(); }
+        function sortBy(field) {
+            if (sortField === field) sortDir *= -1;
+            else { sortField = field; sortDir = 1; }
+            renderTable();
+        }
+
+        function openDetail(id) {
+            const p = prospects.find(x => x.id === id);
+            if (!p) return;
+            currentProspect = p;
+            const months = monthsUntil(p.exp);
+            const u = urgencyClass(months);
+            document.getElementById('modal_company').textContent = p.company;
+            document.getElementById('modal_address').textContent = p.address;
+            document.getElementById('modal_details').innerHTML = [
+                { l: 'Space Type', v: p.type },
+                { l: 'Square Feet', v: p.sf.toLocaleString() + ' SF' },
+                { l: 'Expiration', v: formatExp(p.exp) },
+                { l: 'Months Remaining', v: months + ' months' },
+                { l: 'Current Rate', v: '$' + p.rate + '/SF' },
+                { l: 'Urgency', v: u.label },
+                { l: 'Listing Broker', v: p.broker },
+                { l: 'Broker Firm', v: p.firm },
+                { l: 'Est. Annual Rent', v: '$' + (p.sf * p.rate).toLocaleString() },
+                { l: 'Est. Commission (4%)', v: '$' + Math.round(p.sf * p.rate * 0.04).toLocaleString() },
+                { l: 'Notes', v: p.notes },
+                { l: 'Outreach Window', v: months <= 12 ? '🔥 Now' : 'Start in ' + (months - 12) + ' months' },
+            ].map(i => `<div class="detail-item"><div class="dl">${i.l}</div><div class="dv">${i.v}</div></div>`).join('');
+            document.getElementById('detailModal').classList.add('open');
+        }
+
+        function goToRFP() { window.location.href = 'rfp-generator.html'; }
+        function goToPlaybook() { window.location.href = 'negotiation-playbook.html'; }
+
+        function toggleAddForm() {
+            document.getElementById('addForm').classList.toggle('open');
+        }
+
+        function addProspect() {
+            const company = document.getElementById('af_company').value.trim();
+            const exp = document.getElementById('af_exp').value;
+            if (!company || !exp) { alert('Please enter company name and expiration date.'); return; }
+            prospects.unshift({
+                id: Date.now(),
+                company,
+                address: document.getElementById('af_address').value.trim() || 'Address TBD',
+                type: document.getElementById('af_type').value,
+                sf: parseInt(document.getElementById('af_sf').value) || 0,
+                exp,
+                rate: parseFloat(document.getElementById('af_rate').value) || 0,
+                broker: document.getElementById('af_broker').value.trim() || '—',
+                firm: document.getElementById('af_firm').value.trim() || '—',
+                notes: document.getElementById('af_notes').value.trim() || '',
+            });
+            document.getElementById('addForm').classList.remove('open');
+            ['af_company','af_address','af_sf','af_rate','af_broker','af_firm','af_notes','af_exp'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+            renderTable();
+        }
+
+        function exportCSV() {
+            const headers = ['Company','Address','Type','SF','Expiration','Months Out','Rate','Broker','Firm','Notes'];
+            const rows = prospects.map(p => [p.company, p.address, p.type, p.sf, p.exp, monthsUntil(p.exp), p.rate, p.broker, p.firm, p.notes].map(v => `"${v}"`).join(','));
+            const csv = [headers.join(','), ...rows].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'lease-expirations.csv'; a.click();
+        }
+
+        // Batch RFP
+        document.getElementById('batchList').innerHTML = '';
+        setTimeout(() => {
+            document.getElementById('batchList').innerHTML = prospects.slice(0,8).map(p => `
+                <label style="display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer; font-size:0.88rem;">
+                    <input type="checkbox" style="accent-color:#3B82F6;" checked>
+                    <span style="flex:1;"><strong>${p.company}</strong> — ${p.sf.toLocaleString()} SF — Exp ${formatExp(p.exp)}</span>
+                </label>`).join('');
+        }, 100);
+
+        renderTable();
+    </script>
+</body>
+</html>

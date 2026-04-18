@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Calculator | Apex AI Advisors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(15,15,30,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.1rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { background: linear-gradient(135deg, #1a2818 0%, #0f150f 100%); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid rgba(16,185,129,0.15); }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .page-hero h1 span { color: #10b981; }
+        .page-hero p { color: rgba(255,255,255,0.55); }
+        .badge { display: inline-block; background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+        .main-grid { display: grid; grid-template-columns: 400px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 800px) { .main-grid { grid-template-columns: 1fr; } }
+
+        .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 1.2rem; }
+
+        .form-group { margin-bottom: 1.1rem; }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.65rem 0.9rem; color: #e0e0e0; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #10b981; }
+        .form-group select option { background: #1a1a2e; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        .slider-group { margin-bottom: 1.2rem; }
+        .slider-group label { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .slider-group label span { color: #10b981; font-size: 0.9rem; font-weight: 700; }
+        input[type=range] { width: 100%; accent-color: #10b981; cursor: pointer; }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.8rem 1.5rem; border-radius: 8px; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; width: 100%; justify-content: center; }
+        .btn-primary { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(16,185,129,0.3); }
+
+        /* Result Cards */
+        .result-hero { background: linear-gradient(135deg, #0d2818, #071510); border: 1px solid rgba(16,185,129,0.25); border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+        .result-hero .label { font-size: 0.8rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .result-hero .amount { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700; color: #10b981; }
+        .result-hero .sub { font-size: 0.88rem; color: rgba(255,255,255,0.45); margin-top: 0.4rem; }
+
+        .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        @media (max-width: 600px) { .breakdown-grid { grid-template-columns: 1fr; } }
+        .breakdown-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 1rem; }
+        .breakdown-item .bi-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+        .breakdown-item .bi-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; }
+        .breakdown-item .bi-sub { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem; }
+
+        /* Pipeline Table */
+        .pipeline-table { width: 100%; border-collapse: collapse; }
+        .pipeline-table th { text-align: left; font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .pipeline-table td { padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+        .pipeline-table tr:last-child td { border-bottom: none; }
+        .pipeline-table input { width: 100%; background: transparent; border: none; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; }
+        .add-row-btn { display: flex; align-items: center; gap: 0.4rem; color: #10b981; background: none; border: none; cursor: pointer; font-size: 0.85rem; font-family: 'Inter', sans-serif; padding: 0.5rem 0.75rem; }
+
+        .scenario-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .scenario-chip { padding: 0.35rem 0.8rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); background: transparent; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .scenario-chip:hover, .scenario-chip.active { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: #10b981; }
+
+        .vs-box { background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.2rem; }
+        .vs-box h3 { font-family: 'Space Grotesk', sans-serif; color: #3B82F6; font-size: 0.9rem; margin-bottom: 0.75rem; }
+        .vs-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        .vs-row:last-child { border-bottom: none; }
+        .vs-row .vl { color: rgba(255,255,255,0.5); }
+        .vs-row .vv { font-weight: 700; }
+        .green { color: #10b981; } .red { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="portfolio-command-center.html">Portfolio</a>
+            <a href="prospect-database.html">Prospects</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="alert-system.html">Alerts</a>
+            <a href="apexos.html">ApexOS</a>
+            <a href="document-vault.html">Vault</a>
+            <a href="client-portal.html">Client Portal</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html">Playbook</a>
+            <a href="market-report.html">Reports</a>
+            <a href="lease-expiration-dashboard.html">Expirations</a>
+            <a href="commission-calculator.html" class="active">💰 Commission</a>
+            <a href="index.html#demo" class="cta">Get Demo</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">💰 Deal Math</div>
+        <h1>Commission <span>Calculator</span></h1>
+        <p>Know exactly what you make on every deal — and model your full pipeline</p>
+    </div>
+
+    <div class="container">
+        <div class="main-grid">
+            <!-- Left: Inputs -->
+            <div>
+                <div class="card">
+                    <h2>🏢 Deal Details</h2>
+                    <div class="scenario-chips">
+                        <div class="scenario-chip active" onclick="loadScenario('office_small', this)">Office 10K SF</div>
+                        <div class="scenario-chip" onclick="loadScenario('office_large', this)">Office 50K SF</div>
+                        <div class="scenario-chip" onclick="loadScenario('industrial', this)">Industrial 80K SF</div>
+                        <div class="scenario-chip" onclick="loadScenario('portfolio', this)">Portfolio Deal</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Deal Name / Client</label>
+                        <input type="text" id="deal_name" placeholder="e.g. Acme Technologies" value="Acme Technologies">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Square Feet (RSF)</label>
+                            <input type="number" id="deal_sf" value="10000" oninput="calculate()">
+                        </div>
+                        <div class="form-group">
+                            <label>Lease Term (years)</label>
+                            <input type="number" id="deal_term" value="5" oninput="calculate()">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Annual Rate ($/SF)</label>
+                            <input type="number" id="deal_rate" value="21.00" step="0.5" oninput="calculate()">
+                        </div>
+                        <div class="form-group">
+                            <label>Property Type</label>
+                            <select id="deal_type" onchange="calculate()">
+                                <option value="office">Office</option>
+                                <option value="industrial">Industrial</option>
+                                <option value="flex">Flex</option>
+                                <option value="retail">Retail</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>💸 Commission Structure</h2>
+                    <div class="slider-group">
+                        <label>Total Commission Rate <span id="commRateLabel">4.0%</span></label>
+                        <input type="range" id="commRate" min="2" max="8" step="0.25" value="4" oninput="updateSlider('commRate','commRateLabel','%'); calculate()">
+                    </div>
+                    <div class="slider-group">
+                        <label>Your Split (of commission) <span id="splitLabel">100%</span></label>
+                        <input type="range" id="split" min="40" max="100" step="5" value="100" oninput="updateSlider('split','splitLabel','%'); calculate()">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Commission Basis</label>
+                            <select id="commBasis" onchange="calculate()">
+                                <option value="total">Total Lease Value</option>
+                                <option value="annual">Annual Rent Only</option>
+                                <option value="first3">First 3 Years</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Co-Broke?</label>
+                            <select id="cobroke" onchange="calculate()">
+                                <option value="no">No — 100% kept</option>
+                                <option value="yes">Yes — 50/50 split</option>
+                                <option value="30">Yes — 70/30 (ours)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Close Date</label>
+                        <input type="month" id="close_date">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div>
+                <div class="result-hero">
+                    <div class="label">Your Commission on This Deal</div>
+                    <div class="amount" id="resultMain">$0</div>
+                    <div class="sub" id="resultSub">Enter deal details to calculate</div>
+                </div>
+
+                <div class="breakdown-grid" id="breakdownGrid">
+                    <div class="breakdown-item"><div class="bi-label">Total Lease Value</div><div class="bi-val" id="br_tlv">—</div><div class="bi-sub">SF × Rate × Term</div></div>
+                    <div class="breakdown-item"><div class="bi-label">Gross Commission</div><div class="bi-val" id="br_gross">—</div><div class="bi-sub" id="br_gross_sub">Before splits</div></div>
+                    <div class="breakdown-item"><div class="bi-label">After Splits</div><div class="bi-val" id="br_after">—</div><div class="bi-sub" id="br_after_sub">Your take</div></div>
+                    <div class="breakdown-item"><div class="bi-label">Effective Rate</div><div class="bi-val" id="br_eff">—</div><div class="bi-sub">$/SF you earn</div></div>
+                </div>
+
+                <!-- vs Big Firm -->
+                <div class="vs-box" style="margin-bottom:1.5rem;">
+                    <h3>⚡ You vs. Big Firm (CBRE/JLL at 6%)</h3>
+                    <div class="vs-row"><span class="vl">Big Firm Commission (6%)</span><span class="vv red" id="vs_bigfirm">—</span></div>
+                    <div class="vs-row"><span class="vl">Your Commission (4%)</span><span class="vv green" id="vs_yours">—</span></div>
+                    <div class="vs-row"><span class="vl">Client Saves by Using You</span><span class="vv green" id="vs_savings">—</span></div>
+                    <div class="vs-row"><span class="vl">You Earn Less, But Win More Deals</span><span class="vv" style="color:#f59e0b" id="vs_deals">—</span></div>
+                </div>
+
+                <!-- Pipeline -->
+                <div class="card">
+                    <h2>📊 Pipeline Forecast</h2>
+                    <p style="font-size:0.82rem; color:rgba(255,255,255,0.45); margin-bottom:1rem;">Add multiple deals to see your total pipeline value</p>
+                    <table class="pipeline-table">
+                        <thead><tr><th>Deal</th><th>SF</th><th>Rate</th><th>Term</th><th>Est. Commission</th><th></th></tr></thead>
+                        <tbody id="pipelineBody"></tbody>
+                    </table>
+                    <button class="add-row-btn" onclick="addPipelineRow()">+ Add Deal</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.07);">
+                        <span style="font-size:0.82rem; color:rgba(255,255,255,0.45);">Total Pipeline</span>
+                        <span id="pipelineTotal" style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:#10b981;">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            office_small: { sf: 10000, term: 5, rate: 21.00, type: 'office', commRate: 4, name: 'Acme Technologies' },
+            office_large: { sf: 50000, term: 7, rate: 19.50, type: 'office', commRate: 4, name: 'Securian Financial' },
+            industrial: { sf: 80000, term: 5, rate: 7.80, type: 'industrial', commRate: 3, name: 'Distribution Co' },
+            portfolio: { sf: 35000, term: 10, rate: 18.00, type: 'office', commRate: 4, name: 'Portfolio Client' },
+        };
+
+        let pipeline = [
+            { name: 'Acme Technologies', sf: 10000, rate: 21.00, term: 5 },
+            { name: 'TechCorp Intl', sf: 12000, rate: 18.50, term: 5 },
+            { name: 'Northland Foods', sf: 38000, rate: 7.20, term: 5 },
+        ];
+
+        function loadScenario(key, el) {
+            document.querySelectorAll('.scenario-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            const s = scenarios[key];
+            document.getElementById('deal_name').value = s.name;
+            document.getElementById('deal_sf').value = s.sf;
+            document.getElementById('deal_term').value = s.term;
+            document.getElementById('deal_rate').value = s.rate;
+            document.getElementById('deal_type').value = s.type;
+            document.getElementById('commRate').value = s.commRate;
+            document.getElementById('commRateLabel').textContent = s.commRate + '%';
+            calculate();
+        }
+
+        function updateSlider(sliderId, labelId, suffix) {
+            document.getElementById(labelId).textContent = document.getElementById(sliderId).value + suffix;
+        }
+
+        function fmt$(n) { return '$' + Math.round(n).toLocaleString(); }
+        function fmtSF(n) { return '$' + n.toFixed(2) + '/SF'; }
+
+        function calculate() {
+            const sf = parseFloat(document.getElementById('deal_sf').value) || 0;
+            const term = parseFloat(document.getElementById('deal_term').value) || 0;
+            const rate = parseFloat(document.getElementById('deal_rate').value) || 0;
+            const commRate = parseFloat(document.getElementById('commRate').value) / 100;
+            const split = parseFloat(document.getElementById('split').value) / 100;
+            const basis = document.getElementById('commBasis').value;
+            const cobroke = document.getElementById('cobroke').value;
+
+            const annualRent = sf * rate;
+            const tlv = annualRent * term;
+
+            let commBase = tlv;
+            if (basis === 'annual') commBase = annualRent;
+            if (basis === 'first3') commBase = annualRent * Math.min(3, term);
+
+            let gross = commBase * commRate;
+            let afterSplit = gross * split;
+            let yours = afterSplit;
+            if (cobroke === 'yes') yours = afterSplit * 0.5;
+            if (cobroke === '30') yours = afterSplit * 0.7;
+
+            const effRate = sf > 0 ? yours / sf : 0;
+
+            document.getElementById('resultMain').textContent = fmt$(yours);
+            document.getElementById('resultSub').textContent = `${sf.toLocaleString()} SF · $${rate}/SF · ${term}-year term`;
+
+            document.getElementById('br_tlv').textContent = fmt$(tlv);
+            document.getElementById('br_gross').textContent = fmt$(gross);
+            document.getElementById('br_gross_sub').textContent = `${(commRate * 100).toFixed(1)}% of ${basis === 'total' ? 'total value' : basis === 'annual' ? 'annual rent' : 'first 3 yrs'}`;
+            document.getElementById('br_after').textContent = fmt$(yours);
+            document.getElementById('br_after_sub').textContent = `${(split * 100).toFixed(0)}% split${cobroke !== 'no' ? ' · co-broke' : ''}`;
+            document.getElementById('br_eff').textContent = fmtSF(effRate);
+
+            // vs Big Firm
+            const bigFirmComm = commBase * 0.06;
+            document.getElementById('vs_bigfirm').textContent = fmt$(bigFirmComm);
+            document.getElementById('vs_yours').textContent = fmt$(gross);
+            document.getElementById('vs_savings').textContent = fmt$(bigFirmComm - gross) + ' (landlord pays)';
+            document.getElementById('vs_deals').textContent = 'Win 40% more pitches at lower fee';
+
+            renderPipeline();
+        }
+
+        function renderPipeline() {
+            const commRate = parseFloat(document.getElementById('commRate').value) / 100;
+            const split = parseFloat(document.getElementById('split').value) / 100;
+            let total = 0;
+            document.getElementById('pipelineBody').innerHTML = pipeline.map((p, i) => {
+                const comm = p.sf * p.rate * p.term * commRate * split;
+                total += comm;
+                return `<tr>
+                    <td><input value="${p.name}" onchange="pipeline[${i}].name=this.value"></td>
+                    <td><input type="number" value="${p.sf}" style="width:70px" onchange="pipeline[${i}].sf=+this.value; renderPipeline()"></td>
+                    <td><input type="number" value="${p.rate}" step="0.5" style="width:60px" onchange="pipeline[${i}].rate=+this.value; renderPipeline()"></td>
+                    <td><input type="number" value="${p.term}" style="width:45px" onchange="pipeline[${i}].term=+this.value; renderPipeline()"></td>
+                    <td style="color:#10b981; font-weight:700;">${fmt$(comm)}</td>
+                    <td><button onclick="pipeline.splice(${i},1); renderPipeline()" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:1rem;">✕</button></td>
+                </tr>`;
+            }).join('');
+            document.getElementById('pipelineTotal').textContent = fmt$(total);
+        }
+
+        function addPipelineRow() {
+            pipeline.push({ name: 'New Deal', sf: 10000, rate: 20.00, term: 5 });
+            renderPipeline();
+        }
+
+        // Init
+        calculate();
+    </script>
+</body>
+</html>
