@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>National Market Intelligence Dashboard</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; margin: 0; padding: 20px; background: #f5f7fa; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .markets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .market-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .market-name { font-size: 1.25rem; font-weight: bold; color: #2d3748; margin-bottom: 1rem; }
+        .market-stat { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0; }
+        .stat-label { color: #718096; }
+        .stat-value { font-weight: 600; }
+        .suburbs { margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #e2e8f0; }
+        .suburb-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+        .suburb-tag { background: #edf2f7; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌎 National Market Intelligence</h1>
+        <p>Real-time data from 23 major markets</p>
+        <p>Powered by REIT disclosures - Updated 4/18/2026</p>
+    </div>
+    
+    <div class="markets-grid">
+        
+            <div class="market-card">
+                <div class="market-name">New York</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$69.33/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.0%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">6 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Long Island</span><span class="suburb-tag">Westchester</span><span class="suburb-tag">New Jersey</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Boston</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$65.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">8.2%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Cambridge</span><span class="suburb-tag">Quincy</span><span class="suburb-tag">Burlington</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Los Angeles</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$60.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.1%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">6 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Orange County</span><span class="suburb-tag">Ventura</span><span class="suburb-tag">San Bernardino</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">San Francisco</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$62.67/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.9%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">10 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Oakland</span><span class="suburb-tag">San Jose</span><span class="suburb-tag">Palo Alto</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Washington DC</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$65.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">8.2%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">8 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Arlington</span><span class="suburb-tag">Alexandria</span><span class="suburb-tag">Bethesda</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Chicago</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$54.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">13.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.25/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">6 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Naperville</span><span class="suburb-tag">Schaumburg</span><span class="suburb-tag">Oak Brook</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">San Diego</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$55.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">16.0%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">10 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">La Jolla</span><span class="suburb-tag">Carlsbad</span><span class="suburb-tag">Chula Vista</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Seattle</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$55.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">16.0%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Bellevue</span><span class="suburb-tag">Redmond</span><span class="suburb-tag">Tacoma</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Austin</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$45.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">14.3%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">11 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Round Rock</span><span class="suburb-tag">Cedar Park</span><span class="suburb-tag">Pflugerville</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Atlanta</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$35.67/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">11.4%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.17/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">8 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Alpharetta</span><span class="suburb-tag">Marietta</span><span class="suburb-tag">Decatur</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Nashville</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$36.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">10.9%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.25/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">10 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Franklin</span><span class="suburb-tag">Brentwood</span><span class="suburb-tag">Murfreesboro</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Raleigh</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$32.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">9.2%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">9 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Tampa</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$33.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">10.9%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">10 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">St. Petersburg</span><span class="suburb-tag">Clearwater</span><span class="suburb-tag">Brandon</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Orlando</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$32.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">9.2%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Charlotte</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$33.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">10.9%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">9 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Ballantyne</span><span class="suburb-tag">Huntersville</span><span class="suburb-tag">Fort Mill</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Phoenix</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$35.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.6%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">9 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Scottsdale</span><span class="suburb-tag">Mesa</span><span class="suburb-tag">Tempe</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">All Major US Markets</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">13.9%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$8.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">8 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Cincinnati</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Columbus</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Dallas</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">11 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">Plano</span><span class="suburb-tag">Irving</span><span class="suburb-tag">Fort Worth</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Houston</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">9 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        <span class="suburb-tag">The Woodlands</span><span class="suburb-tag">Sugar Land</span><span class="suburb-tag">Katy</span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">Indianapolis</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.5%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$7.50/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">7 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="market-card">
+                <div class="market-name">25 US Markets</div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Rate</span>
+                    <span class="stat-value">$40.00/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Office Vacancy</span>
+                    <span class="stat-value">12.8%</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Industrial Rate</span>
+                    <span class="stat-value">$6.80/sq ft</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-label">Typical Concessions</span>
+                    <span class="stat-value">9 months free typical</span>
+                </div>
+                <div class="suburbs">
+                    <strong>Suburbs Covered:</strong>
+                    <div class="suburb-list">
+                        
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</body>
+</html>

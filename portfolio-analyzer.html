@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Analyzer | Apex AI Advisors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .market-data {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .market-data h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .market-stat {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .market-label {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        
+        .market-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .portfolio-input {
+            margin-bottom: 2rem;
+        }
+        
+        .portfolio-input h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        
+        .property-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-size: 0.875rem;
+            color: #4a5568;
+            margin-bottom: 0.25rem;
+        }
+        
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-add {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .portfolio-list {
+            margin-bottom: 2rem;
+        }
+        
+        .property-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .property-address {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .vs-market {
+            font-weight: bold;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        
+        .vs-market.above {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+        
+        .vs-market.below {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .vs-market.at {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+        
+        .btn-remove {
+            background: #EF4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .analysis-results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .analysis-stat {
+            text-align: center;
+        }
+        
+        .analysis-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .analysis-label {
+            opacity: 0.9;
+            font-size: 0.875rem;
+        }
+        
+        .savings-highlight {
+            background: white;
+            color: #059669;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .savings-amount {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .property-form,
+            .property-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Portfolio Analyzer</h1>
+            <p>Compare your portfolio against current market rates</p>
+        </div>
+        
+        <div class="main-card">
+            <!-- Current Market Data -->
+            <div class="market-data">
+                <h3>Current Chicago Market Averages (Q4 2026)</h3>
+                <div class="market-grid">
+                    <div class="market-stat">
+                        <div class="market-label">Office - Class A</div>
+                        <div class="market-value">$45/sq ft</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-label">Office - Class B</div>
+                        <div class="market-value">$38/sq ft</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-label">Industrial/Warehouse</div>
+                        <div class="market-value">$8.75/sq ft</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="market-label">Flex Space</div>
+                        <div class="market-value">$12/sq ft</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: #718096;">
+                    Data aggregated from JLL, CBRE, Cushman & Wakefield Q4 reports
+                </p>
+            </div>
+            
+            <!-- Portfolio Input -->
+            <div class="portfolio-input">
+                <h3>Add Your Properties</h3>
+                <div class="property-form">
+                    <div class="form-group">
+                        <label>Property Address</label>
+                        <input type="text" id="address" placeholder="123 State Street">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="type">
+                            <option value="Office A">Office - Class A</option>
+                            <option value="Office B">Office - Class B</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Flex">Flex Space</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Size (sq ft)</label>
+                        <input type="number" id="size" placeholder="25000">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Rate</label>
+                        <input type="number" id="rate" placeholder="42.50" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Lease Expiry</label>
+                        <input type="date" id="expiry">
+                    </div>
+                    <button class="btn btn-add" onclick="addProperty()">+ Add</button>
+                </div>
+            </div>
+            
+            <!-- Portfolio List -->
+            <div class="portfolio-list" id="portfolioList">
+                <h3>Your Portfolio</h3>
+                <div id="propertiesContainer">
+                    <!-- Properties will be added here -->
+                </div>
+            </div>
+            
+            <!-- Analysis Results -->
+            <div class="analysis-results" id="analysisResults" style="display: none;">
+                <h2>Portfolio Analysis Results</h2>
+                <div class="analysis-grid">
+                    <div class="analysis-stat">
+                        <div class="analysis-value" id="totalProperties">0</div>
+                        <div class="analysis-label">Total Properties</div>
+                    </div>
+                    <div class="analysis-stat">
+                        <div class="analysis-value" id="totalSqFt">0</div>
+                        <div class="analysis-label">Total Sq Ft</div>
+                    </div>
+                    <div class="analysis-stat">
+                        <div class="analysis-value" id="aboveMarket">0</div>
+                        <div class="analysis-label">Above Market</div>
+                    </div>
+                    <div class="analysis-stat">
+                        <div class="analysis-value" id="belowMarket">0</div>
+                        <div class="analysis-label">Below Market</div>
+                    </div>
+                </div>
+                
+                <div class="savings-highlight">
+                    <div class="savings-amount" id="savingsAmount">$0</div>
+                    <div>Potential Annual Savings Identified</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Market rates (would be fetched from scraped data in production)
+        const marketRates = {
+            'Office A': 45.00,
+            'Office B': 38.00,
+            'Industrial': 8.75,
+            'Flex': 12.00
+        };
+        
+        let portfolio = [];
+        
+        function addProperty() {
+            const property = {
+                id: Date.now(),
+                address: document.getElementById('address').value,
+                type: document.getElementById('type').value,
+                size: parseFloat(document.getElementById('size').value),
+                rate: parseFloat(document.getElementById('rate').value),
+                expiry: document.getElementById('expiry').value
+            };
+            
+            if (!property.address || !property.size || !property.rate) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            portfolio.push(property);
+            renderPortfolio();
+            analyzePortfolio();
+            
+            // Clear form
+            document.getElementById('address').value = '';
+            document.getElementById('size').value = '';
+            document.getElementById('rate').value = '';
+            document.getElementById('expiry').value = '';
+        }
+        
+        function removeProperty(id) {
+            portfolio = portfolio.filter(p => p.id !== id);
+            renderPortfolio();
+            analyzePortfolio();
+        }
+        
+        function renderPortfolio() {
+            const container = document.getElementById('propertiesContainer');
+            
+            if (portfolio.length === 0) {
+                container.innerHTML = '<p style="color: #718096;">No properties added yet</p>';
+                return;
+            }
+            
+            container.innerHTML = portfolio.map(property => {
+                const marketRate = marketRates[property.type];
+                const diff = ((property.rate - marketRate) / marketRate * 100).toFixed(1);
+                const status = diff > 5 ? 'above' : diff < -5 ? 'below' : 'at';
+                const statusText = diff > 0 ? `+${diff}%` : `${diff}%`;
+                
+                return `
+                    <div class="property-item">
+                        <div class="property-address">${property.address}</div>
+                        <div>${property.type}</div>
+                        <div>${property.size.toLocaleString()} sq ft</div>
+                        <div>$${property.rate}/sq ft</div>
+                        <div class="vs-market ${status}">${statusText} vs Market</div>
+                        <button class="btn btn-remove" onclick="removeProperty(${property.id})">Remove</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function analyzePortfolio() {
+            if (portfolio.length === 0) {
+                document.getElementById('analysisResults').style.display = 'none';
+                return;
+            }
+            
+            let totalSqFt = 0;
+            let aboveMarket = 0;
+            let belowMarket = 0;
+            let totalSavings = 0;
+            
+            portfolio.forEach(property => {
+                const marketRate = marketRates[property.type];
+                totalSqFt += property.size;
+                
+                if (property.rate > marketRate * 1.05) {
+                    aboveMarket++;
+                    const savings = (property.rate - marketRate) * property.size * 12;
+                    totalSavings += savings;
+                } else if (property.rate < marketRate * 0.95) {
+                    belowMarket++;
+                }
+            });
+            
+            document.getElementById('totalProperties').textContent = portfolio.length;
+            document.getElementById('totalSqFt').textContent = totalSqFt.toLocaleString();
+            document.getElementById('aboveMarket').textContent = aboveMarket;
+            document.getElementById('belowMarket').textContent = belowMarket;
+            document.getElementById('savingsAmount').textContent = '$' + totalSavings.toLocaleString();
+            
+            document.getElementById('analysisResults').style.display = 'block';
+        }
+        
+        // Add sample properties for demo
+        function loadSampleData() {
+            portfolio = [
+                { id: 1, address: '123 Wacker Drive', type: 'Office A', size: 25000, rate: 48, expiry: '2027-12-31' },
+                { id: 2, address: '456 LaSalle Street', type: 'Office B', size: 15000, rate: 35, expiry: '2028-06-30' },
+                { id: 3, address: '789 Industrial Way', type: 'Industrial', size: 50000, rate: 9.5, expiry: '2027-03-31' }
+            ];
+            renderPortfolio();
+            analyzePortfolio();
+        }
+        
+        // Load sample data on page load for demo
+        loadSampleData();
+    </script>
+</body>
+</html>

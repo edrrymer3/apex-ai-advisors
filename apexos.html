@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexOS | Transaction Management Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #1a202c;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+        }
+        
+        .header-nav a:hover { opacity: 1; }
+        
+        /* Main Layout */
+        .container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 1.5rem;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: #f7fafc;
+            color: #3B82F6;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            color: white;
+        }
+        
+        .nav-item i {
+            width: 20px;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        /* Pipeline View */
+        .pipeline-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            min-height: 500px;
+        }
+        
+        .pipeline-column {
+            min-width: 300px;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .pipeline-header {
+            font-weight: 600;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pipeline-count {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+        }
+        
+        .deal-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: move;
+            transition: all 0.2s;
+        }
+        
+        .deal-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .deal-card.dragging {
+            opacity: 0.5;
+        }
+        
+        .deal-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .deal-info {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        
+        .deal-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .tag.urgent {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+        
+        .tag.sublease {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+        
+        .tag.negotiable {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+        
+        /* Action Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-change.positive {
+            color: #10B981;
+        }
+        
+        .stat-change.negative {
+            color: #EF4444;
+        }
+        
+        /* Detail View */
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .detail-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .detail-tab {
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            color: #718096;
+            transition: all 0.2s;
+        }
+        
+        .detail-tab:hover {
+            color: #3B82F6;
+        }
+        
+        .detail-tab.active {
+            color: #3B82F6;
+            border-bottom-color: #3B82F6;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        /* Tour Schedule */
+        .tour-list {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .tour-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tour-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tour-date {
+            font-weight: 600;
+            color: #3B82F6;
+        }
+        
+        .tour-property {
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0.25rem 0;
+        }
+        
+        .tour-details {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+                padding: 1rem;
+            }
+            
+            .pipeline-column {
+                min-width: 280px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🏢 ApexOS</div>
+        <div class="header-nav">
+            <a href="#" onclick="setView('pipeline')">Pipeline</a>
+            <a href="#" onclick="setView('calendar')">Calendar</a>
+            <a href="#" onclick="setView('reports')">Reports</a>
+            <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="openAddDeal()">+ New Deal</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="nav-item active" onclick="setView('pipeline')">
+                <i>📊</i> Deal Pipeline
+            </div>
+            <div class="nav-item" onclick="setView('properties')">
+                <i>🏢</i> Properties
+            </div>
+            <div class="nav-item" onclick="setView('tours')">
+                <i>👁️</i> Tours
+            </div>
+            <div class="nav-item" onclick="setView('proposals')">
+                <i>📄</i> Proposals
+            </div>
+            <div class="nav-item" onclick="setView('clients')">
+                <i>👥</i> Clients
+            </div>
+            <div class="nav-item" onclick="setView('calendar')">
+                <i>📅</i> Calendar
+            </div>
+            <div class="nav-item" onclick="setView('reports')">
+                <i>📈</i> Reports
+            </div>
+            <div class="nav-item" onclick="setView('settings')">
+                <i>⚙️</i> Settings
+            </div>
+        </div>
+        
+        <div class="main-content" id="mainContent">
+            <!-- Pipeline View (Default) -->
+            <div id="pipelineView">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Active Deals</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-change positive">↑ 2 this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Tours Scheduled</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-change">Next: Tomorrow 2PM</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Proposals Active</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-change negative">2 expiring soon</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Pipeline SF</div>
+                        <div class="stat-value">185K</div>
+                        <div class="stat-change">$7.4M annual value</div>
+                    </div>
+                </div>
+                
+                <h2 style="margin-bottom: 1.5rem;">Deal Pipeline</h2>
+                
+                <div class="pipeline-container">
+                    <div class="pipeline-column" data-stage="requirements">
+                        <div class="pipeline-header">
+                            <span>📋 Requirements</span>
+                            <span class="pipeline-count">3</span>
+                        </div>
+                        <div class="deals-container" ondrop="drop(event, 'requirements')" ondragover="allowDrop(event)">
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="1">
+                                <div class="deal-title">Tech Startup - Series B</div>
+                                <div class="deal-info">15,000-20,000 sq ft</div>
+                                <div class="deal-info">West Loop / Fulton Market</div>
+                                <div class="deal-info">Timeline: Q3 2026</div>
+                                <div class="deal-tags">
+                                    <span class="tag urgent">Urgent</span>
+                                </div>
+                            </div>
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="2">
+                                <div class="deal-title">Law Firm Expansion</div>
+                                <div class="deal-info">8,000 sq ft</div>
+                                <div class="deal-info">Loop - Class A</div>
+                                <div class="deal-info">Timeline: Q4 2026</div>
+                            </div>
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="3">
+                                <div class="deal-title">Manufacturing Co.</div>
+                                <div class="deal-info">50,000 sq ft warehouse</div>
+                                <div class="deal-info">O'Hare area</div>
+                                <div class="deal-info">20' ceiling minimum</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-column" data-stage="search">
+                        <div class="pipeline-header">
+                            <span>🔍 Property Search</span>
+                            <span class="pipeline-count">2</span>
+                        </div>
+                        <div class="deals-container" ondrop="drop(event, 'search')" ondragover="allowDrop(event)">
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="4">
+                                <div class="deal-title">Marketing Agency</div>
+                                <div class="deal-info">12,000 sq ft</div>
+                                <div class="deal-info">River North</div>
+                                <div class="deal-info">Identified: 5 properties</div>
+                                <div class="deal-tags">
+                                    <span class="tag sublease">Sublease OK</span>
+                                </div>
+                            </div>
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="5">
+                                <div class="deal-title">Insurance Company</div>
+                                <div class="deal-info">25,000 sq ft</div>
+                                <div class="deal-info">Willis Tower</div>
+                                <div class="deal-info">Identified: 3 floors</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-column" data-stage="tour">
+                        <div class="pipeline-header">
+                            <span>👁️ Touring</span>
+                            <span class="pipeline-count">3</span>
+                        </div>
+                        <div class="deals-container" ondrop="drop(event, 'tour')" ondragover="allowDrop(event)">
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="6">
+                                <div class="deal-title">Consulting Firm</div>
+                                <div class="deal-info">18,000 sq ft</div>
+                                <div class="deal-info">123 Wacker - Tomorrow 2PM</div>
+                                <div class="deal-info">2/4 tours complete</div>
+                            </div>
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="7">
+                                <div class="deal-title">FinTech Startup</div>
+                                <div class="deal-info">7,500 sq ft</div>
+                                <div class="deal-info">Merchandise Mart</div>
+                                <div class="deal-info">Tour: Friday 10AM</div>
+                                <div class="deal-tags">
+                                    <span class="tag negotiable">Negotiable Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-column" data-stage="proposal">
+                        <div class="pipeline-header">
+                            <span>📄 Proposal/Negotiation</span>
+                            <span class="pipeline-count">2</span>
+                        </div>
+                        <div class="deals-container" ondrop="drop(event, 'proposal')" ondragover="allowDrop(event)">
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="8">
+                                <div class="deal-title">Healthcare Tech</div>
+                                <div class="deal-info">22,000 sq ft</div>
+                                <div class="deal-info">600 W Chicago</div>
+                                <div class="deal-info">Proposal: $38/sq ft</div>
+                                <div class="deal-tags">
+                                    <span class="tag urgent">Expires in 3 days</span>
+                                </div>
+                            </div>
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="9">
+                                <div class="deal-title">Media Company</div>
+                                <div class="deal-info">30,000 sq ft</div>
+                                <div class="deal-info">Prudential Plaza</div>
+                                <div class="deal-info">Counter at $35/sq ft</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-column" data-stage="execution">
+                        <div class="pipeline-header">
+                            <span>✅ Lease Execution</span>
+                            <span class="pipeline-count">2</span>
+                        </div>
+                        <div class="deals-container" ondrop="drop(event, 'execution')" ondragover="allowDrop(event)">
+                            <div class="deal-card" draggable="true" ondragstart="drag(event)" data-id="10">
+                                <div class="deal-title">Accounting Firm</div>
+                                <div class="deal-info">14,000 sq ft</div>
+                                <div class="deal-info">One North Wacker</div>
+                                <div class="deal-info">Legal review in progress</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other Views (hidden by default) -->
+            <div id="propertiesView" style="display: none;">
+                <h2>Properties Database</h2>
+                <p>Property search and comparison tools coming soon...</p>
+            </div>
+            
+            <div id="toursView" style="display: none;">
+                <h2>Tour Schedule</h2>
+                <div class="tour-list">
+                    <div class="tour-item">
+                        <div>
+                            <div class="tour-date">Tomorrow - 2:00 PM</div>
+                            <div class="tour-property">123 Wacker Drive - 18,000 sq ft</div>
+                            <div class="tour-details">Client: Consulting Firm | Contact: John Smith (JLL)</div>
+                        </div>
+                        <button class="btn btn-secondary">View Details</button>
+                    </div>
+                    <div class="tour-item">
+                        <div>
+                            <div class="tour-date">Friday - 10:00 AM</div>
+                            <div class="tour-property">Merchandise Mart - 7,500 sq ft</div>
+                            <div class="tour-details">Client: FinTech Startup | Contact: Jane Doe (CBRE)</div>
+                        </div>
+                        <button class="btn btn-secondary">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Deal Modal -->
+    <div class="modal" id="addDealModal">
+        <div class="modal-content">
+            <div class="modal-header">New Deal / Client Requirement</div>
+            <form id="dealForm">
+                <div class="form-group">
+                    <label>Client Company Name*</label>
+                    <input type="text" name="company" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contact Name</label>
+                        <input type="text" name="contact">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input type="email" name="email">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Space Needed (sq ft)*</label>
+                        <input type="text" name="size" placeholder="e.g., 10,000-15,000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Property Type*</label>
+                        <select name="type" required>
+                            <option>Office</option>
+                            <option>Industrial/Warehouse</option>
+                            <option>Flex Space</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Location(s)</label>
+                    <input type="text" name="location" placeholder="e.g., West Loop, River North">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Target Move Date</label>
+                        <input type="date" name="moveDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Range</label>
+                        <input type="text" name="budget" placeholder="e.g., $35-40/sq ft">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Requirements & Notes</label>
+                    <textarea name="notes" placeholder="Parking needs, amenities, special requirements..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Deal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Deal Pipeline Management
+        let currentDraggedElement = null;
+        let deals = JSON.parse(localStorage.getItem('apexos_deals') || '[]');
+        
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        
+        function drag(ev) {
+            currentDraggedElement = ev.target;
+            ev.dataTransfer.effectAllowed = 'move';
+            ev.target.classList.add('dragging');
+        }
+        
+        function drop(ev, stage) {
+            ev.preventDefault();
+            if (currentDraggedElement) {
+                const container = document.querySelector(`.pipeline-column[data-stage="${stage}"] .deals-container`);
+                container.appendChild(currentDraggedElement);
+                currentDraggedElement.classList.remove('dragging');
+                
+                // Update deal stage in storage
+                const dealId = currentDraggedElement.dataset.id;
+                updateDealStage(dealId, stage);
+                updatePipelineCounts();
+            }
+        }
+        
+        function updateDealStage(dealId, stage) {
+            // Save to localStorage
+            const deals = JSON.parse(localStorage.getItem('apexos_deals') || '{}');
+            if (!deals[dealId]) deals[dealId] = {};
+            deals[dealId].stage = stage;
+            deals[dealId].lastUpdated = new Date().toISOString();
+            localStorage.setItem('apexos_deals', JSON.stringify(deals));
+        }
+        
+        function updatePipelineCounts() {
+            document.querySelectorAll('.pipeline-column').forEach(column => {
+                const stage = column.dataset.stage;
+                const count = column.querySelectorAll('.deal-card').length;
+                column.querySelector('.pipeline-count').textContent = count;
+            });
+        }
+        
+        // View Management
+        function setView(view) {
+            // Hide all views
+            document.querySelectorAll('[id$="View"]').forEach(v => v.style.display = 'none');
+            
+            // Show selected view
+            const viewElement = document.getElementById(view + 'View');
+            if (viewElement) {
+                viewElement.style.display = 'block';
+            } else {
+                // Default to pipeline if view doesn't exist yet
+                document.getElementById('pipelineView').style.display = 'block';
+            }
+            
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Modal Management
+        function openAddDeal() {
+            document.getElementById('addDealModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('addDealModal').classList.remove('active');
+        }
+        
+        // Form Submission
+        document.getElementById('dealForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const deal = Object.fromEntries(formData);
+            deal.id = 'deal_' + Date.now();
+            deal.stage = 'requirements';
+            deal.createdAt = new Date().toISOString();
+            
+            // Save to localStorage
+            const deals = JSON.parse(localStorage.getItem('apexos_deals_list') || '[]');
+            deals.push(deal);
+            localStorage.setItem('apexos_deals_list', JSON.stringify(deals));
+            
+            // Create new deal card
+            createDealCard(deal);
+            
+            // Close modal and reset form
+            closeModal();
+            e.target.reset();
+            
+            // Show success message
+            showNotification('Deal created successfully!');
+        });
+        
+        function createDealCard(deal) {
+            const card = document.createElement('div');
+            card.className = 'deal-card';
+            card.draggable = true;
+            card.ondragstart = drag;
+            card.dataset.id = deal.id;
+            
+            card.innerHTML = `
+                <div class="deal-title">${deal.company}</div>
+                <div class="deal-info">${deal.size} sq ft</div>
+                <div class="deal-info">${deal.location || 'Location TBD'}</div>
+                <div class="deal-info">Target: ${deal.moveDate || 'Flexible'}</div>
+            `;
+            
+            // Add to requirements column
+            document.querySelector('.pipeline-column[data-stage="requirements"] .deals-container').appendChild(card);
+            updatePipelineCounts();
+        }
+        
+        function showNotification(message) {
+            // Simple notification (could be enhanced)
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #10B981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
+        }
+        
+        // Initialize
+        updatePipelineCounts();
+        
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

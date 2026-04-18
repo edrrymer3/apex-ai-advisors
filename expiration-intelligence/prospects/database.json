@@ -1,0 +1,311 @@
+{
+  "prospects": [
+    {
+      "priority": 85,
+      "tenant": "Consulting Firm",
+      "sqft": 75000,
+      "building": "100 California St, SF",
+      "expiryDate": "2026-09-30",
+      "daysUntilExpiry": 164,
+      "currentRent": 85,
+      "marketRent": 75,
+      "savingsOpportunity": 9000000,
+      "renewalLikelihood": "In negotiation",
+      "notes": "50% probability of downsizing",
+      "contactStrategy": {
+        "urgency": "HIGH",
+        "approach": "Immediate outreach - they need help now",
+        "message": "Market has shifted significantly since your lease was signed. We can help you capture 15-20% savings.",
+        "timing": "Call this week"
+      },
+      "source": "Boston Properties"
+    },
+    {
+      "priority": 85,
+      "tenant": "Consulting Firm",
+      "sqft": 75000,
+      "building": "100 California St, SF",
+      "expiryDate": "2026-09-30",
+      "daysUntilExpiry": 164,
+      "currentRent": 85,
+      "marketRent": 75,
+      "savingsOpportunity": 9000000,
+      "renewalLikelihood": "In negotiation",
+      "notes": "50% probability of downsizing",
+      "contactStrategy": {
+        "urgency": "HIGH",
+        "approach": "Immediate outreach - they need help now",
+        "message": "Market has shifted significantly since your lease was signed. We can help you capture 15-20% savings.",
+        "timing": "Call this week"
+      },
+      "source": "SL Green"
+    },
+    {
+      "priority": 85,
+      "tenant": "Consulting Firm",
+      "sqft": 75000,
+      "building": "100 California St, SF",
+      "expiryDate": "2026-09-30",
+      "daysUntilExpiry": 164,
+      "currentRent": 85,
+      "marketRent": 75,
+      "savingsOpportunity": 9000000,
+      "renewalLikelihood": "In negotiation",
+      "notes": "50% probability of downsizing",
+      "contactStrategy": {
+        "urgency": "HIGH",
+        "approach": "Immediate outreach - they need help now",
+        "message": "Market has shifted significantly since your lease was signed. We can help you capture 15-20% savings.",
+        "timing": "Call this week"
+      },
+      "source": "Vornado"
+    },
+    {
+      "priority": 85,
+      "tenant": "Consulting Firm",
+      "sqft": 75000,
+      "building": "100 California St, SF",
+      "expiryDate": "2026-09-30",
+      "daysUntilExpiry": 164,
+      "currentRent": 85,
+      "marketRent": 75,
+      "savingsOpportunity": 9000000,
+      "renewalLikelihood": "In negotiation",
+      "notes": "50% probability of downsizing",
+      "contactStrategy": {
+        "urgency": "HIGH",
+        "approach": "Immediate outreach - they need help now",
+        "message": "Market has shifted significantly since your lease was signed. We can help you capture 15-20% savings.",
+        "timing": "Call this week"
+      },
+      "source": "Kilroy"
+    },
+    {
+      "priority": 85,
+      "tenant": "Consulting Firm",
+      "sqft": 75000,
+      "building": "100 California St, SF",
+      "expiryDate": "2026-09-30",
+      "daysUntilExpiry": 164,
+      "currentRent": 85,
+      "marketRent": 75,
+      "savingsOpportunity": 9000000,
+      "renewalLikelihood": "In negotiation",
+      "notes": "50% probability of downsizing",
+      "contactStrategy": {
+        "urgency": "HIGH",
+        "approach": "Immediate outreach - they need help now",
+        "message": "Market has shifted significantly since your lease was signed. We can help you capture 15-20% savings.",
+        "timing": "Call this week"
+      },
+      "source": "Hudson Pacific"
+    },
+    {
+      "priority": 75,
+      "tenant": "Tech Startup",
+      "sqft": 45000,
+      "building": "200 W Madison, Chicago",
+      "expiryDate": "2026-12-31",
+      "daysUntilExpiry": 256,
+      "currentRent": 42,
+      "marketRent": 38,
+      "savingsOpportunity": 2160000,
+      "renewalLikelihood": "Unlikely",
+      "notes": "Exploring sublease options",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Boston Properties"
+    },
+    {
+      "priority": 75,
+      "tenant": "Tech Startup",
+      "sqft": 45000,
+      "building": "200 W Madison, Chicago",
+      "expiryDate": "2026-12-31",
+      "daysUntilExpiry": 256,
+      "currentRent": 42,
+      "marketRent": 38,
+      "savingsOpportunity": 2160000,
+      "renewalLikelihood": "Unlikely",
+      "notes": "Exploring sublease options",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "SL Green"
+    },
+    {
+      "priority": 75,
+      "tenant": "Tech Startup",
+      "sqft": 45000,
+      "building": "200 W Madison, Chicago",
+      "expiryDate": "2026-12-31",
+      "daysUntilExpiry": 256,
+      "currentRent": 42,
+      "marketRent": 38,
+      "savingsOpportunity": 2160000,
+      "renewalLikelihood": "Unlikely",
+      "notes": "Exploring sublease options",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Vornado"
+    },
+    {
+      "priority": 75,
+      "tenant": "Tech Startup",
+      "sqft": 45000,
+      "building": "200 W Madison, Chicago",
+      "expiryDate": "2026-12-31",
+      "daysUntilExpiry": 256,
+      "currentRent": 42,
+      "marketRent": 38,
+      "savingsOpportunity": 2160000,
+      "renewalLikelihood": "Unlikely",
+      "notes": "Exploring sublease options",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Kilroy"
+    },
+    {
+      "priority": 75,
+      "tenant": "Tech Startup",
+      "sqft": 45000,
+      "building": "200 W Madison, Chicago",
+      "expiryDate": "2026-12-31",
+      "daysUntilExpiry": 256,
+      "currentRent": 42,
+      "marketRent": 38,
+      "savingsOpportunity": 2160000,
+      "renewalLikelihood": "Unlikely",
+      "notes": "Exploring sublease options",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Hudson Pacific"
+    },
+    {
+      "priority": 50,
+      "tenant": "Insurance Company",
+      "sqft": 120000,
+      "building": "300 S Wacker, Chicago",
+      "expiryDate": "2027-03-31",
+      "daysUntilExpiry": 346,
+      "currentRent": 38,
+      "marketRent": 36,
+      "savingsOpportunity": 2880000,
+      "renewalLikelihood": "Likely",
+      "notes": "May consolidate from 2 floors to 1.5",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Boston Properties"
+    },
+    {
+      "priority": 50,
+      "tenant": "Insurance Company",
+      "sqft": 120000,
+      "building": "300 S Wacker, Chicago",
+      "expiryDate": "2027-03-31",
+      "daysUntilExpiry": 346,
+      "currentRent": 38,
+      "marketRent": 36,
+      "savingsOpportunity": 2880000,
+      "renewalLikelihood": "Likely",
+      "notes": "May consolidate from 2 floors to 1.5",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "SL Green"
+    },
+    {
+      "priority": 50,
+      "tenant": "Insurance Company",
+      "sqft": 120000,
+      "building": "300 S Wacker, Chicago",
+      "expiryDate": "2027-03-31",
+      "daysUntilExpiry": 346,
+      "currentRent": 38,
+      "marketRent": 36,
+      "savingsOpportunity": 2880000,
+      "renewalLikelihood": "Likely",
+      "notes": "May consolidate from 2 floors to 1.5",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Vornado"
+    },
+    {
+      "priority": 50,
+      "tenant": "Insurance Company",
+      "sqft": 120000,
+      "building": "300 S Wacker, Chicago",
+      "expiryDate": "2027-03-31",
+      "daysUntilExpiry": 346,
+      "currentRent": 38,
+      "marketRent": 36,
+      "savingsOpportunity": 2880000,
+      "renewalLikelihood": "Likely",
+      "notes": "May consolidate from 2 floors to 1.5",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Kilroy"
+    },
+    {
+      "priority": 50,
+      "tenant": "Insurance Company",
+      "sqft": 120000,
+      "building": "300 S Wacker, Chicago",
+      "expiryDate": "2027-03-31",
+      "daysUntilExpiry": 346,
+      "currentRent": 38,
+      "marketRent": 36,
+      "savingsOpportunity": 2880000,
+      "renewalLikelihood": "Likely",
+      "notes": "May consolidate from 2 floors to 1.5",
+      "contactStrategy": {
+        "urgency": "MEDIUM",
+        "approach": "Strategic outreach - planning phase",
+        "message": "Smart tenants start renewal negotiations 12 months out. Let us show you the current market.",
+        "timing": "Email introduction, follow up in 2 weeks"
+      },
+      "source": "Hudson Pacific"
+    }
+  ],
+  "lastUpdated": "2026-04-18T20:48:15.234Z",
+  "stats": {
+    "total": 15,
+    "highPriority": 10,
+    "totalSqFt": 1200000,
+    "totalSavings": 70200000
+  }
+}

@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Command Center - Apex AI Advisors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-change {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .positive { color: #10b981; }
+        .negative { color: #ef4444; }
+        .neutral { color: #6b7280; }
+        
+        .portfolio-section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .locations-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .location-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .location-card:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .location-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        
+        .location-details {
+            display: flex;
+            gap: 2rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .expiry-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .expiry-urgent {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .expiry-soon {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        .expiry-future {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 2px solid #1a1a2e;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -1.06rem;
+            top: 1.5rem;
+            bottom: -1rem;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-content {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .timeline-date {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .opportunity-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .opportunity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .opportunity-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        .savings-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .map-container {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #portfolio-map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tab {
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #667eea;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .location-details {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Portfolio Command Center</h1>
+            <p>Real-time portfolio optimization & lease management</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Portfolio Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Locations</div>
+                <div class="stat-value" id="total-locations">0</div>
+                <div class="stat-change positive">
+                    <span>↑ 2 this quarter</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Total Square Footage</div>
+                <div class="stat-value" id="total-sqft">0</div>
+                <div class="stat-change neutral">
+                    <span>→ No change</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Annual Rent Expense</div>
+                <div class="stat-value" id="annual-rent">$0</div>
+                <div class="stat-change positive">
+                    <span>↓ $2.4M saved YTD</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Avg Cost per Sq Ft</div>
+                <div class="stat-value" id="avg-psf">$0</div>
+                <div class="stat-change positive">
+                    <span>↓ 12% vs market</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Upcoming Expirations</div>
+                <div class="stat-value" id="upcoming-exp">0</div>
+                <div class="stat-change negative">
+                    <span>⚠ 3 urgent</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Optimization Score</div>
+                <div class="stat-value" id="opt-score">0%</div>
+                <div class="stat-change positive">
+                    <span>↑ 8 points</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Company Selector -->
+        <div class="portfolio-section">
+            <div class="section-header">
+                <h2 class="section-title">Select Portfolio Company</h2>
+                <button class="btn" onclick="addPortfolioCompany()">+ Add Company</button>
+            </div>
+            <select id="company-selector" class="form-input" onchange="loadPortfolio()">
+                <option value="">Select a portfolio company...</option>
+                <option value="tech-corp">TechCorp International (15 locations)</option>
+                <option value="retail-chain">Retail Chain USA (42 locations)</option>
+                <option value="finance-group">Finance Group Holdings (8 locations)</option>
+                <option value="healthcare-sys">Healthcare Systems Inc (23 locations)</option>
+            </select>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('locations')">Locations</button>
+            <button class="tab" onclick="switchTab('timeline')">Timeline</button>
+            <button class="tab" onclick="switchTab('opportunities')">Opportunities</button>
+            <button class="tab" onclick="switchTab('map')">Map View</button>
+            <button class="tab" onclick="switchTab('analytics')">Analytics</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div id="locations-tab" class="tab-content active">
+            <div class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Portfolio Locations</h2>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-secondary btn" onclick="exportLocations()">Export</button>
+                        <button class="btn" onclick="optimizePortfolio()">Optimize Portfolio</button>
+                    </div>
+                </div>
+                
+                <div class="locations-grid" id="locations-list">
+                    <!-- Locations will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="timeline-tab" class="tab-content">
+            <div class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Lease Expiration Timeline</h2>
+                    <button class="btn" onclick="generateRenewalPlan()">Generate Renewal Plan</button>
+                </div>
+                
+                <div class="timeline" id="timeline-container">
+                    <!-- Timeline items will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="opportunities-tab" class="tab-content">
+            <div class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Optimization Opportunities</h2>
+                    <button class="btn" onclick="runOpportunityAnalysis()">Refresh Analysis</button>
+                </div>
+                
+                <div id="opportunities-list">
+                    <!-- Opportunities will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="map-tab" class="tab-content">
+            <div class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Geographic Distribution</h2>
+                    <button class="btn" onclick="analyzeGeography()">Analyze Coverage</button>
+                </div>
+                
+                <div class="map-container">
+                    <div id="portfolio-map">
+                        <p style="color: #9ca3af;">Interactive map will load here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="analytics-tab" class="tab-content">
+            <div class="portfolio-section">
+                <div class="section-header">
+                    <h2 class="section-title">Portfolio Analytics</h2>
+                    <button class="btn" onclick="generateReport()">Generate Report</button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Cost Efficiency</div>
+                        <canvas id="efficiency-chart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Market Comparison</div>
+                        <canvas id="market-chart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Lease Distribution</div>
+                        <canvas id="distribution-chart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Risk Assessment</div>
+                        <canvas id="risk-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Location Modal -->
+    <div id="add-location-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Location</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="location-form">
+                <div class="form-group">
+                    <label class="form-label">Location Name</label>
+                    <input type="text" class="form-input" id="location-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-input" id="location-address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Square Footage</label>
+                    <input type="number" class="form-input" id="location-sqft" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Current Rent ($/SF)</label>
+                    <input type="number" step="0.01" class="form-input" id="location-rent" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Lease Expiration</label>
+                    <input type="date" class="form-input" id="location-expiry" required>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">Add Location</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Sample portfolio data
+        const portfolioData = {
+            'tech-corp': {
+                name: 'TechCorp International',
+                locations: [
+                    {
+                        name: 'Minneapolis HQ',
+                        address: '800 Nicollet Mall, Minneapolis, MN',
+                        sqft: 125000,
+                        rent: 32.50,
+                        expiry: '2027-03-31',
+                        type: 'Office'
+                    },
+                    {
+                        name: 'Edina Tech Center',
+                        address: '7700 France Ave, Edina, MN',
+                        sqft: 85000,
+                        rent: 28.00,
+                        expiry: '2026-12-31',
+                        type: 'Office'
+                    },
+                    {
+                        name: 'Brooklyn Park Warehouse',
+                        address: '9000 109th Ave N, Brooklyn Park, MN',
+                        sqft: 200000,
+                        rent: 7.50,
+                        expiry: '2027-06-30',
+                        type: 'Industrial'
+                    },
+                    {
+                        name: 'Chicago Office',
+                        address: '233 S Wacker Dr, Chicago, IL',
+                        sqft: 45000,
+                        rent: 38.00,
+                        expiry: '2026-09-30',
+                        type: 'Office'
+                    },
+                    {
+                        name: 'Dallas Tech Hub',
+                        address: '2100 McKinney Ave, Dallas, TX',
+                        sqft: 60000,
+                        rent: 35.00,
+                        expiry: '2028-01-31',
+                        type: 'Office'
+                    }
+                ],
+                opportunities: [
+                    {
+                        type: 'Consolidation',
+                        title: 'Minneapolis Market Consolidation',
+                        description: 'Combine Minneapolis HQ and Edina offices into single location',
+                        savings: 850000,
+                        effort: 'High'
+                    },
+                    {
+                        type: 'Renegotiation',
+                        title: 'Chicago Early Renewal',
+                        description: 'Market down 20% - negotiate early renewal for better terms',
+                        savings: 342000,
+                        effort: 'Low'
+                    },
+                    {
+                        type: 'Sublease',
+                        title: 'Excess Brooklyn Park Space',
+                        description: 'Sublease 50,000 SF of underutilized warehouse space',
+                        savings: 375000,
+                        effort: 'Medium'
+                    }
+                ]
+            }
+        };
+        
+        let currentPortfolio = null;
+        
+        function loadPortfolio() {
+            const selector = document.getElementById('company-selector');
+            const companyKey = selector.value;
+            
+            if (!companyKey) return;
+            
+            currentPortfolio = portfolioData[companyKey];
+            if (!currentPortfolio) return;
+            
+            // Update stats
+            updateStats();
+            
+            // Load locations
+            loadLocations();
+            
+            // Load timeline
+            loadTimeline();
+            
+            // Load opportunities
+            loadOpportunities();
+        }
+        
+        function updateStats() {
+            if (!currentPortfolio) return;
+            
+            const totalSqft = currentPortfolio.locations.reduce((sum, loc) => sum + loc.sqft, 0);
+            const annualRent = currentPortfolio.locations.reduce((sum, loc) => sum + (loc.sqft * loc.rent * 12), 0);
+            const avgPsf = annualRent / totalSqft / 12;
+            
+            // Count upcoming expirations
+            const now = new Date();
+            const upcoming = currentPortfolio.locations.filter(loc => {
+                const expiry = new Date(loc.expiry);
+                const days = Math.floor((expiry - now) / (1000 * 60 * 60 * 24));
+                return days > 0 && days < 365;
+            }).length;
+            
+            document.getElementById('total-locations').textContent = currentPortfolio.locations.length;
+            document.getElementById('total-sqft').textContent = totalSqft.toLocaleString() + ' SF';
+            document.getElementById('annual-rent').textContent = '$' + (annualRent / 1000000).toFixed(1) + 'M';
+            document.getElementById('avg-psf').textContent = '$' + avgPsf.toFixed(2);
+            document.getElementById('upcoming-exp').textContent = upcoming;
+            document.getElementById('opt-score').textContent = '78%';
+        }
+        
+        function loadLocations() {
+            const container = document.getElementById('locations-list');
+            container.innerHTML = '';
+            
+            currentPortfolio.locations.forEach(location => {
+                const expiry = new Date(location.expiry);
+                const now = new Date();
+                const days = Math.floor((expiry - now) / (1000 * 60 * 60 * 24));
+                
+                let expiryClass = 'expiry-future';
+                let expiryText = `${days} days`;
+                
+                if (days < 90) {
+                    expiryClass = 'expiry-urgent';
+                    expiryText = `URGENT: ${days} days`;
+                } else if (days < 180) {
+                    expiryClass = 'expiry-soon';
+                    expiryText = `Soon: ${days} days`;
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'location-card';
+                card.innerHTML = `
+                    <div class="location-info">
+                        <h3>${location.name}</h3>
+                        <div class="location-details">
+                            <span>📍 ${location.address}</span>
+                            <span>📏 ${location.sqft.toLocaleString()} SF</span>
+                            <span>💰 $${location.rent}/SF</span>
+                            <span>🏢 ${location.type}</span>
+                        </div>
+                    </div>
+                    <div class="expiry-badge ${expiryClass}">
+                        ${expiryText}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        function loadTimeline() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+            
+            // Sort locations by expiry date
+            const sorted = [...currentPortfolio.locations].sort((a, b) => 
+                new Date(a.expiry) - new Date(b.expiry)
+            );
+            
+            sorted.forEach(location => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                
+                const expiry = new Date(location.expiry);
+                const formattedDate = expiry.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                item.innerHTML = `
+                    <div class="timeline-content">
+                        <div class="timeline-date">${formattedDate}</div>
+                        <h4>${location.name}</h4>
+                        <p>${location.sqft.toLocaleString()} SF @ $${location.rent}/SF</p>
+                        <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">
+                            Action: Begin renewal negotiations 6 months prior
+                        </p>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        function loadOpportunities() {
+            const container = document.getElementById('opportunities-list');
+            container.innerHTML = '';
+            
+            currentPortfolio.opportunities.forEach(opp => {
+                const card = document.createElement('div');
+                card.className = 'opportunity-card';
+                
+                card.innerHTML = `
+                    <div class="opportunity-header">
+                        <div>
+                            <div class="opportunity-title">${opp.title}</div>
+                            <p style="color: #9ca3af; margin-top: 0.5rem;">${opp.description}</p>
+                        </div>
+                        <div class="savings-badge">
+                            Save $${(opp.savings / 1000).toFixed(0)}k/yr
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-secondary">View Details</button>
+                        <button class="btn">Implement</button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+        
+        function addPortfolioCompany() {
+            alert('Portfolio company addition form would open here');
+        }
+        
+        function optimizePortfolio() {
+            alert('AI optimization analysis would run here');
+        }
+        
+        function generateRenewalPlan() {
+            alert('Automated renewal strategy would generate here');
+        }
+        
+        function runOpportunityAnalysis() {
+            alert('Deep opportunity analysis would run here');
+        }
+        
+        function exportLocations() {
+            alert('Export to Excel/CSV would happen here');
+        }
+        
+        function generateReport() {
+            alert('Comprehensive portfolio report would generate here');
+        }
+        
+        function analyzeGeography() {
+            alert('Geographic optimization analysis would run here');
+        }
+        
+        function closeModal() {
+            document.getElementById('add-location-modal').classList.remove('active');
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-load first portfolio for demo
+            document.getElementById('company-selector').value = 'tech-corp';
+            loadPortfolio();
+        });
+    </script>
+</body>
+</html>
