@@ -2,7 +2,8 @@
 
 // Animate stats on scroll
 function animateStats() {
-    const stats = document.querySelectorAll('.stat-value');
+    // Only animate elements that have a data-target attribute
+    const stats = document.querySelectorAll('.stat-value[data-target]');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
