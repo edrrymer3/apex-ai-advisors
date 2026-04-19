@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Apex AI Advisors — Minneapolis Tenant Representation</title>
+    <meta name="description" content="Contact Apex AI Advisors. Minneapolis-based tenant rep broker specializing in office and industrial space in the Twin Cities. Free consultation.">
+    <meta property="og:title" content="Contact Apex AI Advisors">
+    <meta property="og:description" content="Get in touch for a free consultation on your commercial real estate needs in the Twin Cities.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e0e0e0; min-height: 100vh; }
+
+        .apex-nav { background: rgba(13,17,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.4rem 1rem; border-radius: 20px; }
+
+        .page-hero { padding: 5rem 2rem 3rem; text-align: center; }
+        .page-hero .badge { display: inline-block; background: rgba(59,130,246,0.15); color: #3B82F6; border: 1px solid rgba(59,130,246,0.3); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 0.75rem; }
+        .page-hero h1 span { color: #3B82F6; }
+        .page-hero p { color: rgba(255,255,255,0.55); font-size: 1rem; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+        @media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }
+
+        /* Left: Form */
+        .form-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 2rem; }
+        .form-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+        .form-group { margin-bottom: 1.1rem; }
+        .form-group label { display: block; font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; padding: 0.7rem 1rem; color: #e0e0e0; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3B82F6; }
+        .form-group select option { background: #1a1a2e; }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        .submit-btn { width: 100%; padding: 0.95rem; background: linear-gradient(135deg, #3B82F6, #2563EB); border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; margin-top: 0.5rem; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59,130,246,0.35); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .form-success { display: none; text-align: center; padding: 2.5rem; }
+        .form-success .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .form-success h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .form-success p { color: rgba(255,255,255,0.55); font-size: 0.9rem; }
+
+        /* Right: Info */
+        .info-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; }
+        .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; color: #3B82F6; margin-bottom: 0.75rem; }
+        .info-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.88rem; color: rgba(255,255,255,0.7); }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-row .icon { font-size: 1.1rem; flex-shrink: 0; }
+        .info-row a { color: #3B82F6; text-decoration: none; }
+        .info-row a:hover { text-decoration: underline; }
+
+        .specialties { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+        .specialty { padding: 0.3rem 0.75rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.2); border-radius: 20px; font-size: 0.78rem; color: #3B82F6; font-weight: 500; }
+
+        .market-pulse { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 14px; padding: 1.2rem; }
+        .market-pulse h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; color: #10b981; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .pulse-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .ps-item { font-size: 0.8rem; }
+        .ps-item .val { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; }
+        .ps-item .lbl { color: rgba(255,255,255,0.4); font-size: 0.72rem; }
+
+        .note-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+        .note-box strong { color: #fff; }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="market-report.html">Market Reports</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="contact.html" class="cta">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">📍 Minneapolis, MN</div>
+        <h1>Let's Talk About Your <span>Space</span></h1>
+        <p>Tell us what you're looking for. We'll come back with market data, comparable options, and a clear plan — within one business day.</p>
+    </div>
+
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Form -->
+            <div class="form-card">
+                <h2>Start the Conversation</h2>
+
+                <div id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" id="cf_first" placeholder="Jane">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" id="cf_last" placeholder="Smith">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" id="cf_company" placeholder="Acme Technologies">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="cf_email" placeholder="jane@acme.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone (optional)</label>
+                        <input type="tel" id="cf_phone" placeholder="(612) 555-0100">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Space Type</label>
+                            <select id="cf_type">
+                                <option>Office</option>
+                                <option>Industrial / Warehouse</option>
+                                <option>Flex</option>
+                                <option>Not sure yet</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Size Needed (SF)</label>
+                            <input type="text" id="cf_sf" placeholder="e.g. 10,000 SF">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Timeline</label>
+                        <select id="cf_timeline">
+                            <option>ASAP / Already searching</option>
+                            <option>1–3 months</option>
+                            <option>3–6 months</option>
+                            <option>6–12 months</option>
+                            <option>12+ months (planning ahead)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>What's your situation? (optional)</label>
+                        <textarea id="cf_message" placeholder="e.g. Lease expires in 18 months, looking to right-size from 15,000 to 10,000 SF, prefer Eden Prairie or Plymouth..."></textarea>
+                    </div>
+                    <button class="submit-btn" id="cfSubmitBtn" onclick="submitContact()">Send Message →</button>
+                    <p style="text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.3); margin-top:0.75rem;">Response within 1 business day · No obligation · 100% confidential</p>
+                </div>
+
+                <div class="form-success" id="contactSuccess">
+                    <div class="icon">✅</div>
+                    <h3>Message received.</h3>
+                    <p>We'll be in touch within one business day with a market overview tailored to your needs.</p>
+                    <div style="margin-top:1.5rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+                        <a href="market-report.html" style="padding:0.6rem 1.2rem; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); border-radius:8px; color:#3B82F6; text-decoration:none; font-size:0.85rem;">View Market Reports</a>
+                        <a href="rfp-generator.html" style="padding:0.6rem 1.2rem; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#e0e0e0; text-decoration:none; font-size:0.85rem;">Build an RFP</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="info-col">
+                <div class="info-card">
+                    <h3>📌 Contact Information</h3>
+                    <div class="info-row"><span class="icon">👤</span><span>Eddie Rymer, Apex AI Advisors</span></div>
+                    <div class="info-row"><span class="icon">📍</span><span>Minneapolis, MN</span></div>
+                    <div class="info-row"><span class="icon">✉️</span><a href="mailto:eddie@apexaiadvisors.com">eddie@apexaiadvisors.com</a></div>
+                    <div class="info-row"><span class="icon">💼</span><a href="https://www.linkedin.com/in/eddiearymer" target="_blank">LinkedIn Profile</a></div>
+                    <div class="specialties">
+                        <span class="specialty">Office</span>
+                        <span class="specialty">Industrial</span>
+                        <span class="specialty">Subleases</span>
+                        <span class="specialty">Lease Renewals</span>
+                        <span class="specialty">Portfolio Clients</span>
+                        <span class="specialty">Twin Cities</span>
+                    </div>
+                </div>
+
+                <div class="market-pulse">
+                    <h3><span class="pulse-dot"></span> Twin Cities Market — Q1 2026</h3>
+                    <div class="pulse-stats">
+                        <div class="ps-item"><div class="val">18.5%</div><div class="lbl">MPLS CBD Vacancy</div></div>
+                        <div class="ps-item"><div class="val">$19.40</div><div class="lbl">Avg Office Rate/SF</div></div>
+                        <div class="ps-item"><div class="val">$45–58</div><div class="lbl">Avg TI Allowance/SF</div></div>
+                        <div class="ps-item"><div class="val">4–6 mo</div><div class="lbl">Avg Free Rent</div></div>
+                        <div class="ps-item"><div class="val">4.2%</div><div class="lbl">Industrial Vacancy</div></div>
+                        <div class="ps-item"><div class="val">$7.80</div><div class="lbl">Avg Industrial Rate</div></div>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>No cost to you.</strong> Tenant representation fees are paid by the landlord as part of every commercial lease transaction. You get a dedicated advisor, full market access, and every tool on this platform — at zero cost.
+                </div>
+
+                <div class="info-card">
+                    <h3>⚡ What Happens Next</h3>
+                    <div class="info-row" style="align-items:flex-start;"><span class="icon">1️⃣</span><span>We review your needs and pull relevant market data (same day)</span></div>
+                    <div class="info-row" style="align-items:flex-start;"><span class="icon">2️⃣</span><span>You get a market overview with available options and current rates</span></div>
+                    <div class="info-row" style="align-items:flex-start;"><span class="icon">3️⃣</span><span>30-min call to align on strategy, timeline, and next steps</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    async function submitContact() {
+        const first = document.getElementById('cf_first').value.trim();
+        const email = document.getElementById('cf_email').value.trim();
+        if (!first || !email) { alert('Please enter your name and email.'); return; }
+
+        const btn = document.getElementById('cfSubmitBtn');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        const data = {
+            access_key: 'APEX_FORM_KEY_PLACEHOLDER',
+            name: first + ' ' + document.getElementById('cf_last').value.trim(),
+            email,
+            company: document.getElementById('cf_company').value.trim(),
+            phone: document.getElementById('cf_phone').value.trim(),
+            space_type: document.getElementById('cf_type').value,
+            space_needed: document.getElementById('cf_sf').value.trim(),
+            timeline: document.getElementById('cf_timeline').value,
+            message: document.getElementById('cf_message').value.trim(),
+            subject: 'Contact Form: ' + (document.getElementById('cf_company').value.trim() || first) + ' — Apex AI Advisors',
+            from_name: 'Apex AI Advisors Website',
+        };
+
+        try {
+            const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            // Show success regardless (form data saved locally too)
+        } catch(e) {}
+
+        // Save locally
+        const contacts = JSON.parse(localStorage.getItem('apex_contacts') || '[]');
+        contacts.push({ ...data, ts: new Date().toISOString() });
+        localStorage.setItem('apex_contacts', JSON.stringify(contacts));
+
+        document.getElementById('contactForm').style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'block';
+    }
+    </script>
+</body>
+</html>

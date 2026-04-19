@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate a professional Request for Proposal in 60 seconds. 5 templates for office, industrial, flex, sublease, and lease renewals.">
     <title>RFP Generator | Apex AI Advisors</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -155,6 +156,11 @@
         .tip-box { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.7); }
         .tip-box strong { color: #3B82F6; }
     </style>
+    <meta property="og:title" content="RFP Generator | Apex AI Advisors">
+    <meta property="og:description" content="Generate a professional Request for Proposal in 60 seconds. 5 templates for office, industrial, flex, sublease, and lease renewals.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://edrrymer3.github.io/apex-ai-advisors/">
+    <meta name="twitter:card" content="summary">
 </head>
 <body>
     <nav class="apex-nav">
@@ -173,7 +179,8 @@
             <a href="negotiation-playbook.html">Playbook</a>
             <a href="market-report.html">Reports</a>
             <a href="lease-expiration-dashboard.html">Expirations</a>
-            <a href="index.html#demo" class="cta">Get Demo</a>
+            <a href="contact.html">Contact</a>
+            <a href="contact.html" class="cta">Get Started</a>
         </div>
     </nav>
 
@@ -544,7 +551,7 @@ Thank you for your consideration. We look forward to reviewing your proposal.
         function printRFP() {
             const content = document.getElementById('rfpOutput').textContent;
             const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>RFP - Apex AI Advisors</title>
+            win.document.write(`<html><head><title>RFP Generator | Apex AI Advisors</title>
             <style>body{font-family:'Times New Roman',serif;padding:2.5cm;font-size:11pt;line-height:1.7;color:#111;}pre{white-space:pre-wrap;font-family:inherit;}</style>
             </head><body><pre>${content}</pre></body></html>`);
             win.document.close();
