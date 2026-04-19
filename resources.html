@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | Apex AI Advisors — Twin Cities Tenant Rep Guides</title>
+    <meta name="description" content="Free guides, checklists, and market reports for Twin Cities office and industrial tenants. Download tenant rep resources from Apex AI Advisors.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e0e0e0; min-height: 100vh; }
+        .apex-nav { background: rgba(13,17,23,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+        .apex-nav .logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; font-family: 'Space Grotesk', sans-serif; }
+        .apex-nav .logo span { color: #3B82F6; }
+        .apex-nav .links { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+        .apex-nav .links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .apex-nav .links a:hover, .apex-nav .links a.active { color: #fff; }
+        .apex-nav .links a.cta { background: #3B82F6; color: #fff; padding: 0.35rem 0.9rem; border-radius: 20px; }
+
+        .page-hero { padding: 4rem 2rem 3rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .badge { display: inline-block; background: rgba(59,130,246,0.15); color: #3B82F6; border: 1px solid rgba(59,130,246,0.3); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .page-hero h1 span { color: #3B82F6; }
+        .page-hero p { color: rgba(255,255,255,0.55); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+
+        .resource-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
+        .resource-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-2px); }
+        .resource-card.featured { border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.05); }
+
+        .rc-top { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: flex-start; gap: 1rem; }
+        .rc-icon { font-size: 2rem; flex-shrink: 0; }
+        .rc-meta { flex: 1; }
+        .rc-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; color: #fff; margin-bottom: 0.3rem; line-height: 1.3; }
+        .rc-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+        .rc-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+        .rc-tag { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; background: rgba(59,130,246,0.12); color: #3B82F6; }
+        .rc-tag.green { background: rgba(16,185,129,0.12); color: #10b981; }
+        .rc-tag.yellow { background: rgba(245,158,11,0.12); color: #f59e0b; }
+
+        .rc-bottom { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+        .rc-type { font-size: 0.75rem; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 0.4rem; }
+        .rc-action { padding: 0.4rem 1rem; border-radius: 6px; border: 1px solid rgba(59,130,246,0.3); background: rgba(59,130,246,0.1); color: #3B82F6; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; text-decoration: none; display: inline-block; }
+        .rc-action:hover { background: rgba(59,130,246,0.2); }
+        .rc-action.tool { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.1); color: #10b981; }
+        .rc-action.tool:hover { background: rgba(16,185,129,0.2); }
+
+        /* Gated download modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: #1a1a2e; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2.5rem; width: 90%; max-width: 460px; }
+        .modal h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .modal p { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 1.5rem; line-height: 1.6; }
+        .modal-form-group { margin-bottom: 1rem; }
+        .modal-form-group label { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .modal-form-group input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.65rem 0.9rem; color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+        .modal-form-group input:focus { outline: none; border-color: #3B82F6; }
+        .modal-submit { width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #3B82F6, #2563EB); border: none; border-radius: 8px; color: #fff; font-weight: 700; font-size: 0.95rem; cursor: pointer; font-family: 'Space Grotesk', sans-serif; margin-top: 0.5rem; }
+        .modal-cancel { display: block; text-align: center; margin-top: 0.75rem; color: rgba(255,255,255,0.35); font-size: 0.82rem; cursor: pointer; }
+        .modal-cancel:hover { color: rgba(255,255,255,0.6); }
+
+        .tool-cta { background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.15); border-radius: 14px; padding: 2rem; text-align: center; margin-top: 2rem; }
+        .tool-cta h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .tool-cta p { color: rgba(255,255,255,0.55); font-size: 0.88rem; margin-bottom: 1.5rem; }
+        .tool-cta-grid { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .tool-link { padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .tool-link.blue { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #3B82F6; }
+        .tool-link.green { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
+        .tool-link.purple { background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3); color: #8b5cf6; }
+        .tool-link.yellow { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b; }
+        .tool-link:hover { filter: brightness(1.2); transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <nav class="apex-nav">
+        <a class="logo" href="index.html">Apex<span>AI</span></a>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">AI Tools</a>
+            <a href="rfp-generator.html">RFP Builder</a>
+            <a href="market-report.html">Market Reports</a>
+            <a href="resources.html" class="active">Resources</a>
+            <a href="contact.html">Contact</a>
+            <a href="contact.html" class="cta">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="page-hero">
+        <div class="badge">📚 Free Resources</div>
+        <h1>Tenant <span>Guides</span> & Tools</h1>
+        <p>Practical resources for Twin Cities businesses navigating office and industrial real estate — from first search to lease signing.</p>
+    </div>
+
+    <div class="container">
+        <!-- Market Reports -->
+        <div class="section-title">📊 Market Reports — Q1 2026</div>
+        <div class="resource-grid">
+            <div class="resource-card featured" onclick="downloadGated('mpls-downtown-q1-2026', 'Minneapolis Downtown Office Market Report — Q1 2026')">
+                <div class="rc-top">
+                    <div class="rc-icon">📊</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Minneapolis Downtown Office Market Report</div>
+                        <div class="rc-desc">Vacancy at 18.5%, TI trends, notable deals, and 12-month outlook for the CBD. Best time in a decade for tenants.</div>
+                        <div class="rc-tags"><span class="rc-tag">Q1 2026</span><span class="rc-tag green">Tenant Market</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Report · 8 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('suburban-q1-2026', 'Twin Cities Suburban Office Market Report — Q1 2026')">
+                <div class="rc-top">
+                    <div class="rc-icon">🏢</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Twin Cities Suburban Office Report</div>
+                        <div class="rc-desc">Eden Prairie, Plymouth, Minnetonka, Bloomington, and Edina. Submarket-by-submarket vacancy, rates, and deal data.</div>
+                        <div class="rc-tags"><span class="rc-tag">Q1 2026</span><span class="rc-tag yellow">Balanced Market</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Report · 10 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('industrial-q1-2026', 'Twin Cities Industrial Market Report — Q1 2026')">
+                <div class="rc-top">
+                    <div class="rc-icon">🏭</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Twin Cities Industrial Market Report</div>
+                        <div class="rc-desc">4.2% vacancy — the tightest industrial market in years. NW corridor breakdown, rate trends, and where to find available space.</div>
+                        <div class="rc-tags"><span class="rc-tag">Q1 2026</span><span class="rc-tag" style="background:rgba(239,68,68,0.12); color:#ef4444;">Tight Market</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Report · 6 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tenant Guides -->
+        <div class="section-title">📖 Tenant Guides</div>
+        <div class="resource-grid">
+            <div class="resource-card" onclick="downloadGated('lease-negotiation-guide', 'The Twin Cities Tenant\'s Guide to Lease Negotiation')">
+                <div class="rc-top">
+                    <div class="rc-icon">🧠</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">The Tenant's Guide to Lease Negotiation</div>
+                        <div class="rc-desc">Step-by-step negotiation strategy for Twin Cities tenants. What to ask for, when to walk away, and how to read a counter-offer.</div>
+                        <div class="rc-tags"><span class="rc-tag">Guide</span><span class="rc-tag green">Most Popular</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Guide · 12 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('ti-allowance-guide', 'Understanding TI Allowances: A Tenant\'s Guide')">
+                <div class="rc-top">
+                    <div class="rc-icon">🔨</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Understanding TI Allowances</div>
+                        <div class="rc-desc">What TI is, how to negotiate it, what $45/SF actually gets you, and how to structure the buildout process to protect yourself.</div>
+                        <div class="rc-tags"><span class="rc-tag">Guide</span><span class="rc-tag">Office</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Guide · 8 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('lease-renewal-guide', 'The Lease Renewal Playbook')">
+                <div class="rc-top">
+                    <div class="rc-icon">🔄</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">The Lease Renewal Playbook</div>
+                        <div class="rc-desc">How to approach a lease renewal without giving away your leverage. Timing, market comps, and how to get concessions even if you plan to stay.</div>
+                        <div class="rc-tags"><span class="rc-tag">Guide</span><span class="rc-tag yellow">High Value</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Guide · 10 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('space-planning-guide', 'Right-Sizing Your Office: The Hybrid Work Guide')">
+                <div class="rc-top">
+                    <div class="rc-icon">📐</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Right-Sizing Your Office: The Hybrid Work Guide</div>
+                        <div class="rc-desc">How to calculate the right amount of space for a hybrid team. Benchmarks by industry, headcount formulas, and common mistakes to avoid.</div>
+                        <div class="rc-tags"><span class="rc-tag">Guide</span><span class="rc-tag">Hybrid Work</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📄 PDF Guide · 6 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklists -->
+        <div class="section-title">✅ Checklists & Templates</div>
+        <div class="resource-grid">
+            <div class="resource-card" onclick="downloadGated('lease-review-checklist', 'Commercial Lease Review Checklist')">
+                <div class="rc-top">
+                    <div class="rc-icon">✅</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Commercial Lease Review Checklist</div>
+                        <div class="rc-desc">40-point checklist for reviewing any commercial lease before you sign. Red flags, negotiable terms, and what's standard vs. what to push back on.</div>
+                        <div class="rc-tags"><span class="rc-tag">Checklist</span><span class="rc-tag green">Free</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📋 PDF Checklist · 3 pages</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('rfp-template', 'RFP Template — Office & Industrial')">
+                <div class="rc-top">
+                    <div class="rc-icon">📋</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">RFP Template (Word Document)</div>
+                        <div class="rc-desc">Editable RFP template for office or industrial searches. Pre-written sections for requirements, concessions, timeline, and scoring criteria.</div>
+                        <div class="rc-tags"><span class="rc-tag">Template</span><span class="rc-tag">Word Doc</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📝 Word Template</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+            <div class="resource-card" onclick="downloadGated('total-cost-calculator', 'Total Occupancy Cost Worksheet')">
+                <div class="rc-top">
+                    <div class="rc-icon">💰</div>
+                    <div class="rc-meta">
+                        <div class="rc-title">Total Occupancy Cost Worksheet</div>
+                        <div class="rc-desc">Excel worksheet to calculate your real total cost — base rent, NNN, parking, utilities, and hidden fees — and compare multiple proposals.</div>
+                        <div class="rc-tags"><span class="rc-tag">Spreadsheet</span><span class="rc-tag green">Excel</span></div>
+                    </div>
+                </div>
+                <div class="rc-bottom">
+                    <div class="rc-type">📊 Excel Spreadsheet</div>
+                    <span class="rc-action">Download Free →</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Tools CTA -->
+        <div class="tool-cta">
+            <h3>🤖 Prefer Interactive Tools?</h3>
+            <p>All our guides have live AI-powered equivalents — try them free, no download required.</p>
+            <div class="tool-cta-grid">
+                <a href="rfp-generator.html" class="tool-link blue">📋 RFP Generator</a>
+                <a href="lease-comparison.html" class="tool-link green">⚖️ Proposal Comparison</a>
+                <a href="negotiation-playbook.html" class="tool-link purple">🧠 Negotiation Playbook</a>
+                <a href="market-report.html" class="tool-link yellow">📊 Market Reports</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gated Download Modal -->
+    <div class="modal-overlay" id="downloadModal">
+        <div class="modal">
+            <h3 id="modalTitle">Download Free Guide</h3>
+            <p>Enter your email and we'll send this resource directly to your inbox — along with occasional market updates from Apex AI Advisors.</p>
+            <div class="modal-form-group">
+                <label>Name</label>
+                <input type="text" id="dl_name" placeholder="Jane Smith">
+            </div>
+            <div class="modal-form-group">
+                <label>Work Email</label>
+                <input type="email" id="dl_email" placeholder="jane@company.com">
+            </div>
+            <div class="modal-form-group">
+                <label>Company (optional)</label>
+                <input type="text" id="dl_company" placeholder="Acme Technologies">
+            </div>
+            <button class="modal-submit" onclick="submitDownload()">Send Me the Resource →</button>
+            <span class="modal-cancel" onclick="closeModal()">No thanks, close</span>
+        </div>
+    </div>
+
+    <script>
+    let currentResource = '';
+    let currentResourceName = '';
+
+    function downloadGated(resourceId, resourceName) {
+        currentResource = resourceId;
+        currentResourceName = resourceName;
+        document.getElementById('modalTitle').textContent = 'Download: ' + resourceName.substring(0, 45) + (resourceName.length > 45 ? '...' : '');
+        document.getElementById('downloadModal').classList.add('open');
+        document.getElementById('dl_name').focus();
+    }
+
+    function closeModal() {
+        document.getElementById('downloadModal').classList.remove('open');
+    }
+
+    async function submitDownload() {
+        const name = document.getElementById('dl_name').value.trim();
+        const email = document.getElementById('dl_email').value.trim();
+        if (!name || !email) { alert('Please enter your name and email.'); return; }
+
+        // Save lead
+        const leads = JSON.parse(localStorage.getItem('apex_resource_leads') || '[]');
+        leads.push({ name, email, company: document.getElementById('dl_company').value.trim(), resource: currentResourceName, ts: new Date().toISOString() });
+        localStorage.setItem('apex_resource_leads', JSON.stringify(leads));
+
+        // Submit to Web3Forms
+        try {
+            await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    access_key: 'APEX_FORM_KEY_PLACEHOLDER',
+                    name, email,
+                    company: document.getElementById('dl_company').value.trim(),
+                    resource: currentResourceName,
+                    subject: 'Resource Download: ' + currentResourceName + ' — Apex AI Advisors',
+                })
+            });
+        } catch(e) {}
+
+        closeModal();
+
+        // Show "generating" then redirect to actual tool equivalent
+        const resourceToolMap = {
+            'mpls-downtown-q1-2026': 'market-report.html',
+            'suburban-q1-2026': 'market-report.html',
+            'industrial-q1-2026': 'market-report.html',
+            'lease-negotiation-guide': 'negotiation-playbook.html',
+            'ti-allowance-guide': 'rfp-generator.html',
+            'lease-renewal-guide': 'negotiation-playbook.html',
+            'space-planning-guide': 'tools.html',
+            'lease-review-checklist': 'lease-comparison.html',
+            'rfp-template': 'rfp-generator.html',
+            'total-cost-calculator': 'tools.html',
+        };
+
+        // Show success briefly then redirect to interactive tool
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed; inset:0; background:rgba(13,17,23,0.95); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem;';
+        overlay.innerHTML = `
+            <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+            <h2 style="font-family:'Space Grotesk',sans-serif; color:#fff; margin-bottom:0.5rem;">You're set, ${name.split(' ')[0]}.</h2>
+            <p style="color:rgba(255,255,255,0.55); max-width:400px; margin:0 auto 1.5rem; font-size:0.95rem;">We'll email this resource shortly. In the meantime, try the interactive version — it's faster and fully customizable.</p>
+            <a href="${resourceToolMap[currentResource] || 'tools.html'}" style="padding:0.85rem 2rem; background:linear-gradient(135deg,#3B82F6,#2563EB); color:#fff; text-decoration:none; border-radius:10px; font-weight:700; font-family:'Space Grotesk',sans-serif;">Try the Interactive Tool →</a>
+            <p style="color:rgba(255,255,255,0.3); font-size:0.78rem; margin-top:1.5rem; cursor:pointer;" onclick="this.parentElement.remove()">Continue browsing resources</p>
+        `;
+        document.body.appendChild(overlay);
+    }
+
+    // Close modal on overlay click
+    document.getElementById('downloadModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+    </script>
+</body>
+</html>
