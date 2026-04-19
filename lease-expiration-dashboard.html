@@ -473,6 +473,26 @@
                 </label>`).join('');
         }, 100);
 
+        // Pull in any prospects added from OM Parser
+        const omProspects = JSON.parse(localStorage.getItem('apex_om_prospects') || '[]');
+        omProspects.forEach(p => {
+            if (!prospects.find(x => x.id === p.id)) {
+                prospects.push({
+                    id: p.id,
+                    company: p.company,
+                    address: p.address || 'From OM Upload',
+                    type: p.type || 'Office',
+                    sf: p.sf || 0,
+                    exp: p.exp || '',
+                    rate: p.rate || 0,
+                    broker: p.broker || '—',
+                    firm: p.firm || 'OM Source',
+                    notes: p.notes || '',
+                    status: p.status || 'new',
+                });
+            }
+        });
+
         renderTable();
     </script>
 </body>

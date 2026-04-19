@@ -1,0 +1,158 @@
+[
+  {
+    "ts": "2026-04-18T23:06:27.251Z",
+    "message": "=== Scrape Complete: 0 new records found, 0 total. 42.4s ==="
+  },
+  {
+    "ts": "2026-04-18T23:06:27.249Z",
+    "message": "OM search: found 0 documents"
+  },
+  {
+    "ts": "2026-04-18T23:06:25.142Z",
+    "message": "Searching: Minnesota REIT \"10-K\" tenant \"lease expires\" \"square feet\" 2..."
+  },
+  {
+    "ts": "2026-04-18T23:06:23.030Z",
+    "message": "Searching: \"Twin Cities\" \"offering memorandum\" office industrial \"rent ..."
+  },
+  {
+    "ts": "2026-04-18T23:06:20.052Z",
+    "message": "Searching: Minnesota industrial \"tenant roster\" \"square feet\" \"expirati..."
+  },
+  {
+    "ts": "2026-04-18T23:06:17.208Z",
+    "message": "Searching: Minneapolis office \"rent roll\" \"lease expiration\" filetype:p..."
+  },
+  {
+    "ts": "2026-04-18T23:06:17.206Z",
+    "message": "--- Phase 3: Public OM / Rent Roll Search ---"
+  },
+  {
+    "ts": "2026-04-18T23:06:16.203Z",
+    "message": "Crexi: found 0 prospects"
+  },
+  {
+    "ts": "2026-04-18T23:06:16.202Z",
+    "message": "Crexi fallback also failed: Request failed with status code 403"
+  },
+  {
+    "ts": "2026-04-18T23:06:16.028Z",
+    "message": "Crexi API error: Request failed with status code 403 — falling back to web scrape"
+  },
+  {
+    "ts": "2026-04-18T23:06:15.797Z",
+    "message": "Searching Crexi for MN office/industrial investment sales with rent rolls..."
+  },
+  {
+    "ts": "2026-04-18T23:06:15.796Z",
+    "message": "--- Phase 2: Crexi Investment Sales ---"
+  },
+  {
+    "ts": "2026-04-18T23:06:13.793Z",
+    "message": "  Found 0 MN prospects in Brandywine Realty 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:06:12.356Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/790816/000079081626000008/bdn-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:06:12.243Z",
+    "message": "Fetching EDGAR filings for Brandywine Realty (CIK: 790816)"
+  },
+  {
+    "ts": "2026-04-18T23:06:10.141Z",
+    "message": "Fetching EDGAR filings for STAG Industrial (CIK: 1538827)"
+  },
+  {
+    "ts": "2026-04-18T23:06:08.139Z",
+    "message": "  Found 0 MN prospects in EastGroup Properties 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:06:06.867Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/49600/000004960026000010/egp-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:06:06.731Z",
+    "message": "Fetching EDGAR filings for EastGroup Properties (CIK: 49600)"
+  },
+  {
+    "ts": "2026-04-18T23:06:04.729Z",
+    "message": "  Found 0 MN prospects in Cousins Properties 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:06:03.491Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/25232/000002523226000014/cuz-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:06:03.361Z",
+    "message": "Fetching EDGAR filings for Cousins Properties (CIK: 25232)"
+  },
+  {
+    "ts": "2026-04-18T23:06:01.359Z",
+    "message": "  Found 0 MN prospects in Piedmont Office 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:06:00.177Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/1042776/000104277626000012/pdm-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:06:00.058Z",
+    "message": "Fetching EDGAR filings for Piedmont Office (CIK: 1042776)"
+  },
+  {
+    "ts": "2026-04-18T23:05:58.058Z",
+    "message": "  Found 0 MN prospects in Highwoods Properties 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:05:56.802Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/921082/000092108226000005/hiw-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:05:56.673Z",
+    "message": "Fetching EDGAR filings for Highwoods Properties (CIK: 921082)"
+  },
+  {
+    "ts": "2026-04-18T23:05:54.671Z",
+    "message": "  Found 0 MN prospects in First Industrial 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:05:52.946Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/921825/000092182526000012/fr-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:05:52.826Z",
+    "message": "Fetching EDGAR filings for First Industrial (CIK: 921825)"
+  },
+  {
+    "ts": "2026-04-18T23:05:50.823Z",
+    "message": "  Found 0 MN prospects in Duke Realty 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:05:49.159Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/783280/000078328022000010/dre-20211231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:05:48.986Z",
+    "message": "Fetching EDGAR filings for Duke Realty (CIK: 783280)"
+  },
+  {
+    "ts": "2026-04-18T23:05:46.984Z",
+    "message": "  Found 0 MN prospects in Prologis 10-K"
+  },
+  {
+    "ts": "2026-04-18T23:05:45.191Z",
+    "message": "  Fetching 10-K: https://www.sec.gov/Archives/edgar/data/1045609/000119312526051453/pld-20251231.htm"
+  },
+  {
+    "ts": "2026-04-18T23:05:44.815Z",
+    "message": "Fetching EDGAR filings for Prologis (CIK: 1045609)"
+  },
+  {
+    "ts": "2026-04-18T23:05:44.814Z",
+    "message": "--- Phase 1: SEC EDGAR REIT Filings ---"
+  },
+  {
+    "ts": "2026-04-18T23:05:44.814Z",
+    "message": "=== Apex AI Advisors — Prospect Scrape Starting ==="
+  }
+]
