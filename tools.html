@@ -65,7 +65,7 @@
                     <div class="input-grid">
                         <div class="input-group">
                             <label>Location/ZIP</label>
-                            <input type="text" id="survey-location" placeholder="e.g., Chicago 60601" value="Chicago Loop">
+                            <input type="text" id="survey-location" placeholder="e.g., Minneapolis Downtown" value="Minneapolis Downtown">
                         </div>
                         <div class="input-group">
                             <label>Property Type</label>
@@ -272,11 +272,11 @@
                     <div class="input-grid">
                         <div class="input-group">
                             <label>Base Rent ($/sq ft/year)</label>
-                            <input type="number" id="fin-base" value="38" min="0">
+                            <input type="number" id="fin-rate" value="19.40" min="0" step="0.5">
                         </div>
                         <div class="input-group">
                             <label>Square Footage</label>
-                            <input type="number" id="fin-sqft" value="25000" min="0">
+                            <input type="number" id="fin-sf" value="10000" min="0">
                         </div>
                         <div class="input-group">
                             <label>Lease Term (years)</label>
@@ -284,7 +284,7 @@
                         </div>
                         <div class="input-group">
                             <label>Annual Escalation (%)</label>
-                            <input type="number" id="fin-escalation" value="3" min="0" step="0.5">
+                            <input type="number" id="fin-esc" value="3" min="0" step="0.5">
                         </div>
                     </div>
                     
@@ -312,15 +312,15 @@
                     <div class="input-grid">
                         <div class="input-group">
                             <label>Free Rent (months)</label>
-                            <input type="number" id="fin-free" value="3" min="0">
+                            <input type="number" id="fin-fr" value="4" min="0">
                         </div>
                         <div class="input-group">
                             <label>TI Allowance ($/sq ft)</label>
-                            <input type="number" id="fin-ti" value="50" min="0">
+                            <input type="number" id="fin-ti" value="52" min="0">
                         </div>
                     </div>
                     
-                    <button class="generate-btn" onclick="analyzeFinancials()">
+                    <button class="generate-btn" onclick="calculateFinancials()">
                         Analyze Total Cost →
                     </button>
                 </div>
@@ -330,20 +330,36 @@
                     
                     <div class="cost-summary">
                         <div class="summary-row total">
-                            <span>5-Year Total Cost</span>
-                            <strong>$7,234,500</strong>
+                            <span>Annual Rent</span>
+                            <strong id="calc-annual">$194,000</strong>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total Lease Value</span>
+                            <strong id="calc-total">$970,000</strong>
                         </div>
                         <div class="summary-row">
-                            <span>Effective Rate/sq ft</span>
-                            <strong>$57.88</strong>
+                            <span>Monthly Rent</span>
+                            <strong id="calc-monthly">$16,167</strong>
                         </div>
                         <div class="summary-row savings">
-                            <span>Total Concessions Value</span>
-                            <strong>-$1,487,500</strong>
+                            <span>TI Allowance (total)</span>
+                            <strong id="calc-ti">$520,000</strong>
+                        </div>
+                        <div class="summary-row savings">
+                            <span>Free Rent Value</span>
+                            <strong id="calc-free-rent">$64,667</strong>
+                        </div>
+                        <div class="summary-row savings">
+                            <span>Total Concessions</span>
+                            <strong id="calc-concessions">$584,667</strong>
                         </div>
                         <div class="summary-row">
                             <span>Net Effective Rate</span>
-                            <strong>$46.00</strong>
+                            <strong id="calc-net-effective">$16.69/SF</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>First-Year Cash Out</span>
+                            <strong id="calc-first-year">$129,333</strong>
                         </div>
                     </div>
                     
