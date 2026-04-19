@@ -125,6 +125,13 @@
             <div>
                 <div class="card">
                     <h2>🏢 Deal Details</h2>
+                    <!-- Quick-start by submarket -->
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.2rem;">
+                        <button onclick="loadPBScenario('dtmpls')" style="padding:0.3rem 0.75rem; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.7); font-size:0.78rem; cursor:pointer;">MPLS Downtown</button>
+                        <button onclick="loadPBScenario('suburban')" style="padding:0.3rem 0.75rem; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.7); font-size:0.78rem; cursor:pointer;">Suburban Office</button>
+                        <button onclick="loadPBScenario('industrial')" style="padding:0.3rem 0.75rem; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.7); font-size:0.78rem; cursor:pointer;">Industrial</button>
+                        <button onclick="loadPBScenario('renewal')" style="padding:0.3rem 0.75rem; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.7); font-size:0.78rem; cursor:pointer;">Renewal</button>
+                    </div>
                     <div class="form-group">
                         <label>Property Name</label>
                         <input type="text" id="pb_prop" placeholder="e.g. 50 S 6th St, Suite 900" value="50 S 6th St, Suite 900">
@@ -247,6 +254,25 @@
 
     <script>
         function v(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+
+        const pbScenarios = {
+            dtmpls:    { prop:'50 S 6th St, Minneapolis', ask:21.00, target:18.50, sf:12000, term:5, tiOffer:40, tiWant:55, frOffer:2, frWant:4, vacancy:18.5, dom:180, motivation:'high', batna:'strong' },
+            suburban:  { prop:'Opus Park, Minnetonka', ask:17.50, target:15.50, sf:10000, term:5, tiOffer:32, tiWant:42, frOffer:1, frWant:3, vacancy:14.5, dom:90, motivation:'medium', batna:'medium' },
+            industrial:{ prop:'NW Corridor Warehouse', ask:8.20, target:7.50, sf:40000, term:5, tiOffer:8, tiWant:14, frOffer:0, frWant:1, vacancy:4.2, dom:30, motivation:'low', batna:'weak' },
+            renewal:   { prop:'Current Space — Renewal', ask:22.00, target:18.00, sf:8000, term:5, tiOffer:20, tiWant:45, frOffer:0, frWant:3, vacancy:18.5, dom:0, motivation:'medium', batna:'strong' },
+        };
+
+        function loadPBScenario(key) {
+            const s = pbScenarios[key];
+            if (!s) return;
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+            set('pb_prop', s.prop); set('pb_ask', s.ask); set('pb_target', s.target);
+            set('pb_sf', s.sf); set('pb_term', s.term); set('pb_ti_offer', s.tiOffer);
+            set('pb_ti_want', s.tiWant); set('pb_fr_offer', s.frOffer); set('pb_fr_want', s.frWant);
+            set('pb_vacancy', s.vacancy); set('pb_dom', s.dom);
+            document.getElementById('pb_motivation').value = s.motivation === 'high' ? 'high' : s.motivation === 'low' ? 'low' : 'medium';
+            document.getElementById('pb_batna').value = s.batna === 'strong' ? 'strong' : s.batna === 'weak' ? 'weak' : 'medium';
+        }
         function s(id) { return document.getElementById(id)?.value || ''; }
 
         function generatePlaybook() {
