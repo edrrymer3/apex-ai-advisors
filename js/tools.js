@@ -1,6 +1,13 @@
 // Apex AI Advisors — Tools Page JavaScript
 // Twin Cities Market Data (Q1 2026)
 
+// Set Chart.js global defaults for dark theme
+if (typeof Chart !== 'undefined') {
+    Chart.defaults.color = 'rgba(255,255,255,0.6)';
+    Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+    Chart.defaults.plugins.legend.labels.color = 'rgba(255,255,255,0.6)';
+}
+
 const MN_MARKET_DATA = {
     'Minneapolis Downtown': {
         type: 'Office', vacancy: 18.5, avgRate: 19.40, avgTI: 52, freeRent: '4–6 months',
@@ -257,7 +264,11 @@ function initSpaceChart() {
             labels: ['Workstations', 'Meeting & Amenities', 'Growth Buffer'],
             datasets: [{ data: [5250, 2250, 2500], backgroundColor: ['#3B82F6', '#10b981', '#f59e0b'], borderWidth: 0 }]
         },
-        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#6b7280', padding: 15 } } }, cutout: '65%' }
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.6)', padding: 15 } } },
+            cutout: '65%'
+        }
     });
 }
 
@@ -270,7 +281,7 @@ function initCostChart() {
             labels: ['Total Rent', 'TI Allowance', 'Free Rent Value'],
             datasets: [{
                 data: [970000, 520000, 64667],
-                backgroundColor: ['rgba(59,130,246,0.7)', 'rgba(16,185,129,0.7)', 'rgba(245,158,11,0.7)'],
+                backgroundColor: ['rgba(59,130,246,0.8)', 'rgba(16,185,129,0.8)', 'rgba(245,158,11,0.8)'],
                 borderRadius: 6, borderWidth: 0
             }]
         },
@@ -278,8 +289,8 @@ function initCostChart() {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                y: { ticks: { color: '#9ca3af', callback: v => '$' + (v/1000).toFixed(0) + 'K' }, grid: { color: 'rgba(0,0,0,0.05)' } },
-                x: { ticks: { color: '#6b7280' }, grid: { display: false } }
+                y: { ticks: { color: 'rgba(255,255,255,0.5)', callback: v => '$' + (v/1000).toFixed(0) + 'K' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+                x: { ticks: { color: 'rgba(255,255,255,0.5)' }, grid: { display: false } }
             }
         }
     });
