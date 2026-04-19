@@ -377,11 +377,68 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section style="padding:5rem 0; background:#0d1117; border-top:1px solid rgba(255,255,255,0.05);">
+        <div class="container" style="max-width:800px;">
+            <div style="text-align:center; margin-bottom:3rem;">
+                <span class="section-badge">COMMON QUESTIONS</span>
+                <h2 style="color:#fff; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:700; margin-top:0.75rem;">Straight Answers</h2>
+            </div>
+            <div id="faqList">
+                <div class="faq-item-home" onclick="toggleFAQ(this)" style="border-bottom:1px solid rgba(255,255,255,0.07); padding:1.2rem 0; cursor:pointer;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:0.95rem;">Does it cost me anything to work with you?</span>
+                        <span class="faq-arrow" style="color:rgba(255,255,255,0.4); font-size:1.3rem; transition:transform 0.2s;">+</span>
+                    </div>
+                    <div class="faq-answer" style="display:none; margin-top:0.75rem; font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.7;">No. Tenant rep brokers are compensated by the landlord through the commission structure built into every commercial lease. You pay nothing directly — and our incentive is to get you the best deal possible.</div>
+                </div>
+                <div class="faq-item-home" onclick="toggleFAQ(this)" style="border-bottom:1px solid rgba(255,255,255,0.07); padding:1.2rem 0; cursor:pointer;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:0.95rem;">What markets do you cover?</span>
+                        <span class="faq-arrow" style="color:rgba(255,255,255,0.4); font-size:1.3rem; transition:transform 0.2s;">+</span>
+                    </div>
+                    <div class="faq-answer" style="display:none; margin-top:0.75rem; font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.7;">Primarily the Twin Cities metro — Minneapolis CBD, suburbs (Eden Prairie, Plymouth, Minnetonka, Edina, Bloomington), and the full industrial corridor. We can also assist with multi-market searches through our national network.</div>
+                </div>
+                <div class="faq-item-home" onclick="toggleFAQ(this)" style="border-bottom:1px solid rgba(255,255,255,0.07); padding:1.2rem 0; cursor:pointer;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:0.95rem;">We just want to renew our current lease. Can you still help?</span>
+                        <span class="faq-arrow" style="color:rgba(255,255,255,0.4); font-size:1.3rem; transition:transform 0.2s;">+</span>
+                    </div>
+                    <div class="faq-answer" style="display:none; margin-top:0.75rem; font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.7;">Absolutely — and this is where tenants leave the most money on the table. Without a competitive search running in parallel, your landlord has zero pressure to offer market concessions. We run the market, use competing options as leverage, and most renewal clients save 15–25% versus going direct.</div>
+                </div>
+                <div class="faq-item-home" onclick="toggleFAQ(this)" style="border-bottom:1px solid rgba(255,255,255,0.07); padding:1.2rem 0; cursor:pointer;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:0.95rem;">How long does a search typically take?</span>
+                        <span class="faq-arrow" style="color:rgba(255,255,255,0.4); font-size:1.3rem; transition:transform 0.2s;">+</span>
+                    </div>
+                    <div class="faq-answer" style="display:none; margin-top:0.75rem; font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.7;">For a straightforward office search under 15,000 SF: 6–10 weeks from kickoff to signed lease. Larger searches run 10–16 weeks. Industrial with specific requirements (loading docks, power, clear heights) may take longer. We set realistic expectations upfront.</div>
+                </div>
+                <div class="faq-item-home" onclick="toggleFAQ(this)" style="border-bottom:1px solid rgba(255,255,255,0.07); padding:1.2rem 0; cursor:pointer;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:0.95rem;">What does "AI-powered" actually mean for my search?</span>
+                        <span class="faq-arrow" style="color:rgba(255,255,255,0.4); font-size:1.3rem; transition:transform 0.2s;">+</span>
+                    </div>
+                    <div class="faq-answer" style="display:none; margin-top:0.75rem; font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.7;">Our AI tools handle the work that used to take days: instant market surveys, proposal comparison with net effective rent math, custom negotiation playbooks, and market reports ready to share. You get faster decisions, better data, and a broker who isn’t buried in spreadsheets.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    function toggleFAQ(el) {
+        const answer = el.querySelector('.faq-answer');
+        const arrow = el.querySelector('.faq-arrow');
+        const isOpen = answer.style.display === 'block';
+        answer.style.display = isOpen ? 'none' : 'block';
+        arrow.textContent = isOpen ? '+' : '×';
+        arrow.style.transform = isOpen ? '' : 'rotate(45deg)';
+    }
+    </script>
+
     <!-- Advanced CTA Section -->
     <section id="demo" class="cta-advanced">
         <div class="container">
             <div class="cta-content">
-                <h2>Ready to Save 30% on Your Next Lease?</h2>
+                <h2>Ready to See What the Market Can Do for You?</h2>
                 <p>Tell us about your space needs — we'll reach out within one business day with a free market analysis.</p>
 
                 <div id="leadForm" style="max-width:560px; margin:2rem auto 0; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:2rem;">
@@ -503,21 +560,23 @@
                     <p>Next-generation tenant representation powered by artificial intelligence</p>
                 </div>
                 <div class="footer-links">
-                    <h4>Solutions</h4>
+                    <h4>Free Tools</h4>
                     <ul>
-                        <li><a href="#">Lease Analysis</a></li>
-                        <li><a href="#">Market Intelligence</a></li>
-                        <li><a href="#">Portfolio Optimization</a></li>
-                        <li><a href="#">Negotiation Support</a></li>
+                        <li><a href="rfp-generator.html">RFP Generator</a></li>
+                        <li><a href="lease-comparison.html">Proposal Comparison</a></li>
+                        <li><a href="negotiation-playbook.html">Negotiation Playbook</a></li>
+                        <li><a href="market-report.html">Market Reports</a></li>
+                        <li><a href="tools.html">Space Calculator</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
-                    <h4>Technology</h4>
+                    <h4>Services</h4>
                     <ul>
-                        <li><a href="#">AI Engine</a></li>
-                        <li><a href="#">Data Sources</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">API Access</a></li>
+                        <li><a href="contact.html">Office Space Search</a></li>
+                        <li><a href="contact.html">Industrial Search</a></li>
+                        <li><a href="contact.html">Lease Renewals</a></li>
+                        <li><a href="contact.html">Portfolio Clients</a></li>
+                        <li><a href="alert-system.html">Market Alerts</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
@@ -532,7 +591,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 Apex AI Advisors. Revolutionizing tenant representation.</p>
+                <p>© 2026 Apex AI Advisors · Minneapolis, MN · Tenant Representation for Office &amp; Industrial Space · <a href="mailto:eddie@apexaiadvisors.com" style="color:inherit;">eddie@apexaiadvisors.com</a></p>
             </div>
         </div>
     </footer>
