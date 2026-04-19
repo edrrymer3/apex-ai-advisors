@@ -368,6 +368,20 @@
             renderAlerts();
         }
 
+        const ALERTS_KEY = 'apex_alerts_user';
+
+        function saveUserAlerts() {
+            const userAlerts = alerts.filter(a => typeof a.id === 'number' && a.id > 1000);
+            localStorage.setItem(ALERTS_KEY, JSON.stringify(userAlerts));
+        }
+
+        function loadUserAlerts() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(ALERTS_KEY) || '[]');
+                saved.forEach(a => { if (!alerts.find(x => x.id === a.id)) alerts.unshift(a); });
+            } catch(e) {}
+        }
+
         function addAlert() {
             const type = document.getElementById('newAlertType').value;
             const name = document.getElementById('newAlertName').value.trim();
@@ -379,7 +393,7 @@
             const typeIcons = { lease: '📅', price: '💰', prospect: '🎯', new: '🆕', market: '📊' };
             const typeLabels = { lease: 'Lease Expiry', price: 'Price Watch', prospect: 'Prospect', new: 'New Listing', market: 'Market' };
 
-            alerts.unshift({
+            const newAlert = {
                 id: Date.now(),
                 type,
                 priority: 'info',
@@ -389,9 +403,11 @@
                 tag: type,
                 tagLabel: typeLabels[type],
                 time: 'Just now'
-            });
+            };
 
-            // Clear form
+            alerts.unshift(newAlert);
+            saveUserAlerts();
+
             document.getElementById('newAlertName').value = '';
             document.getElementById('newAlertTrigger').value = '';
             document.getElementById('newAlertNote').value = '';
@@ -425,6 +441,7 @@
         }
 
         // Init
+        loadUserAlerts();
         renderAlerts();
     </script>
 <script src="js/nav.js"></script>

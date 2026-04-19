@@ -322,6 +322,22 @@
             alert(`📄 ${d.name}\n\n🏢 Client: ${d.client}\n📅 Date: ${d.date}\n📦 Size: ${d.size}\n\n🤖 AI Notes:\n${d.notes}`);
         }
 
+        const STORAGE_KEY = 'apex_vault_docs';
+
+        function saveDocs() {
+            // Only save user-added docs (id > 100 means user-added since seed data uses small ids)
+            const userDocs = docs.filter(d => d.id > 100);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(userDocs));
+        }
+
+        function loadUserDocs() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                // Merge saved docs at the front, avoid duplicates
+                saved.forEach(d => { if (!docs.find(x => x.id === d.id)) docs.unshift(d); });
+            } catch(e) {}
+        }
+
         function addDocument() {
             const name = document.getElementById('docName').value.trim();
             const type = document.getElementById('docType').value;
@@ -329,12 +345,15 @@
             const notes = document.getElementById('docNotes').value.trim();
             if (!name) { alert('Please enter a document name.'); return; }
 
-            docs.unshift({ id: Date.now(), name, type, client, date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }), size: 'Uploaded', notes });
+            const newDoc = { id: Date.now(), name, type, client, date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }), size: 'Uploaded', notes };
+            docs.unshift(newDoc);
+            saveDocs();
             document.getElementById('uploadModal').classList.remove('open');
             document.getElementById('docName').value = '';
             document.getElementById('docClient').value = '';
             document.getElementById('docNotes').value = '';
             renderDocs(getFiltered());
+            document.getElementById('totalCount').textContent = docs.length;
         }
 
         // Drag and drop
@@ -343,6 +362,7 @@
         dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
         dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragover'); document.getElementById('uploadModal').classList.add('open'); });
 
+        loadUserDocs();
         renderDocs(docs);
     </script>
 <script src="js/nav.js"></script>

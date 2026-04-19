@@ -58,61 +58,78 @@ const MN_MARKET_DATA = {
 function generateSurvey() {
     const locationEl = document.getElementById('survey-location');
     const typeEl = document.getElementById('survey-type');
-    const sizeEl = document.getElementById('survey-size');
 
     const location = locationEl?.value || 'Minneapolis Downtown';
     const type = typeEl?.value || 'Office';
 
     // Find best matching market
     let market = MN_MARKET_DATA['Minneapolis Downtown'];
-    for (const [key, data] of Object.entries(MN_MARKET_DATA)) {
-        if (location.toLowerCase().includes(key.toLowerCase().split(' ')[0]) ||
-            key.toLowerCase().includes(location.toLowerCase().split(' ')[0]) ||
-            (type === 'Industrial' && data.type === 'Industrial')) {
-            market = data;
-            break;
+    if (type === 'Industrial' || type === 'Flex Space') {
+        market = MN_MARKET_DATA['Twin Cities Industrial'];
+    } else {
+        const locLower = location.toLowerCase();
+        if (locLower.includes('suburban') || locLower.includes('eden') || locLower.includes('plymouth') || locLower.includes('minnetonka') || locLower.includes('edina') || locLower.includes('bloomington')) {
+            market = MN_MARKET_DATA['Minneapolis Suburban'];
+        } else if (locLower.includes('st. paul') || locLower.includes('saint paul')) {
+            market = MN_MARKET_DATA['St. Paul CBD'];
+        } else if (locLower.includes('bloomington') || locLower.includes('airport')) {
+            market = MN_MARKET_DATA['Bloomington/Airport'];
         }
     }
-    if (type === 'Industrial') market = MN_MARKET_DATA['Twin Cities Industrial'];
 
     const resultsDiv = document.getElementById('survey-results');
     if (!resultsDiv) return;
-
     resultsDiv.style.opacity = '0.5';
 
     setTimeout(() => {
-        const propCount = market.properties.length + Math.floor(Math.random() * 8) + 5;
+        const propCount = market.properties.length + Math.floor(Math.random() * 6) + 4;
         const trendIcon = market.direction === 'up' ? '↑' : market.direction === 'down' ? '↓' : '→';
+        const trendColor = market.direction === 'up' ? '#059669' : market.direction === 'down' ? '#dc2626' : '#d97706';
 
-        // Update summary cards
-        const cards = document.querySelectorAll('.summary-value');
+        // Update summary cards — scope to survey-results container
+        const cards = resultsDiv.querySelectorAll('.summary-value');
         if (cards[0]) cards[0].textContent = propCount;
-        if (cards[1]) cards[1].textContent = `$${market.avgRate.toFixed(2)}`;
+        if (cards[1]) cards[1].textContent = `$${market.avgRate.toFixed(2)}/SF`;
         if (cards[2]) cards[2].textContent = `${market.vacancy}%`;
-        if (cards[3]) { cards[3].textContent = `${trendIcon} ${market.trend}`; cards[3].style.color = market.direction === 'up' ? '#10b981' : market.direction === 'down' ? '#ef4444' : '#f59e0b'; }
+        if (cards[3]) {
+            cards[3].textContent = `${trendIcon} ${market.trend}`;
+            cards[3].style.color = trendColor;
+        }
 
         // Update property list
-        const propList = document.querySelector('.property-list');
+        const propList = resultsDiv.querySelector('.property-list');
         if (propList) {
-            propList.innerHTML = `<h4>Top Available Properties — ${location}</h4>` +
+            propList.innerHTML =
+                `<h4 style="margin-bottom:0.5rem; font-size:0.9rem; color:#374151;">Top Available Properties — ${location}</h4>` +
                 market.properties.map(p => `
-                    <div class="property-item" style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 0; border-bottom:1px solid rgba(0,0,0,0.06);">
-                        <div class="property-info">
-                            <strong>${p.name}</strong>
-                            <span style="display:block; font-size:0.82rem; color:#6b7280; margin-top:0.1rem;">${p.sf} · Class ${p.class} · ${p.notes}</span>
+                    <div class="property-item" style="display:flex; justify-content:space-between; align-items:flex-start; padding:0.75rem 0; border-bottom:1px solid rgba(0,0,0,0.06);">
+                        <div>
+                            <strong style="font-size:0.9rem;">${p.name}</strong>
+                            <div style="font-size:0.8rem; color:#6b7280; margin-top:0.15rem;">${p.sf} &nbsp;·&nbsp; Class ${p.class} &nbsp;·&nbsp; ${p.notes}</div>
                         </div>
-                        <div class="property-price" style="font-weight:700; color:#1d4ed8; font-size:1rem; white-space:nowrap; margin-left:1rem;">$${p.rate.toFixed(2)}/SF</div>
+                        <div style="font-weight:700; color:#1d4ed8; font-size:0.95rem; white-space:nowrap; margin-left:1rem;">$${p.rate.toFixed(2)}/SF</div>
                     </div>`).join('') +
-                `<div style="margin-top:1rem; padding:0.75rem; background:#f0fdf4; border-radius:8px; font-size:0.85rem; color:#166534;">
-                    💡 <strong>Market Insight:</strong> Average TI allowance is $${market.avgTI}/SF with ${market.freeRent} free rent on 5-year deals. 
-                    ${market.direction === 'up' ? 'Strong tenant leverage — now is an excellent time to negotiate.' : market.direction === 'down' ? 'Tight market — start search early and be prepared to move quickly.' : 'Balanced market — standard terms prevailing.'}
+                `<div style="margin-top:0.75rem; padding:0.75rem 1rem; background:#f0fdf4; border-radius:8px; font-size:0.83rem; color:#166534;">
+                    💡 <strong>Market Insight:</strong> Avg TI $${market.avgTI}/SF · ${market.freeRent} free rent standard · ${market.direction === 'up' ? 'Strong tenant leverage.' : market.direction === 'down' ? 'Move quickly — limited options.' : 'Balanced market conditions.'}
                 </div>`;
+        }
+
+        // Update export button
+        const exportBtn = resultsDiv.querySelector('.export-btn');
+        if (exportBtn) {
+            exportBtn.onclick = () => {
+                const text = `Apex AI Advisors — Market Survey\n${location} ${type}\n\nVacancy: ${market.vacancy}%\nAvg Rate: $${market.avgRate}/SF\nAvg TI: ${market.avgTI}/SF\nFree Rent: ${market.freeRent}\n\nProperties:\n` +
+                    market.properties.map(p => `${p.name} — ${p.sf} — $${p.rate}/SF`).join('\n');
+                const blob = new Blob([text], {type:'text/plain'});
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                a.download = `market-survey-${location.replace(/[^a-z0-9]/gi,'-')}.txt`; a.click();
+            };
         }
 
         resultsDiv.style.opacity = '1';
         resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        showNotification(`Market survey generated for ${location}!`, 'success');
-    }, 1200);
+        showNotification(`Survey generated — ${propCount} properties found in ${location}`, 'success');
+    }, 900);
 }
 
 // ─── FLOOR PLAN / SPACE CALCULATOR ───────────────────────────────────────────
@@ -151,14 +168,12 @@ function generateFloorPlan() {
     const recommendedSF = Math.round((currentSF + futureSF) / 2 / 100) * 100; // Midpoint, rounded
 
     // Update chart + display
-    const sfDisplay = document.getElementById('recommended-sf') || document.querySelector('.sf-recommendation');
-    if (sfDisplay) sfDisplay.textContent = `${recommendedSF.toLocaleString()} SF`;
-
-    // Update any metric displays
-    const metrics = document.querySelectorAll('.space-metric-value');
-    if (metrics[0]) metrics[0].textContent = `${currentSF.toLocaleString()} SF`;
-    if (metrics[1]) metrics[1].textContent = `${futureSF.toLocaleString()} SF`;
-    if (metrics[2]) metrics[2].textContent = `${sfPerPerson} SF`;
+    // Update metric displays with IDs
+    const upd = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    upd('metric-recommended', recommendedSF.toLocaleString() + ' SF');
+    upd('metric-current', currentSF.toLocaleString() + ' SF');
+    upd('metric-future', futureSF.toLocaleString() + ' SF');
+    upd('metric-per-person', sfPerPerson + ' SF/person');
 
     // Update chart if it exists
     if (typeof spaceChart !== 'undefined' && spaceChart) {
@@ -170,7 +185,15 @@ function generateFloorPlan() {
         spaceChart.update();
     }
 
-    showNotification(`Recommended space: ${recommendedSF.toLocaleString()} SF for ${employees} employees`, 'success');
+    // Update floor plan visual
+    const wsSF = Math.round(employees * sfPerPerson * 0.52);
+    const mtSF = Math.round(currentSF * 0.18);
+    const cmSF = Math.round(currentSF * 0.18);
+    const spSF = currentSF - wsSF - mtSF - cmSF;
+    const upd2 = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val.toLocaleString() + ' SF'; };
+    upd2('fp-ws-size', wsSF); upd2('fp-mt-size', mtSF); upd2('fp-cm-size', cmSF); upd2('fp-sp-size', Math.max(0, spSF));
+
+    showNotification(`Recommended: ${recommendedSF.toLocaleString()} SF for ${employees} employees`, 'success');
 }
 
 // ─── FINANCIAL CALCULATOR ─────────────────────────────────────────────────────

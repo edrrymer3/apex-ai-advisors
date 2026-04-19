@@ -316,21 +316,37 @@
             reader.readAsText(file);
         }
 
+        // Large pool of realistic MN tenant data for PDF simulation
+        const MN_TENANT_POOL = [
+            { company: 'Optum Health Solutions', suite: 'Suite 400', type: 'Office', sf: 28500, rate: 22.50, expiration: '2026-06', notes: 'Renewal option at market' },
+            { company: 'Ameriprise Advisory Services', suite: 'Suite 250', type: 'Office', sf: 15200, rate: 24.00, expiration: '2027-03', notes: 'MTM option after year 3' },
+            { company: 'RBC Wealth Advisors', suite: 'Suite 100', type: 'Office', sf: 8800, rate: 21.00, expiration: '2026-09', notes: '' },
+            { company: 'Securian Asset Mgmt', suite: 'Suite 310', type: 'Office', sf: 12400, rate: 19.50, expiration: '2028-01', notes: 'Below market — motivated for renewal' },
+            { company: 'Travelers Insurance', suite: 'Suite 200', type: 'Office', sf: 9600, rate: 20.00, expiration: '2026-12', notes: '' },
+            { company: 'Piper Sandler Companies', suite: 'Suite 1000', type: 'Office', sf: 22000, rate: 23.50, expiration: '2027-04', notes: 'Financial firm, likely to right-size' },
+            { company: 'Alliant Techsystems', suite: 'Suite 600', type: 'Office', sf: 18500, rate: 18.00, expiration: '2026-08', notes: 'Defense contractor, stable tenant' },
+            { company: 'Cargill Treasury Ops', suite: 'Suite 1200', type: 'Office', sf: 31000, rate: 22.00, expiration: '2027-11', notes: 'HQ function, possible consolidation' },
+            { company: 'Bremer Bank', suite: 'Suite 150', type: 'Office', sf: 7500, rate: 19.00, expiration: '2026-10', notes: 'Branch office, renewal likely' },
+            { company: 'HealthPartners Admin', suite: 'Suite 800', type: 'Office', sf: 24000, rate: 17.50, expiration: '2027-06', notes: 'Healthcare admin, expanding' },
+            { company: 'Patterson Cos — Legal', suite: 'Suite 350', type: 'Office', sf: 6200, rate: 20.50, expiration: '2026-07', notes: '' },
+            { company: 'Xcel Energy Services', suite: 'Suite 500', type: 'Office', sf: 14800, rate: 21.00, expiration: '2027-09', notes: 'Utility company, long-term tenant' },
+            { company: 'General Mills Legal', suite: 'Suite 280', type: 'Office', sf: 9200, rate: 22.00, expiration: '2026-11', notes: 'Satellite office from Golden Valley HQ' },
+            { company: 'TCF Financial', suite: 'Suite 700', type: 'Office', sf: 16500, rate: 20.00, expiration: '2027-02', notes: 'Bank division, possible downsizing' },
+            { company: 'Fairview Health', suite: 'Suite 420', type: 'Office', sf: 11200, rate: 18.50, expiration: '2028-03', notes: 'Medical admin use' },
+            { company: 'Available', suite: 'Suite 900', type: 'Office', sf: 22000, rate: 0, expiration: '', notes: 'Vacant — spec suite, move-in ready' },
+            { company: 'Available (Sublease)', suite: 'Suite 1100', type: 'Office', sf: 14000, rate: 16.00, expiration: '2027-08', notes: 'Sublease — negotiable, motivated' },
+        ];
+
         function simulateExtraction(filename) {
-            // Realistic extraction simulation for PDF/Excel
-            // In production: POST file to /api/parse-om, backend uses pdf-parse + regex
-            const buildings = {
-                default: [
-                    { company: 'Optum Health Solutions', suite: 'Suite 400', type: 'Office', sf: 28500, rate: 22.50, expiration: '2026-06', notes: 'Renewal option at market' },
-                    { company: 'Ameriprise Advisory Services', suite: 'Suite 250', type: 'Office', sf: 15200, rate: 24.00, expiration: '2027-03', notes: 'MTM option after year 3' },
-                    { company: 'RBC Wealth Advisors', suite: 'Suite 100', type: 'Office', sf: 8800, rate: 21.00, expiration: '2026-09', notes: '' },
-                    { company: 'Securian Asset Mgmt', suite: 'Suite 310', type: 'Office', sf: 12400, rate: 19.50, expiration: '2028-01', notes: 'Below market — motivated for renewal' },
-                    { company: 'Travelers Insurance', suite: 'Suite 200', type: 'Office', sf: 9600, rate: 20.00, expiration: '2026-12', notes: '' },
-                    { company: 'Available', suite: 'Suite 500', type: 'Office', sf: 18000, rate: 0, expiration: '', notes: 'Currently vacant — spec suite ready' },
-                ],
-            };
-            const tenants = buildings.default;
-            renderResults(tenants, filename);
+            // Randomly select 5-9 tenants from the pool to simulate different buildings
+            const shuffled = [...MN_TENANT_POOL].sort(() => Math.random() - 0.5);
+            const count = 5 + Math.floor(Math.random() * 5);
+            const tenants = shuffled.slice(0, count);
+            // Always include at least one available/vacant unit
+            if (!tenants.find(t => t.company.includes('Available'))) {
+                tenants.push(MN_TENANT_POOL[MN_TENANT_POOL.length - 1]);
+            }
+            renderResults(tenants, filename + ' (simulated — real PDF parsing requires server)');
         }
 
         function urgency(expStr) {

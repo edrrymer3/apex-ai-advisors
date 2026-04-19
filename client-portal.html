@@ -423,6 +423,29 @@
             el.scrollTop = el.scrollHeight;
         }
 
+        function getAdvisorReply(msg) {
+            const q = msg.toLowerCase();
+            if (q.match(/rate|rent|price|cost|per.*sf|dollar/)) {
+                return 'On rate: the landlord at 50 S 6th came back at $18.50/SF. I’m recommending we counter at $18.20 with an extra month of free rent. Net effective comes out to $16.40/SF — well below market. I can walk you through the full math anytime.';
+            } else if (q.match(/ti|tenant improvement|buildout|allowance|construction/)) {
+                return 'The current TI offer is $55/SF. On 12,000 SF that’s $660,000 toward your buildout. Depending on your finish level, that should cover most or all of a standard office fit-out. I’d recommend we confirm your space planner’s budget before accepting.';
+            } else if (q.match(/timeline|when|date|move.?in|occupancy|how long/)) {
+                return 'Timeline: LOI is being negotiated now, targeting execution by May 15. TI buildout is typically 8–10 weeks, so occupancy around September 1. Lease commencement would be structured to start after buildout — you won’t pay rent during construction.';
+            } else if (q.match(/alternative|backup|other.*option|second.*choice|fallback/)) {
+                return '80 S 8th St is our strongest backup. They’ve been on market 210 days and marked the listing “negotiable.” We could likely get to $19.50/SF with $50/SF TI. I’m keeping that deal warm until we have something signed at 50 S 6th.';
+            } else if (q.match(/free rent|abatement|months? free/)) {
+                return 'We’re currently at 4 months free rent in our LOI. On a 12,000 SF deal at $18.50/SF, that’s about $74,000 in rent abatement. I’m pushing for a 5th month as part of our counter — the landlord has been on market long enough that they should move on it.';
+            } else if (q.match(/parking|spaces?/)) {
+                return 'The building offers 20 reserved parking spaces included in the base rent. Additional spaces are available at $125/month each. For 12,000 SF, the standard ratio is about 3/1,000 SF — so 36 spaces. We’re negotiating to get a few more included.';
+            } else if (q.match(/tour|visit|see.*space|walk.*through/)) {
+                return 'Happy to arrange another tour. The space is available any weekday — just let me know a time that works and I’ll coordinate with the listing broker. I’d also recommend a second look with your space planner before we sign the LOI.';
+            } else if (q.match(/status|update|where.*stand|progress|happen/)) {
+                return 'Here’s where we stand: LOI at 50 S 6th is under negotiation. We’re about 1 counter away from agreement on rate. Once rate is settled, I expect 3–5 days to finalize the remaining terms. I’ll have a full update for you by end of week.';
+            } else {
+                return 'Got it. I’ll look into that and follow up with you directly. In the meantime, everything on the dashboard is up to date — let me know if you want to jump on a call to walk through anything.';
+            }
+        }
+
         function sendMsg() {
             const input = document.getElementById('msgInput');
             const text = input.value.trim();
@@ -439,18 +462,19 @@
                 </div>`;
             input.value = '';
             thread.scrollTop = thread.scrollHeight;
+            const reply = getAdvisorReply(text);
             setTimeout(() => {
                 thread.innerHTML += `
                     <div class="msg">
                         <div class="msg-avatar broker">🏢</div>
                         <div class="msg-body">
                             <div class="msg-name">Apex AI Advisors</div>
-                            <div class="msg-text">Got it — I'll look into that and get back to you shortly with a full update.</div>
+                            <div class="msg-text">${reply}</div>
                             <div class="msg-time">Just now</div>
                         </div>
                     </div>`;
                 thread.scrollTop = thread.scrollHeight;
-            }, 1200);
+            }, 1000);
         }
 
         function switchClient(id, btn) {
