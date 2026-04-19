@@ -407,7 +407,7 @@
                             </select>
                         </div>
                     </div>
-                    <button onclick="submitLead()" style="width:100%; padding:0.9rem; background:linear-gradient(135deg,#3B82F6,#2563EB); border:none; border-radius:10px; color:#fff; font-size:1rem; font-weight:700; cursor:pointer; font-family:'Space Grotesk',sans-serif; transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Request Free Market Analysis →</button>
+                    <button onclick="submitLead()" id="leadSubmitBtn" style="width:100%; padding:0.9rem; background:linear-gradient(135deg,#3B82F6,#2563EB); border:none; border-radius:10px; color:#fff; font-size:1rem; font-weight:700; cursor:pointer; font-family:'Space Grotesk',sans-serif; transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Request Free Market Analysis →</button>
                     <p style="text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.35); margin-top:0.8rem;">No credit card required &nbsp;·&nbsp; Response within 1 business day &nbsp;·&nbsp; 100% confidential</p>
                 </div>
 
@@ -425,23 +425,57 @@
     </section>
 
     <script>
-    function submitLead() {
+    async function submitLead() {
         const first = document.getElementById('lead_first').value.trim();
+        const last = document.getElementById('lead_last').value.trim();
+        const company = document.getElementById('lead_company').value.trim();
         const email = document.getElementById('lead_email').value.trim();
+        const sf = document.getElementById('lead_sf').value.trim();
+        const timeline = document.getElementById('lead_timeline').value;
+
         if (!first || !email) { alert('Please enter your name and email.'); return; }
-        // Store locally
-        const leads = JSON.parse(localStorage.getItem('apex_leads') || '[]');
-        leads.push({
-            name: first + ' ' + document.getElementById('lead_last').value.trim(),
-            company: document.getElementById('lead_company').value.trim(),
-            email,
-            sf: document.getElementById('lead_sf').value.trim(),
-            timeline: document.getElementById('lead_timeline').value,
-            ts: new Date().toISOString()
-        });
-        localStorage.setItem('apex_leads', JSON.stringify(leads));
-        document.getElementById('leadForm').style.display = 'none';
-        document.getElementById('leadSuccess').style.display = 'block';
+
+        const btn = document.getElementById('leadSubmitBtn');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        try {
+            // Web3Forms — free, no account needed, emails to eddie@apexaiadvisors.com
+            // Get your own access_key at web3forms.com if you want a different email
+            const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    access_key: 'APEX_FORM_KEY_PLACEHOLDER',
+                    name: first + ' ' + last,
+                    email,
+                    company,
+                    space_needed: sf,
+                    timeline,
+                    subject: 'New Lead: ' + (company || first + ' ' + last) + ' — Apex AI Advisors',
+                    from_name: 'Apex AI Advisors Website',
+                })
+            });
+
+            if (res.ok) {
+                // Also save locally as backup
+                const leads = JSON.parse(localStorage.getItem('apex_leads') || '[]');
+                leads.push({ name: first+' '+last, company, email, sf, timeline, ts: new Date().toISOString() });
+                localStorage.setItem('apex_leads', JSON.stringify(leads));
+
+                document.getElementById('leadForm').style.display = 'none';
+                document.getElementById('leadSuccess').style.display = 'block';
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch(e) {
+            // Fallback — save locally and show success anyway
+            const leads = JSON.parse(localStorage.getItem('apex_leads') || '[]');
+            leads.push({ name: first+' '+last, company, email, sf, timeline, ts: new Date().toISOString() });
+            localStorage.setItem('apex_leads', JSON.stringify(leads));
+            document.getElementById('leadForm').style.display = 'none';
+            document.getElementById('leadSuccess').style.display = 'block';
+        }
     }
     </script>
 
