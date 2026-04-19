@@ -173,10 +173,45 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const mobileToggle = document.querySelector('.nav-mobile-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
-if (mobileToggle) {
-    mobileToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        mobileToggle.classList.toggle('active');
+function closeMobileMenu() {
+    if (navMenu) navMenu.classList.remove('active');
+    if (mobileToggle) mobileToggle.classList.remove('active');
+    document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+}
+
+if (mobileToggle && navMenu) {
+    mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navMenu.classList.toggle('active');
+        mobileToggle.classList.toggle('active', isOpen);
+    });
+
+    // Accordion dropdowns inside mobile menu
+    navMenu.querySelectorAll('.nav-dropdown-trigger').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            if (!navMenu.classList.contains('active')) return;
+            e.preventDefault();
+            e.stopPropagation();
+            const dropdown = trigger.closest('.nav-dropdown');
+            const wasOpen = dropdown.classList.contains('open');
+            // Close all others
+            navMenu.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+            if (!wasOpen) dropdown.classList.add('open');
+        });
+    });
+
+    // Close on outside click / tap
+    document.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close when a nav link is tapped
+    navMenu.querySelectorAll('a:not(.nav-dropdown-trigger)').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu();
+        });
     });
 }
 
