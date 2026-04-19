@@ -91,7 +91,8 @@ body {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.4rem;
+    flex-wrap: nowrap;
 }
 
 .nav-link {
@@ -1027,3 +1028,62 @@ body {
         flex-direction: column;
     }
 }
+/* ============================================================
+   UNIFIED NAV — overrides old nav-advanced on mobile
+   ============================================================ */
+.nav-advanced {
+    background: rgba(13,17,23,0.97) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+.nav-blur { display: none !important; }
+.nav-container { padding: 0.9rem 20px !important; }
+
+/* Logo always white */
+.logo-modern .logo-text,
+.logo-modern .logo-icon { color: #fff !important; }
+.logo-modern .ai-accent { color: #3B82F6 !important; }
+
+/* Nav links — white on dark */
+.nav-menu .nav-link {
+    color: rgba(255,255,255,0.65) !important;
+    font-size: 0.85rem !important;
+}
+.nav-menu .nav-link:hover,
+.nav-menu .nav-link.active { color: #fff !important; }
+.nav-menu .nav-link::after { background: #3B82F6 !important; }
+
+/* CTA button */
+.nav-menu .nav-cta {
+    background: #3B82F6 !important;
+    color: #fff !important;
+    border-radius: 20px !important;
+    padding: 0.45rem 1.1rem !important;
+    font-size: 0.85rem !important;
+}
+
+/* Dropdown on dark nav */
+.nav-dropdown-menu {
+    background: #1a1f2e !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4) !important;
+}
+.nav-dropdown-menu a { color: rgba(255,255,255,0.7) !important; }
+.nav-dropdown-menu a:hover { background: rgba(255,255,255,0.07) !important; color: #fff !important; }
+
+/* Hamburger — white bars */
+.nav-mobile-toggle span { background: #fff !important; }
+
+/* Mobile menu — dark */
+.nav-menu.active {
+    background: rgba(13,17,23,0.99) !important;
+    top: 64px !important;
+}
+.nav-menu.active .nav-link { color: rgba(255,255,255,0.8) !important; border-bottom-color: rgba(255,255,255,0.08) !important; }
+.nav-menu.active .nav-link:hover { color: #fff !important; }
+.nav-menu.active .nav-dropdown-trigger { color: rgba(255,255,255,0.8) !important; }
+.nav-menu.active .nav-dropdown-menu { background: rgba(255,255,255,0.05) !important; }
+.nav-menu.active .nav-dropdown-menu a { color: rgba(255,255,255,0.7) !important; }
+.nav-menu.active .nav-cta { background: #3B82F6 !important; color: #fff !important; }
+
+/* Remove hero top padding compensation for dark nav */
+.hero-advanced { padding-top: 100px !important; }

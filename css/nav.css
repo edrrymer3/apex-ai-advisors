@@ -1,0 +1,147 @@
+/* ============================================================
+   Apex AI Advisors — Unified Navigation CSS
+   Used by all pages that have the .apex-nav class
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.apex-nav {
+    background: rgba(13,17,23,0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 64px;
+    min-height: 64px;
+}
+
+.apex-nav .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    flex-shrink: 0;
+}
+.apex-nav .logo span { color: #3B82F6; }
+
+/* Desktop links */
+.apex-nav .links {
+    display: flex;
+    gap: 1.4rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.apex-nav .links a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 0.84rem;
+    white-space: nowrap;
+    transition: color 0.2s;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+.apex-nav .links a:hover,
+.apex-nav .links a.active { color: #fff; }
+.apex-nav .links a.cta {
+    background: #3B82F6;
+    color: #fff !important;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+.apex-nav .links a.cta:hover { background: #2563EB; }
+
+/* Hamburger button */
+.apex-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+    flex-shrink: 0;
+}
+.apex-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+}
+.apex-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.apex-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.apex-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu overlay */
+.apex-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13,17,23,0.99);
+    z-index: 999;
+    flex-direction: column;
+    padding: 1rem 2rem 2rem;
+    overflow-y: auto;
+    animation: apexMenuIn 0.2s ease;
+}
+@keyframes apexMenuIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.apex-mobile-menu.open { display: flex; }
+
+.apex-mobile-menu a {
+    display: block;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: 'Inter', -apple-system, sans-serif;
+    transition: color 0.15s;
+}
+.apex-mobile-menu a:hover,
+.apex-mobile-menu a.active { color: #fff; }
+.apex-mobile-menu a.cta-mobile {
+    display: block;
+    margin-top: 1.5rem;
+    padding: 0.9rem;
+    background: #3B82F6;
+    color: #fff !important;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 700;
+    border-bottom: none;
+    font-size: 1rem;
+}
+.apex-mobile-menu a.cta-mobile:hover { background: #2563EB; }
+
+/* Mobile section label */
+.apex-mobile-section {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.3);
+    margin: 1.2rem 0 0.3rem;
+}
+
+/* Responsive breakpoint */
+@media (max-width: 860px) {
+    .apex-nav .links { display: none; }
+    .apex-hamburger { display: flex; }
+}

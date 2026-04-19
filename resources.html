@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources | Apex AI Advisors — Twin Cities Tenant Rep Guides</title>
     <meta name="description" content="Free guides, checklists, and market reports for Twin Cities office and industrial tenants. Download tenant rep resources from Apex AI Advisors.">
+    <link rel="stylesheet" href="css/nav.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -83,12 +84,28 @@
             <a href="index.html">Home</a>
             <a href="tools.html">AI Tools</a>
             <a href="rfp-generator.html">RFP Builder</a>
-            <a href="market-report.html">Market Reports</a>
-            <a href="resources.html" class="active">Resources</a>
+            <a href="market-report.html">Reports</a>
+            <a href="lease-comparison.html">Compare</a>
+            <a href="negotiation-playbook.html">Playbook</a>
+            <a href="resources.html">Resources</a>
             <a href="contact.html">Contact</a>
             <a href="contact.html" class="cta">Get Started</a>
         </div>
-    </nav>
+        <button class="apex-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </nav>
+    <div class="apex-mobile-menu">
+        <div class="apex-mobile-section">Tools</div>
+        <a href="tools.html">🧮 Space Calculator</a>
+        <a href="rfp-generator.html">📋 RFP Builder</a>
+        <a href="lease-comparison.html">⚖️ Proposal Comparison</a>
+        <a href="negotiation-playbook.html">🧠 Negotiation Playbook</a>
+        <a href="market-report.html">📊 Market Reports</a>
+        <a href="alert-system.html">🔔 Alerts</a>
+        <div class="apex-mobile-section">Resources</div>
+        <a href="resources.html">📚 Guides & Downloads</a>
+        <a href="contact.html">📬 Contact</a>
+        <a href="contact.html" class="cta-mobile">Get Started →</a>
+    </div>
 
     <div class="page-hero">
         <div class="badge">📚 Free Resources</div>
@@ -362,5 +379,6 @@
         if (e.target === this) closeModal();
     });
     </script>
+<script src="js/nav.js"></script>
 </body>
 </html>

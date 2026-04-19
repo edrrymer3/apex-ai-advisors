@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Upload an offering memorandum or rent roll and automatically extract tenant names, square footage, rates, and lease expirations.">
     <title>OM & Rent Roll Parser | Apex AI Advisors</title>
+    <link rel="stylesheet" href="css/nav.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -109,13 +110,26 @@
             <a href="rfp-generator.html">RFP Builder</a>
             <a href="market-report.html">Reports</a>
             <a href="lease-comparison.html">Compare</a>
-            <a href="lease-expiration-dashboard.html">Expirations</a>
-            <a href="om-parser.html" class="active">OM Parser</a>
+            <a href="negotiation-playbook.html">Playbook</a>
             <a href="resources.html">Resources</a>
             <a href="contact.html">Contact</a>
             <a href="contact.html" class="cta">Get Started</a>
         </div>
-    </nav>
+        <button class="apex-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </nav>
+    <div class="apex-mobile-menu">
+        <div class="apex-mobile-section">Tools</div>
+        <a href="tools.html">🧮 Space Calculator</a>
+        <a href="rfp-generator.html">📋 RFP Builder</a>
+        <a href="lease-comparison.html">⚖️ Proposal Comparison</a>
+        <a href="negotiation-playbook.html">🧠 Negotiation Playbook</a>
+        <a href="market-report.html">📊 Market Reports</a>
+        <a href="alert-system.html">🔔 Alerts</a>
+        <div class="apex-mobile-section">Resources</div>
+        <a href="resources.html">📚 Guides & Downloads</a>
+        <a href="contact.html">📬 Contact</a>
+        <a href="contact.html" class="cta-mobile">Get Started →</a>
+    </div>
 
     <div class="page-hero">
         <div class="badge">📄 Rent Roll Extractor</div>
@@ -400,5 +414,6 @@
             window.location.href = 'lease-expiration-dashboard.html';
         }
     </script>
+<script src="js/nav.js"></script>
 </body>
 </html>

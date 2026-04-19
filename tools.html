@@ -17,38 +17,37 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="nav-advanced">
-        <div class="nav-blur"></div>
-        <div class="container nav-container">
-            <div class="nav-brand">
-                <div class="logo-modern">
-                    <span class="logo-icon">🤖</span>
-                    <span class="logo-text">Apex<span class="ai-accent">AI</span></span>
-                </div>
-            </div>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="tools.html" class="nav-link active">AI Tools</a>
-                <a href="portfolio-command-center.html" class="nav-link">Portfolio</a>
-                <a href="prospect-database.html" class="nav-link">Prospects</a>
-                <a href="rfp-generator.html" class="nav-link">RFP Builder</a>
-                <a href="alert-system.html" class="nav-link">Alerts</a>
-                <a href="apexos.html" class="nav-link">ApexOS</a>
-                <a href="document-vault.html" class="nav-link">Vault</a>
-                <a href="client-portal.html" class="nav-link">Client Portal</a>
-                <a href="lease-comparison.html" class="nav-link">Compare</a>
-                <a href="negotiation-playbook.html" class="nav-link">Playbook</a>
-                <a href="market-report.html" class="nav-link">Reports</a>
-                <a href="lease-expiration-dashboard.html" class="nav-link">Expirations</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-                <a href="contact.html" class="nav-cta pulse-glow">Get Started</a>
-            </div>
-            <div class="nav-mobile-toggle">
-                <span></span><span></span><span></span>
-            </div>
+    <nav style="position:sticky; top:0; height:64px; background:rgba(13,17,23,0.97); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:space-between; padding:0 2rem; z-index:1000;">
+        <a href="index.html" style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:#fff; text-decoration:none;">Apex<span style="color:#3B82F6;">AI</span></a>
+        <div class="apex-desktop-links" style="display:flex; gap:1.4rem; align-items:center;">
+            <a href="index.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Home</a>
+            <a href="tools.html" style="color:#fff; text-decoration:none; font-size:0.84rem; font-weight:600;">AI Tools</a>
+            <a href="rfp-generator.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">RFP Builder</a>
+            <a href="market-report.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Reports</a>
+            <a href="lease-comparison.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Compare</a>
+            <a href="resources.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Resources</a>
+            <a href="contact.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Contact</a>
+            <a href="contact.html" style="background:#3B82F6; color:#fff; padding:0.4rem 1rem; border-radius:20px; text-decoration:none; font-size:0.84rem; font-weight:600;">Get Started</a>
         </div>
+        <button class="apex-hamburger" aria-label="Menu" style="display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:6px;">
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+        </button>
     </nav>
+    <div class="apex-mobile-menu" style="display:none; position:fixed; top:64px; left:0; right:0; bottom:0; background:rgba(13,17,23,0.99); z-index:999; flex-direction:column; padding:1rem 2rem 2rem; overflow-y:auto;">
+        <a href="index.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Home</a>
+        <a href="tools.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:#fff; text-decoration:none; font-size:1rem; font-weight:600;">AI Tools</a>
+        <a href="rfp-generator.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">RFP Builder</a>
+        <a href="lease-comparison.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Proposal Comparison</a>
+        <a href="negotiation-playbook.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Negotiation Playbook</a>
+        <a href="market-report.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Market Reports</a>
+        <a href="resources.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Resources</a>
+        <a href="contact.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Contact</a>
+        <a href="contact.html" style="display:block; margin-top:1.5rem; padding:0.9rem; background:#3B82F6; color:#fff; text-align:center; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem;">Get Started →</a>
+    </div>
+    <style>@media(max-width:860px){.apex-desktop-links{display:none!important}.apex-hamburger{display:flex!important}}.apex-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}.apex-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}.apex-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}.apex-mobile-menu.open{display:flex!important}</style>
+    <script>(function(){var h=document.querySelector('.apex-hamburger'),m=document.querySelector('.apex-mobile-menu');if(!h||!m)return;h.addEventListener('click',function(e){e.stopPropagation();var o=m.classList.toggle('open');h.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){m.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';});});document.addEventListener('click',function(e){if(m.classList.contains('open')&&!m.contains(e.target)&&!h.contains(e.target)){m.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';}});})();</script>
 
     <!-- Tools Hero -->
     <section class="tools-hero">
