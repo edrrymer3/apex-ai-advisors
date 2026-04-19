@@ -417,14 +417,16 @@ body {
 
 .section-badge {
     display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--gradient-ai);
-    color: white;
+    padding: 0.3rem 0.9rem;
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: #93c5fd;
     border-radius: 50px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
 }
 
 .section-header-modern h2 {
@@ -850,7 +852,8 @@ body {
 /* Footer Modern */
 .footer-modern {
     padding: 60px 0 20px;
-    background: var(--primary);
+    background: #0d1117;
+    border-top: 1px solid rgba(255,255,255,0.08);
     color: white;
 }
 

@@ -17,13 +17,20 @@
     <link rel="stylesheet" href="css/modern-style.css">
     <link rel="stylesheet" href="css/dark-mode.css">
     
-    <!-- Chart.js for data visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SEO & Social -->
+    <link rel="canonical" href="https://edrrymer3.github.io/apex-ai-advisors/">
     <meta property="og:title" content="Apex AI Advisors | Minneapolis Tenant Representation">
-    <meta property="og:description" content="AI-powered tenant representation in the Twin Cities. We help Minneapolis businesses find, negotiate, and secure office and industrial space — smarter and faster.">
+    <meta property="og:description" content="AI-powered tenant representation for Twin Cities office and industrial tenants. Free market analysis, RFP generator, negotiation playbook, and more.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://edrrymer3.github.io/apex-ai-advisors/">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:site_name" content="Apex AI Advisors">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apex AI Advisors | Minneapolis Tenant Representation">
+    <meta name="twitter:description" content="AI-powered tenant rep for Twin Cities businesses. Free tools: RFP generator, market reports, negotiation playbook.">
+    <meta name="keywords" content="Minneapolis tenant representation, Twin Cities commercial real estate, office space Minneapolis, tenant rep broker, lease negotiation Minneapolis, industrial space Twin Cities">
+    <meta name="author" content="Eddie Rymer, Apex AI Advisors">
+    <!-- Chart.js only on pages that need it -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -180,6 +187,20 @@
                         <li>✓ Leverage meter based on market</li>
                         <li>✓ Concession calculator</li>
                         <li>✓ Win probability scoring</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now →</button>
+                </div>
+
+                <!-- Lease Timing Calculator -->
+                <div class="ai-tool-card" data-tool="timing" onclick="window.location.href='lease-timing.html'" style="cursor:pointer">
+                    <div class="tool-glow"></div>
+                    <div class="tool-icon">⏰</div>
+                    <h3>Lease Timing Calculator</h3>
+                    <p>Enter your expiration date — get a custom action plan with exact dates for every step of your search, from kickoff to move-in.</p>
+                    <ul class="tool-features">
+                        <li>✓ Expiration-based action plan</li>
+                        <li>✓ Custom milestone timeline</li>
+                        <li>✓ Urgency assessment</li>
                     </ul>
                     <button class="tool-try-btn">Try Now →</button>
                 </div>
@@ -380,6 +401,94 @@
     </section>
 
     <!-- FAQ Section -->
+    <!-- Savings Estimator -->
+    <section style="padding:5rem 0; background:linear-gradient(135deg,#0f1928 0%,#111827 100%); border-top:1px solid rgba(255,255,255,0.06);">
+        <div class="container" style="max-width:900px;">
+            <div style="text-align:center; margin-bottom:2.5rem;">
+                <span class="section-badge">FREE ESTIMATE</span>
+                <h2 style="color:#fff; font-family:'Space Grotesk',sans-serif; font-size:2rem; font-weight:700; margin-top:0.75rem;">See What You Could Save</h2>
+                <p style="color:rgba(255,255,255,0.5); margin-top:0.5rem;">Enter your current lease details — we'll show you what the market says you should be paying</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:2rem;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.2rem; margin-bottom:1.5rem;">
+                    <div>
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.5px;">Your Current Rate ($/SF/yr)</label>
+                        <input type="number" id="est_rate" value="22" step="0.5" oninput="calcSavings()" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.7rem 1rem; color:#fff; font-size:1rem; font-family:'Space Grotesk',sans-serif;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.5px;">Square Footage (SF)</label>
+                        <input type="number" id="est_sf" value="10000" step="500" oninput="calcSavings()" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.7rem 1rem; color:#fff; font-size:1rem; font-family:'Space Grotesk',sans-serif;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.5px;">Space Type</label>
+                        <select id="est_type" onchange="calcSavings()" style="width:100%; background:#1a1a2e; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.7rem 1rem; color:#fff; font-size:0.95rem; font-family:'Inter',sans-serif;">
+                            <option value="office_dt">Office — Downtown MPLS</option>
+                            <option value="office_sub">Office — Suburban</option>
+                            <option value="industrial">Industrial / Warehouse</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.5px;">Lease Term</label>
+                        <select id="est_term" onchange="calcSavings()" style="width:100%; background:#1a1a2e; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.7rem 1rem; color:#fff; font-size:0.95rem; font-family:'Inter',sans-serif;">
+                            <option value="3">3 Years</option>
+                            <option value="5" selected>5 Years</option>
+                            <option value="7">7 Years</option>
+                            <option value="10">10 Years</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Results -->
+                <div id="savingsResult" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-bottom:1.5rem;">
+                    <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:12px; padding:1.2rem; text-align:center;">
+                        <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;">Est. Market Rate</div>
+                        <div id="est_market_rate" style="font-family:'Space Grotesk',sans-serif; font-size:1.6rem; font-weight:700; color:#10b981;">$19.40/SF</div>
+                    </div>
+                    <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:12px; padding:1.2rem; text-align:center;">
+                        <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;">Annual Savings</div>
+                        <div id="est_annual_save" style="font-family:'Space Grotesk',sans-serif; font-size:1.6rem; font-weight:700; color:#3B82F6;">$26,000</div>
+                    </div>
+                    <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.2); border-radius:12px; padding:1.2rem; text-align:center;">
+                        <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;">TI Allowance Available</div>
+                        <div id="est_ti" style="font-family:'Space Grotesk',sans-serif; font-size:1.6rem; font-weight:700; color:#8b5cf6;">$520K</div>
+                    </div>
+                    <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:12px; padding:1.2rem; text-align:center;">
+                        <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;">5-Year Total Savings</div>
+                        <div id="est_total_save" style="font-family:'Space Grotesk',sans-serif; font-size:1.6rem; font-weight:700; color:#f59e0b;">$650K</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                    <a href="contact.html" style="padding:0.8rem 1.8rem; background:linear-gradient(135deg,#3B82F6,#2563EB); color:#fff; border-radius:10px; text-decoration:none; font-weight:700; font-family:'Space Grotesk',sans-serif; font-size:0.95rem;">Get a Free Full Analysis →</a>
+                    <a href="lease-comparison.html" style="padding:0.8rem 1.8rem; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); color:#e0e0e0; border-radius:10px; text-decoration:none; font-weight:600; font-family:'Space Grotesk',sans-serif; font-size:0.95rem;">Compare Proposals</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+    const marketRates = {
+        office_dt:   { rate: 19.40, ti: 52, freeRent: 5 },
+        office_sub:  { rate: 17.20, ti: 40, freeRent: 3 },
+        industrial:  { rate: 7.80,  ti: 12, freeRent: 1 },
+    };
+    function calcSavings() {
+        const currentRate = parseFloat(document.getElementById('est_rate').value) || 0;
+        const sf = parseInt(document.getElementById('est_sf').value) || 0;
+        const type = document.getElementById('est_type').value;
+        const term = parseInt(document.getElementById('est_term').value) || 5;
+        const mkt = marketRates[type] || marketRates.office_dt;
+
+        const rateDiff = Math.max(0, currentRate - mkt.rate);
+        const annualSave = rateDiff * sf;
+        const totalSave = annualSave * term + (mkt.ti * sf); // rate savings + TI
+        const tiValue = mkt.ti * sf;
+
+        document.getElementById('est_market_rate').textContent = '$' + mkt.rate.toFixed(2) + '/SF';
+        document.getElementById('est_annual_save').textContent = annualSave > 0 ? '$' + Math.round(annualSave).toLocaleString() : 'At market';
+        document.getElementById('est_ti').textContent = '$' + Math.round(tiValue/1000) + 'K';
+        document.getElementById('est_total_save').textContent = totalSave > 0 ? '$' + Math.round(totalSave/1000) + 'K' : 'Market data';
+    }
+    calcSavings();
+    </script>
+
     <section style="padding:5rem 0; background:#0d1117; border-top:1px solid rgba(255,255,255,0.05);">
         <div class="container" style="max-width:800px;">
             <div style="text-align:center; margin-bottom:3rem;">

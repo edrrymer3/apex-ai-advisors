@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Timing Calculator | Apex AI Advisors</title>
+    <meta name="description" content="Find out exactly when to start your commercial lease search in the Twin Cities. Enter your expiration date and get a custom action plan.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/nav.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color: #e0e0e0; min-height: 100vh; }
+
+        .page-hero { padding: 3rem 2rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); background: linear-gradient(135deg, #0f1928 0%, #1a1f35 100%); }
+        .badge { display: inline-block; background: rgba(59,130,246,0.15); color: #3B82F6; border: 1px solid rgba(59,130,246,0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .page-hero h1 span { color: #3B82F6; }
+        .page-hero p { color: rgba(255,255,255,0.55); max-width: 520px; margin: 0 auto; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+
+        .calc-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 2.5rem; margin-bottom: 2rem; }
+        .calc-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+        .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 0.75rem 1rem; color: #e0e0e0; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3B82F6; }
+        .form-group select option { background: #1a1a2e; }
+
+        .btn-calc { width: 100%; padding: 1rem; background: linear-gradient(135deg, #3B82F6, #2563EB); border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Space Grotesk', sans-serif; transition: all 0.2s; }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(59,130,246,0.35); }
+
+        /* Timeline output */
+        .timeline-output { display: none; }
+        .timeline-output.visible { display: block; }
+
+        .urgency-banner { border-radius: 14px; padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.2rem; }
+        .urgency-banner.critical { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+        .urgency-banner.warn { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); }
+        .urgency-banner.good { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); }
+        .urgency-icon { font-size: 2.5rem; flex-shrink: 0; }
+        .urgency-text h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .urgency-text p { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+        .milestones { display: flex; flex-direction: column; gap: 0; position: relative; }
+        .milestones::before { content: ''; position: absolute; left: 20px; top: 24px; bottom: 24px; width: 2px; background: rgba(255,255,255,0.08); }
+        .milestone { display: flex; gap: 1.2rem; align-items: flex-start; padding: 1rem 0; position: relative; }
+        .ms-dot { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; position: relative; z-index: 1; }
+        .ms-dot.done { background: #10b981; }
+        .ms-dot.now { background: #3B82F6; box-shadow: 0 0 0 4px rgba(59,130,246,0.2); }
+        .ms-dot.soon { background: rgba(245,158,11,0.3); border: 2px solid #f59e0b; }
+        .ms-dot.future { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); }
+        .ms-content { flex: 1; padding-top: 0.5rem; }
+        .ms-date { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ms-title { font-weight: 700; color: #fff; margin: 0.15rem 0; }
+        .ms-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+        @media (max-width: 600px) { .action-grid { grid-template-columns: 1fr; } }
+        .action-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.2rem; }
+        .action-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .action-card p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 0.75rem; }
+        .action-link { color: #3B82F6; text-decoration: none; font-size: 0.82rem; font-weight: 600; }
+        .action-link:hover { text-decoration: underline; }
+
+        .cta-bottom { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 14px; padding: 2rem; text-align: center; margin-top: 2rem; }
+        .cta-bottom h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .cta-bottom p { font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-bottom: 1.2rem; }
+        .cta-btn { display: inline-block; padding: 0.8rem 1.8rem; background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; border-radius: 10px; text-decoration: none; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body>
+    <nav style="position:sticky; top:0; height:64px; background:rgba(13,17,23,0.97); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:space-between; padding:0 2rem; z-index:1000;">
+        <a href="index.html" style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem; font-weight:700; color:#fff; text-decoration:none;">Apex<span style="color:#3B82F6;">AI</span></a>
+        <div class="apex-desktop-links" style="display:flex; gap:1.4rem; align-items:center;">
+            <a href="index.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Home</a>
+            <a href="tools.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">AI Tools</a>
+            <a href="rfp-generator.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">RFP Builder</a>
+            <a href="market-report.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Reports</a>
+            <a href="resources.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Resources</a>
+            <a href="contact.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.84rem;">Contact</a>
+            <a href="contact.html" style="background:#3B82F6; color:#fff; padding:0.4rem 1rem; border-radius:20px; text-decoration:none; font-size:0.84rem; font-weight:600;">Get Started</a>
+        </div>
+        <button class="apex-hamburger" aria-label="Menu" style="display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:6px;">
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+            <span style="display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:transform 0.25s,opacity 0.2s;"></span>
+        </button>
+    </nav>
+    <div class="apex-mobile-menu" style="display:none; position:fixed; top:64px; left:0; right:0; bottom:0; background:rgba(13,17,23,0.99); z-index:999; flex-direction:column; padding:1rem 2rem 2rem; overflow-y:auto;">
+        <a href="index.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Home</a>
+        <a href="tools.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">AI Tools</a>
+        <a href="rfp-generator.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">RFP Builder</a>
+        <a href="resources.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Resources</a>
+        <a href="contact.html" style="display:block; padding:0.9rem 0; border-bottom:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.8); text-decoration:none; font-size:1rem;">Contact</a>
+        <a href="contact.html" style="display:block; margin-top:1.5rem; padding:0.9rem; background:#3B82F6; color:#fff; text-align:center; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem;">Get Started →</a>
+    </div>
+    <style>@media(max-width:860px){.apex-desktop-links{display:none!important}.apex-hamburger{display:flex!important}}.apex-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}.apex-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}.apex-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}.apex-mobile-menu.open{display:flex!important}</style>
+    <script>(function(){var h=document.querySelector(".apex-hamburger"),m=document.querySelector(".apex-mobile-menu");if(!h||!m)return;h.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");h.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";});m.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){m.classList.remove("open");h.classList.remove("open");document.body.style.overflow="";});});document.addEventListener("click",function(e){if(m.classList.contains("open")&&!m.contains(e.target)&&!h.contains(e.target)){m.classList.remove("open");h.classList.remove("open");document.body.style.overflow="";}});})();</script>
+
+    <div class="page-hero">
+        <div class="badge">⏰ Timing Is Everything</div>
+        <h1>Lease <span>Timing</span> Calculator</h1>
+        <p>Enter your lease expiration — get a custom action plan with exact dates for every step of your search</p>
+    </div>
+
+    <div class="container">
+        <div class="calc-card">
+            <h2>📅 Your Lease Details</h2>
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Lease Expiration Date</label>
+                    <input type="month" id="lt_expiry" value="">
+                </div>
+                <div class="form-group">
+                    <label>Square Footage</label>
+                    <input type="number" id="lt_sf" value="10000" step="500">
+                </div>
+                <div class="form-group">
+                    <label>Space Type</label>
+                    <select id="lt_type">
+                        <option value="office">Office</option>
+                        <option value="industrial">Industrial / Warehouse</option>
+                        <option value="flex">Flex Space</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Intent</label>
+                    <select id="lt_intent">
+                        <option value="move">Relocate (new space)</option>
+                        <option value="renew">Renew (stay put)</option>
+                        <option value="unsure">Not sure yet</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-calc" onclick="calcTiming()">📋 Generate My Action Plan</button>
+        </div>
+
+        <!-- Output -->
+        <div class="timeline-output" id="timingOutput">
+            <div class="urgency-banner" id="urgencyBanner">
+                <div class="urgency-icon" id="urgencyIcon">⏰</div>
+                <div class="urgency-text">
+                    <h3 id="urgencyTitle">—</h3>
+                    <p id="urgencyDesc">—</p>
+                </div>
+            </div>
+
+            <div class="calc-card">
+                <h2>🗓️ Your Custom Search Timeline</h2>
+                <div class="milestones" id="milestonesContainer"></div>
+            </div>
+
+            <div class="action-grid" id="actionGrid"></div>
+
+            <div class="cta-bottom">
+                <h3>Ready to get started?</h3>
+                <p>A 30-minute call is all it takes to kick off your search — and it's free. We'll have market options ready before we meet.</p>
+                <a href="contact.html" class="cta-btn">Schedule Free Consultation →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set default expiration to 18 months from now
+        const defaultExp = new Date();
+        defaultExp.setMonth(defaultExp.getMonth() + 18);
+        document.getElementById('lt_expiry').value = defaultExp.toISOString().substring(0, 7);
+
+        function monthsFromNow(date) {
+            const now = new Date();
+            return Math.round((date - now) / (1000 * 60 * 60 * 24 * 30.4));
+        }
+
+        function addMonths(date, n) {
+            const d = new Date(date);
+            d.setMonth(d.getMonth() + n);
+            return d;
+        }
+
+        function fmt(date) {
+            return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
+
+        function fmtShort(date) {
+            return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        function calcTiming() {
+            const expStr = document.getElementById('lt_expiry').value;
+            if (!expStr) { alert('Please enter your lease expiration date.'); return; }
+
+            const expiry = new Date(expStr + '-01');
+            const sf = parseInt(document.getElementById('lt_sf').value) || 10000;
+            const type = document.getElementById('lt_type').value;
+            const intent = document.getElementById('lt_intent').value;
+            const monthsLeft = monthsFromNow(expiry);
+            const now = new Date();
+
+            // Timeline depends on space size and type
+            let searchLeadTime = 12; // months before expiry to start
+            if (sf > 30000) searchLeadTime = 18;
+            if (sf > 75000) searchLeadTime = 24;
+            if (type === 'industrial') searchLeadTime = Math.max(searchLeadTime, 15);
+            if (intent === 'renew') searchLeadTime = Math.max(searchLeadTime - 3, 9);
+
+            // Key dates
+            const startSearch = addMonths(expiry, -searchLeadTime);
+            const toursComplete = addMonths(expiry, -Math.round(searchLeadTime * 0.6));
+            const rfpDeadline = addMonths(expiry, -Math.round(searchLeadTime * 0.5));
+            const loiTarget = addMonths(expiry, -Math.round(searchLeadTime * 0.35));
+            const leaseSign = addMonths(expiry, -Math.round(searchLeadTime * 0.2));
+            const buildoutStart = addMonths(expiry, -3);
+
+            // Urgency
+            let urgencyClass, urgencyIcon, urgencyTitle, urgencyDesc;
+            if (monthsLeft < 6) {
+                urgencyClass = 'critical'; urgencyIcon = '🚨';
+                urgencyTitle = 'Critical — You Should Have Started Already';
+                urgencyDesc = `Your lease expires in ${monthsLeft} months. At this stage, you have very limited options and minimal negotiating leverage. Start immediately — we need to move fast to find you space before you're forced into an unfavorable renewal.`;
+            } else if (monthsLeft < 12) {
+                urgencyClass = 'critical'; urgencyIcon = '⚠️';
+                urgencyTitle = `Act Now — ${monthsLeft} Months Is The Minimum`;
+                urgencyDesc = `You're within the critical window. Starting today gives us just enough time to conduct a proper search, tour options, negotiate, and get a lease signed before your expiration. Don't wait any longer.`;
+            } else if (monthsLeft < 18) {
+                urgencyClass = 'warn'; urgencyIcon = '⏰';
+                urgencyTitle = `Good Timing — Start Your Search Now`;
+                urgencyDesc = `With ${monthsLeft} months remaining, you're in the ideal window to start. You have time to be selective, tour the right spaces, and negotiate aggressively for maximum concessions.`;
+            } else {
+                urgencyClass = 'good'; urgencyIcon = '✅';
+                urgencyTitle = `You Have Time — Plan Strategically`;
+                urgencyDesc = `${monthsLeft} months gives you excellent runway. Start with market research and pre-planning now, then launch your formal search in ${monthsLeft - searchLeadTime} months. Early planning = better deals.`;
+            }
+
+            document.getElementById('urgencyBanner').className = `urgency-banner ${urgencyClass}`;
+            document.getElementById('urgencyIcon').textContent = urgencyIcon;
+            document.getElementById('urgencyTitle').textContent = urgencyTitle;
+            document.getElementById('urgencyDesc').textContent = urgencyDesc;
+
+            // Build milestones
+            const milestones = [
+                { date: startSearch, title: 'Launch Market Search', desc: `Define requirements, review market data, and identify 15-20 candidate properties. Issue initial outreach to listing brokers.`, status: startSearch <= now ? 'done' : (monthsFromNow(startSearch) < 2 ? 'now' : 'future') },
+                { date: toursComplete, title: 'Complete Property Tours', desc: `Tour shortlisted properties (target 8-12). Narrow to 3-5 finalists based on location, condition, and landlord motivation.`, status: toursComplete <= now ? 'done' : (monthsFromNow(toursComplete) < 2 ? 'now' : monthsFromNow(toursComplete) < 6 ? 'soon' : 'future') },
+                { date: rfpDeadline, title: 'Issue RFPs to Finalists', desc: `Send formal Requests for Proposals to 3-5 finalist properties. Set proposal deadline 10-14 days out.`, status: rfpDeadline <= now ? 'done' : (monthsFromNow(rfpDeadline) < 2 ? 'now' : monthsFromNow(rfpDeadline) < 6 ? 'soon' : 'future') },
+                { date: loiTarget, title: 'Execute Letter of Intent', desc: `Compare proposals, select winner, negotiate terms, and execute LOI. This locks in the key business terms.`, status: loiTarget <= now ? 'done' : (monthsFromNow(loiTarget) < 2 ? 'now' : monthsFromNow(loiTarget) < 6 ? 'soon' : 'future') },
+                { date: leaseSign, title: 'Lease Execution', desc: `Legal review and lease negotiation. Typically 30-45 days from LOI to signed lease. Plan for at least one round of redlines.`, status: leaseSign <= now ? 'done' : (monthsFromNow(leaseSign) < 2 ? 'now' : monthsFromNow(leaseSign) < 6 ? 'soon' : 'future') },
+                { date: buildoutStart, title: 'TI Buildout Begins', desc: `Tenant improvement construction starts. Office buildouts typically take 8-12 weeks. Industrial may be faster.`, status: buildoutStart <= now ? 'done' : (monthsFromNow(buildoutStart) < 2 ? 'now' : monthsFromNow(buildoutStart) < 6 ? 'soon' : 'future') },
+                { date: expiry, title: 'Lease Expiration / Move-In', desc: `Your current lease ends. You should be in your new space (or renewed) by this date.`, status: expiry <= now ? 'done' : 'future' },
+            ];
+
+            const statusEmojis = { done: '✓', now: '▶', soon: '○', future: '○' };
+            document.getElementById('milestonesContainer').innerHTML = milestones.map(m => `
+                <div class="milestone">
+                    <div class="ms-dot ${m.status}">${statusEmojis[m.status]}</div>
+                    <div class="ms-content">
+                        <div class="ms-date">${fmtShort(m.date)}</div>
+                        <div class="ms-title">${m.title}</div>
+                        <div class="ms-desc">${m.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Action cards
+            const actions = [
+                { icon: '📊', title: 'Get Current Market Data', desc: `See what rates, TI, and free rent are available right now in your target submarket.`, link: 'market-report.html', linkText: 'View Market Reports →' },
+                { icon: '📋', title: 'Build Your RFP', desc: `Generate a professional Request for Proposal to send to landlords and listing brokers.`, link: 'rfp-generator.html', linkText: 'Build RFP Now →' },
+                { icon: '🧠', title: 'Negotiation Strategy', desc: `Get a custom playbook based on current market conditions and your deal specifics.`, link: 'negotiation-playbook.html', linkText: 'Get Playbook →' },
+                { icon: '📬', title: 'Talk to Your Advisor', desc: `30-minute kickoff call — free. We\'ll have market options ready when we meet.`, link: 'contact.html', linkText: 'Schedule Call →' },
+            ];
+
+            document.getElementById('actionGrid').innerHTML = actions.map(a => `
+                <div class="action-card">
+                    <h4>${a.icon} ${a.title}</h4>
+                    <p>${a.desc}</p>
+                    <a href="${a.link}" class="action-link">${a.linkText}</a>
+                </div>
+            `).join('');
+
+            document.getElementById('timingOutput').classList.add('visible');
+            document.getElementById('timingOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+    <script src="js/nav.js"></script>
+</body>
+</html>
